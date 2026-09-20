@@ -13,9 +13,14 @@ for the value itself**. Every row names its source in `source_id`, and
 `csv/sources.csv` gives that source's full reference and, where one exists, its
 DOI. `CITATION.cff` carries the same instruction in machine-readable form.
 
-> AquaSolDB v1.0. DOI 10.5281/zenodo.TBD.
+> AquaSolDB v1.0. https://github.com/abdul-salam94/AquaSolDB
 
-The DOI above is a placeholder until the deposit is made.
+This release has no DOI in it because it cannot have one: the version DOI is
+minted by Zenodo at the moment the GitHub release is published, which is after
+these files are archived. The permanent concept DOI -- the one that always
+resolves to the newest version -- is written into the repository README once the
+first release is archived, and that is the address to cite from then on. Until
+you see it there, cite the repository and the version above.
 
 ## What is in it, and what is not
 
@@ -149,12 +154,15 @@ computed from this database can be traced to the exact release it came from.
 
 ## Where to get it
 
-- Archive record (one DOI per version, one concept DOI): <ZENODO-RECORD-URL>
-- Repository (the same files, plus release notes): https://github.com/abdul-salam94/AquaSolDB
+- Repository (the files, the release notes, and the archive link once there is
+  one): https://github.com/abdul-salam94/AquaSolDB
 
-The repository address is the real one and is private until the deposit, when it
-is made public. The archive address is a placeholder in this draft and is filled
-in at the deposit.
+That is the only address there is today, and it is private until the deposit,
+when the author makes it public. No archive link is printed here because no
+archive record exists yet: Zenodo creates it when the GitHub release is
+published, which is after these files are written. The link to it appears in the
+repository README once the first release is archived, in the same place and at
+the same moment as the concept DOI.
 
 **Python package.** The repository ships a small reader, `aquasoldb`: it loads
 these files into pandas with the units and blank rules above, narrows by gas,

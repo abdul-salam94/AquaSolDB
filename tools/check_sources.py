@@ -5,7 +5,7 @@ Three things a reader can check without leaving this repository:
 
   * the citation string is a citation, not an empty cell or a leftover marker;
   * a DOI, where one is given, is shaped like a DOI;
-  * the number of sources with no DOI at all does not exceed 140, the number this
+  * the number of sources with no DOI at all does not exceed 111, the number this
     release was packaged with. That ceiling is written here by the packaging script from
     the table beside it; it may fall between releases and must never be raised by hand.
 
@@ -22,7 +22,7 @@ csv.field_size_limit(10 ** 7)
 HERE = os.path.dirname(os.path.abspath(__file__))
 TABLE = os.path.join(os.path.dirname(HERE), "csv", "sources.csv")
 
-BLANK_DOI_CEILING = 140
+BLANK_DOI_CEILING = 111
 MIN_CITATION_CHARS = 12
 DOI_PATTERN = re.compile(r"^10\.\d{4,9}/\S+$")
 PLACEHOLDER_PATTERNS = (r"\bTBD\b", r"\bTO-RESOLVE\b", r"\bTODO\b", r"\bXXX\b",

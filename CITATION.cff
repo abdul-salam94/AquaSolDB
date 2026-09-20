@@ -8,6 +8,8 @@ type: dataset
 authors:
   - given-names: Abdulsalam
     family-names: Abd
+    affiliation: Hamad Bin Khalifa University
+    orcid: https://orcid.org/0009-0009-9536-5988
 version: "1.0"
 license: CC-BY-4.0
 abstract: >-
@@ -19,16 +21,23 @@ abstract: >-
 keywords:
   - gas solubility
   - brine
-  - thermodynamic data
-  - carbon dioxide
   - hydrogen
+  - carbon dioxide
   - methane
-# PLACEHOLDER. No archive record exists and nothing is deposited: the author
-# replaces this DOI and the `url` below by hand at the deposit (G-DB3, R-DB3-1).
-# `repository-code` is the real repository (R-DB3-16), private until the deposit.
-doi: 10.5281/zenodo.TBD
+  - nitrogen
+  - hydrogen sulfide
+  - light hydrocarbons
+  - water content
+  - phase boundaries
+  - experimental data
+# No `doi:` and no `url:` field. The version DOI is minted by Zenodo when the
+# GitHub release is published (R-DB3-20), so it does not exist while this file is
+# being written. CFF 1.2.0 makes both fields optional; a citation tool that finds
+# neither falls back on `repository-code`, which is correct, whereas a placeholder
+# DOI makes it emit a dead link with confidence. The author adds `doi:` here in a
+# documentation commit after the first release, with the CONCEPT DOI.
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
-url: "<ZENODO-RECORD-URL>"
+date-released: "2026-09-20"
 preferred-citation:
   type: dataset
   title: AquaSolDB
@@ -36,7 +45,8 @@ preferred-citation:
   authors:
     - given-names: Abdulsalam
       family-names: Abd
-  doi: 10.5281/zenodo.TBD
+      affiliation: Hamad Bin Khalifa University
+      orcid: https://orcid.org/0009-0009-9536-5988
   license: CC-BY-4.0
   notes: >-
     Citing this dataset does not replace citing the source of a value. For any

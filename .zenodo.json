@@ -1,0 +1,35 @@
+{
+  "title": "AquaSolDB v1.0",
+  "upload_type": "dataset",
+  "creators": [
+    {
+      "name": "Abd, Abdulsalam",
+      "affiliation": "Hamad Bin Khalifa University",
+      "orcid": "0009-0009-9536-5988"
+    }
+  ],
+  "description": "Published experimental measurements of how much gas dissolves in water and in brine, read from the printed pages of the papers that reported them and put into one set of tables with one set of units. 22,872 measurement rows from 496 sources.",
+  "license": "CC-BY-4.0",
+  "keywords": [
+    "gas solubility",
+    "brine",
+    "hydrogen",
+    "carbon dioxide",
+    "methane",
+    "nitrogen",
+    "hydrogen sulfide",
+    "light hydrocarbons",
+    "water content",
+    "phase boundaries",
+    "experimental data"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/abdul-salam94/AquaSolDB",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "version": "1.0",
+  "access_right": "open"
+}

@@ -94,7 +94,9 @@ One row per source. Join it to any measurement file on `source_id`.
 | `source_id` | - | Paper-level source key (leading author + year where parseable) plus a gas-domain suffix, always: e.g. culbersonmcketta1950_ch4. Cross-gas identity of same-name-same-year papers is not assumed. One row per source_id in aquasoldb_sources.csv. | Derived from the internal source id (or, where that carries no year, the internal campaign label) plus the gas-bank tag. |
 | `reference` | - | Short human-readable reference (e.g. 'Drummond 1981'); full citation in aquasoldb_sources.csv. | Read from this project per-gas source trackers, with repository bookkeeping removed; no citation is typed by hand where a DOI resolves. |
 | `year` | - | Publication year. | Taken from the short reference where that carries a year, otherwise from the tracker citation, otherwise from the source key. |
-| `doi` | - | DOI, empty where none exists (theses, pre-DOI journals). | Extracted from the tracker full citation text. |
+| `source_type` | - | What kind of publication the source is, one word of six: journal, thesis, report, compilation, conference, book-chapter. Every source carries exactly one; the cell is never empty. `compilation` means the values were read out of a compiled or evaluated secondary source -- an IUPAC Solubility Data Series volume, say, or a later paper's literature table -- rather than out of the paper that first printed them; the reference text names both. At v1.0 no source is `book-chapter`; the word is in the vocabulary and the count is zero. | Decided by the build, in this order. (1) Where a tracker row this build reads states a no-DOI reason in the written form `no DOI (<class>)`, that written class decides. (2) Otherwise the published citation's own shape decides. Both routes use ONE keyword table, tried in the order thesis, report, conference, compilation, book-chapter, and the first family that matches wins. (3) `journal` is the last resort: authors, a year and a venue, with nothing saying otherwise. On the citation route `compilation` is narrow on purpose -- 'data reproduced from', 'compiled in', or a Solubility Data Series volume cited as the venue -- so a journal paper merely annotated with a compilation's volume number stays a journal. |
+| `doi` | - | DOI, empty where none exists (theses, pre-DOI journals). | Extracted from the tracker full citation text. The identifier is taken WHOLE: a DOI suffix may legally contain ';' and ',' and the reader no longer stops at either (KI-158), because a truncated identifier resolves to nothing while still looking like a DOI. |
+| `url` | - | A resolvable record for a source that has no DOI -- a thesis repository or report archive entry -- empty otherwise. A source that carries a DOI never carries a url as well: the DOI is the resolvable record there. At v1.0 this column is empty on every source; it is the place such a record goes as they are found. | READ, never constructed: the first `https://` locator printed on the tracker row this build reads for the source, with trailing sentence punctuation removed. The build never composes a URL from an institution name, and never publishes an insecure `http://` one. |
 | `n_solubility` | rows | Computed row count contributed to aquasoldb_solubility.csv. | Counted over the built file. |
 | `n_watercontent` | rows | Computed row count contributed to aquasoldb_watercontent.csv. | Counted over the built file. |
 | `n_liquidwatercontent` | rows | Computed row count contributed to aquasoldb_liquidwatercontent.csv. | Counted over the built file. |
@@ -128,4 +130,37 @@ One value per source, read from the source itself. Where a paper prints several 
 - `other` -- A technique outside the families above: spectroscopy, a calorimetric derivation, an isotopic tracer, densitometry.
 - `unstated` -- The source was read and does not say how the measurement was made. This is not the same as `pending`, which means nobody has read it yet.
 - `pending` -- no classification has reached this source yet. The reason is recorded per source rather than guessed at.
+
+## Machine-readable rule constants
+
+The release's own test file `tests/test_data.py` READS the block below rather than restating any of it, so a vocabulary, a tolerance or a plausibility band cannot be changed in one place and left standing in the other. `range <column>: low, high` is a plausibility band, not a measurement of the data: it is wide enough that no shipped row sits near an edge, and narrow enough that a unit slip lands outside it. `published_rows` plus `screened_rows` is `audited_rows`, the total the compilation's own records expect for these campaigns; the rows not published are listed one by one, with the reason, in `provenance/screened_rows.csv`.
+
+```
+flags: digitized_from_figure, from_compilation, printed_defect, replicate, suspect_value
+method: analytical_sampling, manometric_volumetric, chromatography, synthetic_visual, electrochemical, gravimetric, pressure_decrease_mass_balance, calculated_compilation, other, unstated
+method_extra: pending
+source_type: book-chapter, compilation, conference, journal, report, thesis
+ion_columns: m_Na, m_Cl, m_K, m_Ca, m_Mg, m_SO4
+ion_charge_balance_tolerance: 5e-06
+value_labels: ILLEGIBLE, NOT PRINTED
+forbidden_cell_values: -999, -999.0, -9999, 999999, NA, N/A, #N/A, NULL, NONE, NAN, NaN, TBD, TO-RESOLVE, TODO, XXX, FIXME, ?, ??, ???, UNKNOWN, PLACEHOLDER, placeholder
+forbidden_columns: critical_locus, fit_eligible, fit_pool, fit_role, fit_weight, held_out, holdout, in_fit, regression_ready, test_only, tier, train_test, validation_only, weight
+published_rows: 22872
+screened_rows: 1827
+audited_rows: 24699
+range temperature_K: 150, 900
+range pressure_MPa: 0, 2000
+range solubility_mole_fraction: 0, 1
+range water_mole_fraction_vapor: 0, 1
+range water_mole_fraction_liquid_hydrocarbon: 0, 1
+range gas2_mole_fraction_feed: 0, 1
+range solubility_mol_per_kgw: 0, 100
+range salt_molality: 0, 100
+range m_Na: 0, 100
+range m_Cl: 0, 100
+range m_K: 0, 100
+range m_Ca: 0, 100
+range m_Mg: 0, 100
+range m_SO4: 0, 100
+```
 

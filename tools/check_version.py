@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """One version string, in every place this repository states one.
 
-Five places, two numbers that differ on purpose: a Python distribution carries three
+Seven places, two numbers that differ on purpose: a Python distribution carries three
 components (1.0.0), a dataset release carries two (1.0). They are tied -- the dataset
 version is the first two components of the package version -- so a bump in one place and
 not the others is caught here rather than reaching a reader.
@@ -12,7 +12,12 @@ not the others is caught here rather than reaching a reader.
     aquasoldb/__init__.py   DATASET_VERSION   the dataset version
     CITATION.cff            version:          the same
     CHANGELOG.md            newest ## v...    the same, with a leading v
+    .zenodo.json            "version"         the same
+
+The last one is the metadata the archive reads when a release is published, so a drift
+there is the one drift nobody can correct afterwards: the DOI is already minted.
 """
+import json
 import os
 import re
 import subprocess
@@ -46,6 +51,11 @@ def main():
                          "CITATION.cff")))
     changelog = one(r"^## (v\S+)", read("CHANGELOG.md"), "section heading",
                     "CHANGELOG.md")[0]
+    deposit = json.loads(read(".zenodo.json"))
+    if "version" not in deposit:
+        print("VERSION: .zenodo.json states no version")
+        sys.exit(1)
+    zenodo = deposit["version"]
     env = dict(os.environ)
     env.setdefault("AQUASOLDB_ROOT", ROOT)
     # -B and the environment variable together: importing the reader must not leave a
@@ -75,9 +85,12 @@ def main():
     if changelog != "v" + dataset:
         problems.append("the newest CHANGELOG section is %s, expected v%s"
                         % (changelog, dataset))
+    if zenodo != dataset:
+        problems.append(".zenodo.json states %s, the dataset version is %s"
+                        % (zenodo, dataset))
     for p in problems:
         print("VERSION:", p)
-    print("5 places checked (package %s, dataset %s), %d problems"
+    print("7 places checked (package %s, dataset %s), %d problems"
           % (package, dataset, len(problems)))
     return 1 if problems else 0
 
