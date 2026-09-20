@@ -1,0 +1,57 @@
+name: checks
+# What this repository runs on every push and pull request.
+#
+# FRESHNESS: the sources table and its per-file row counts must still match the CSVs
+# beside it, and every file must still hash to the digest SHA256SUMS.txt records. A red
+# there means a file was edited by hand after the release was built, which is the one
+# thing that must never happen to a published dataset.
+#
+# TRACKED and SOURCES (R-DB3-14): SHA256SUMS.txt must name every file in this repository
+# and no file that is not here, so a file added or deleted by hand cannot pass unnoticed;
+# and every row of csv/sources.csv must carry a real citation and, where it carries a DOI,
+# a well-formed one, with no more blank DOIs than the release was built with.
+#
+# PACKAGE: the reader package installs, and its own tests pass against the CSVs in this
+# repository (R-DB3-13). AQUASOLDB_ROOT points at the checkout so the result is the same
+# whether the tests import the installed copy or the source folder beside them. The last
+# step (R-DB3-14) checks that the package, the citation file, the changelog and the
+# command line all state one version.
+on: [push, pull_request]
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: whole-tree checksums
+        run: |
+          grep -v ' SHA256SUMS.txt$' SHA256SUMS.txt > /tmp/sums.txt
+          sha256sum -c /tmp/sums.txt
+      - name: data checksums
+        run: sha256sum -c provenance/CHECKSUMS.sha256
+      - name: sources table matches the CSVs
+        run: python tools/check_freshness.py
+      - name: every shipped file is in SHA256SUMS.txt, and nothing else is
+        run: python tools/check_tracked.py
+      - name: every source has a citation and a well-formed DOI
+        run: python tools/check_sources.py
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install the reader package
+        run: python -m pip install . pytest
+      - name: the package's own tests, against the CSVs in this repository
+        env:
+          AQUASOLDB_ROOT: ${{ github.workspace }}
+        run: python -m pytest -q tests
+      - name: the reader agrees with the sources table
+        env:
+          AQUASOLDB_ROOT: ${{ github.workspace }}
+        run: python -m aquasoldb
+      - name: one version string everywhere, the command line included
+        env:
+          AQUASOLDB_ROOT: ${{ github.workspace }}
+        run: python tools/check_version.py

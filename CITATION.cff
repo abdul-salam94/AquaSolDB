@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+title: AquaSolDB
+message: >-
+  If you use this dataset, cite it as below AND cite the original paper that
+  printed each value you use; the `source_id` column of every row names that
+  paper, and `csv/sources.csv` gives its full reference and DOI.
+type: dataset
+authors:
+  - given-names: Abdulsalam
+    family-names: Abd
+version: "1.0"
+license: CC-BY-4.0
+abstract: >-
+  A curated collection of published experimental measurements of gas solubility
+  in water and brines, with companion tables for water content of gas and
+  hydrocarbon-liquid phases, gas-mixture solubilities and phase-boundary points.
+  22,872 measurement rows from 496 sources, read from rendered images
+  of the printed pages, normalised to common units beside the value as printed.
+keywords:
+  - gas solubility
+  - brine
+  - thermodynamic data
+  - carbon dioxide
+  - hydrogen
+  - methane
+# PLACEHOLDER. No archive record exists and nothing is deposited: the author
+# replaces this DOI and the `url` below by hand at the deposit (G-DB3, R-DB3-1).
+# `repository-code` is the real repository (R-DB3-16), private until the deposit.
+doi: 10.5281/zenodo.TBD
+repository-code: "https://github.com/abdul-salam94/AquaSolDB"
+url: "<ZENODO-RECORD-URL>"
+preferred-citation:
+  type: dataset
+  title: AquaSolDB
+  version: "1.0"
+  authors:
+    - given-names: Abdulsalam
+      family-names: Abd
+  doi: 10.5281/zenodo.TBD
+  license: CC-BY-4.0
+  notes: >-
+    Citing this dataset does not replace citing the source of a value. For any
+    number you use, cite the paper `source_id` names as well.

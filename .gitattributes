@@ -1,0 +1,13 @@
+# Every file in this repository is text and is stored and checked out
+# with LF line endings (R-DB3-9: CSV only, UTF-8, LF).
+* text=auto eol=lf
+*.csv text eol=lf
+*.md text eol=lf
+*.cff text eol=lf
+*.txt text eol=lf
+*.sha256 text eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+LICENSE text eol=lf
+aquasoldb/LICENSE-CODE text eol=lf

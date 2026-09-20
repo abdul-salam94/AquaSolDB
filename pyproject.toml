@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aquasoldb"
+version = "1.0.0"
+description = "Reader for AquaSolDB: published gas solubility in water and brine, one schema"
+# Inside the module folder so that this one pyproject works unchanged from the package
+# source folder in the project repository AND from the public repository root, where the
+# top-level README.md is the dataset's.
+readme = "aquasoldb/README.md"
+requires-python = ">=3.9"
+# The CODE in this package is MIT (LICENSE-CODE).  The DATA it reads is CC BY 4.0
+# (LICENSE, beside the CSVs) and every measured value belongs to the paper that printed
+# it, which `source_id` names on every row.
+license = "MIT"
+license-files = ["aquasoldb/LICENSE-CODE"]
+authors = [{ name = "Abdulsalam Abd" }]
+keywords = ["solubility", "brine", "hydrogen", "carbon dioxide", "thermodynamics"]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+# pandas and nothing else (R-DB3-13: "no dependency beyond pandas").
+dependencies = ["pandas>=2"]
+
+[project.optional-dependencies]
+# Parquet output only; the release itself is CSV only (R-DB3-9).
+parquet = ["pyarrow>=14"]
+
+[tool.setuptools]
+packages = ["aquasoldb"]
+
+[tool.setuptools.package-data]
+aquasoldb = ["LICENSE-CODE", "README.md"]
