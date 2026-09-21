@@ -1,11 +1,18 @@
 # AquaSolDB v1.1
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22870466.svg)](https://doi.org/10.5281/zenodo.22870466)
+[![checks](https://github.com/abdul-salam94/AquaSolDB/actions/workflows/checks.yml/badge.svg)](https://github.com/abdul-salam94/AquaSolDB/actions)
+![data CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-blue)
+![code MIT](https://img.shields.io/badge/code-MIT-blue)
+![rows 22,872](https://img.shields.io/badge/rows-22%2C872-teal)
+![sources 496](https://img.shields.io/badge/sources-496-teal)
+![version v1.1](https://img.shields.io/badge/version-v1.1-blue)
+
 Published experimental measurements of how much gas dissolves in water and in
-brine, read from the printed pages of the papers that reported them and put into
-one set of tables with one set of units. 22,872 measurement rows from
-496 sources. **Status: v1.1, released 2026-09-21** -- archived on Zenodo
-under concept DOI 10.5281/zenodo.22870466; this version's own DOI is minted
-at the release and written here after.
+brine, read from the printed pages of the papers that reported them and put
+into one set of tables with one set of units. 22,872 measurement rows from 496
+sources. **Status: v1.1, released 2026-09-21** -- archived on Zenodo: version
+DOI 10.5281/zenodo.22872900, concept DOI 10.5281/zenodo.22870466.
 
 ## How to cite
 
@@ -24,7 +31,7 @@ repository https://github.com/abdul-salam94/AquaSolDB.
 
 Version DOIs:
 
-- v1.1 -- minted by Zenodo at this release; added here after
+- v1.1 -- 10.5281/zenodo.22872900
 - v1.0 -- 10.5281/zenodo.22870467
 
 ## What is in it, and what is not
@@ -163,6 +170,8 @@ computed from this database can be traced to the exact release it came from.
   https://github.com/abdul-salam94/AquaSolDB
 - Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
+- v1.1's archived copy on Zenodo (the record its version DOI resolves to):
+  https://zenodo.org/records/22872900
 - v1.0's archived copy on Zenodo (the record its version DOI resolves to):
   https://zenodo.org/records/22870467
 

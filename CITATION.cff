@@ -37,8 +37,9 @@ keywords:
   - experimental data
 # R-DB3-24: the `doi:` above is the CONCEPT DOI, the address that always resolves
 # to the newest version.  The entries below name that concept DOI and every version
-# DOI Zenodo has MINTED; this version's own DOI is minted when its release is
-# published and appended here by the documentation commit that follows it.
+# DOI Zenodo has MINTED, including this version's own, which Zenodo minted
+# when this version's release was published and the documentation commit
+# that followed the release wrote in here.
 identifiers:
   - type: doi
     value: 10.5281/zenodo.22870466
@@ -46,6 +47,9 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.22870467
     description: The version DOI of AquaSolDB v1.0
+  - type: doi
+    value: 10.5281/zenodo.22872900
+    description: The version DOI of AquaSolDB v1.1
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
 date-released: "2026-09-21"
 preferred-citation:

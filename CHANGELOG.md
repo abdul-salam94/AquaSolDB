@@ -19,8 +19,8 @@ Every changed cell, by source_id:
 
 ### The release documents
 
-- `README.md` and `CITATION.cff` now cite the CONCEPT DOI 10.5281/zenodo.22870466, which always resolves to the newest archived version, and list each version's own DOI beside it. A version DOI is minted by Zenodo when that version's release is published, so this release's own DOI is written in by the documentation commit that follows it (R-DB3-24).
-- The version DOIs known when this file was written: v1.0 10.5281/zenodo.22870467; v1.1 minted by Zenodo at this release; added here after.
+- `README.md` and `CITATION.cff` now cite the CONCEPT DOI 10.5281/zenodo.22870466, which always resolves to the newest archived version, and list each version's own DOI beside it, including this release's own, 10.5281/zenodo.22872900, which Zenodo minted when this release was published (R-DB3-24).
+- The version DOIs known when this file was written: v1.0 10.5281/zenodo.22870467; v1.1 10.5281/zenodo.22872900.
 - The author line is `Abd, A., & Abushaikha, A.` (R-DB3-25). Each author carries their own affiliation and ORCID in `CITATION.cff` and `.zenodo.json`.
 - `CHANGELOG.md` now keeps one section per release, newest first. The v1.0 section below is the text that release shipped, with one tense correction: it was written before anything was deposited and said so in the present tense.
 
