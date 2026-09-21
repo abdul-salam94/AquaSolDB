@@ -1,8 +1,32 @@
 # AquaSolDB -- CHANGELOG
 
+## v1.1 -- source identifiers settled
+
+A corrections release under the versioning rule in the README: no measurement value, no row and no column changed, so what the database covers is exactly what v1.0 covered. What moved is the identification of the papers behind the rows, and the release documents.
+
+### The data files
+
+Byte-comparable and unchanged against v1.0, row for row and cell for cell: `csv/solubility.csv`, `csv/watercontent.csv`, `csv/liquidwatercontent.csv`, `csv/mixtures.csv`, `csv/phaseboundaries.csv`, `csv/column_dictionary.csv`.
+
+`csv/sources.csv`: 496 rows (v1.0 held 496); 0 rows added, 0 removed, 4 cells changed.
+
+Every changed cell, by source_id:
+
+- `hou2015_co2` `reference`: `Hou, D.; Luo, P.; et al. (2015). J. Jilin Univ. (Earth Sci.) 45(2), 564-572.` -> `Hou, D.; Luo, P.; et al. (2015). J. Jilin Univ. (Earth Sci.) 45(2), 564-572. DOI: 10.13278/j.cnki.jjuese.201502205.`
+- `hou2015_co2` `doi`: (blank) -> `10.13278/j.cnki.jjuese.201502205`
+- `sultanovskripkanamiot1972_ch4` `reference`: `Sultanov, R.G., Skripka, V.G., Namiot, A.Y., 1972 (citation as printed in SDS-27/28 §1.2 ref-list).` -> `Sultanov, R.G., Skripka, V.G., Namiot, A.Y., 1972. Zh. Fiz. Khim. 1972, 46, 2160; VINITI, 4387-72; Gazov. Prom. 1972, 17, 6-7.`
+- `yuanyang1993_co2` `url`: (blank) -> `http://www.cjcu.jlu.edu.cn/CN/Y1993/V14/I1/80`
+
+### The release documents
+
+- `README.md` and `CITATION.cff` now cite the CONCEPT DOI 10.5281/zenodo.22870466, which always resolves to the newest archived version, and list each version's own DOI beside it. A version DOI is minted by Zenodo when that version's release is published, so this release's own DOI is written in by the documentation commit that follows it (R-DB3-24).
+- The version DOIs known when this file was written: v1.0 10.5281/zenodo.22870467; v1.1 minted by Zenodo at this release; added here after.
+- The author line is `Abd, A., & Abushaikha, A.` (R-DB3-25). Each author carries their own affiliation and ORCID in `CITATION.cff` and `.zenodo.json`.
+- `CHANGELOG.md` now keeps one section per release, newest first. The v1.0 section below is the text that release shipped, with one tense correction: it was written before anything was deposited and said so in the present tense.
+
 ## v1.0 -- first public version
 
-This is the first version of AquaSolDB released to anyone. Nothing was deposited before it: no DOI has been minted, no archive record exists, and no `point_id` in this file has ever been published elsewhere. Two earlier folders in the project's own repository are labelled v1.0 and v1.0.1; those were packaged internally and never left it. They are kept unchanged as the project's own history, and the sections below say what moved between the later of them and this release, so that a reader who has seen an internal copy can reconcile it.
+This is the first version of AquaSolDB released to anyone. Nothing had been deposited before it: at the time of this release no DOI had been minted and no archive record existed, and no `point_id` in this file has ever been published elsewhere. Two earlier folders in the project's own repository are labelled v1.0 and v1.0.1; those were packaged internally and never left it. They are kept unchanged as the project's own history, and the sections below say what moved between the later of them and this release, so that a reader who has seen an internal copy can reconcile it.
 
 Measured over the five measurement tables: the internally packaged state held 23075 rows, this release holds 22872. 21815 row ids are in both, 1057 are new, and 1260 are not carried forward. Of the ids in both, 4286 sit in a source whose row count moved, so the id means a different measurement on the two sides and the comparisons below leave them out; 17529 are compared.
 
@@ -46,4 +70,3 @@ Measured over the five measurement tables: the internally packaged state held 23
 - `provenance/row_crosswalk.csv` is new: one row per published row, naming the internal record it came from.
 - Two flags are withdrawn, `critical_locus` and `validation_only`. They marked a row's role in one of this project's own model fits, which is not a property of the measurement, and they were emitted on 2 rows out of the 1,818 the internal records mark. The rows themselves all ship.
 - `method` gains one class, `pressure_decrease_mass_balance`.
-

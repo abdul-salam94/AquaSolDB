@@ -178,12 +178,20 @@ def test_every_source_carries_exactly_one_source_type_word(shipped, rules):
     assert not outside, "source_type values outside the published vocabulary: %s" % outside
 
 
-def test_a_url_is_a_well_formed_https_record_and_never_sits_beside_a_doi(shipped):
+def test_a_url_is_a_well_formed_web_record_and_never_sits_beside_a_doi(shipped):
     """R-DB3-19(a).  The release carries no network test -- these tests must run in a
     clone with no internet -- so what is checked is the SHAPE of the locator and the rule
-    that a source with a DOI has no second locator to keep in step with it."""
+    that a source with a DOI has no second locator to keep in step with it.
+
+    R-DB3-26 (author, 2026-09-21, "B. Widen the rule to allow http"): `http://` passes as
+    well as `https://`.  One published source exists only at an http address -- a Chinese
+    journal's publisher page, where the https form fails its certificate check -- and that
+    source has no DOI, so refusing http would publish it with no locator at all.  What is
+    still refused is anything that is not a web address: `ftp://` and the rest stay red,
+    and `code/tests/test_aquasoldb_package.py` injects an `ftp://` value to prove it.
+    """
     _header, rows = shipped["sources"]
-    pattern = re.compile(r"^https://[^\s\"'<>]+\.[^\s\"'<>]+$")
+    pattern = re.compile(r"^https?://[^\s\"'<>]+\.[^\s\"'<>]+$")
     malformed, doubled = [], []
     for r in rows:
         url = (r.get("url") or "").strip()
@@ -192,7 +200,7 @@ def test_a_url_is_a_well_formed_https_record_and_never_sits_beside_a_doi(shipped
             malformed.append((r["source_id"], url))
         if url and doi:
             doubled.append(r["source_id"])
-    assert not malformed, "urls that are not well-formed https locators: %s" % malformed
+    assert not malformed, "urls that are not well-formed http(s) locators: %s" % malformed
     assert not doubled, "sources carrying both a doi and a url: %s" % doubled
 
 

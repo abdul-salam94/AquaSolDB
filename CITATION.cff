@@ -10,7 +10,11 @@ authors:
     family-names: Abd
     affiliation: Hamad Bin Khalifa University
     orcid: https://orcid.org/0009-0009-9536-5988
-version: "1.0"
+  - given-names: Ahmad
+    family-names: Abushaikha
+    affiliation: Hamad Bin Khalifa University
+    orcid: https://orcid.org/0000-0002-6916-050X
+version: "1.1"
 doi: 10.5281/zenodo.22870466
 license: CC-BY-4.0
 abstract: >-
@@ -31,9 +35,10 @@ keywords:
   - water content
   - phase boundaries
   - experimental data
-# R-DB3-23: the `doi:` above is the CONCEPT DOI, the address that always resolves
-# to the newest version; the two entries below name the same concept DOI and the
-# VERSION DOI of this release, which is the one to cite for a number taken from it.
+# R-DB3-24: the `doi:` above is the CONCEPT DOI, the address that always resolves
+# to the newest version.  The entries below name that concept DOI and every version
+# DOI Zenodo has MINTED; this version's own DOI is minted when its release is
+# published and appended here by the documentation commit that follows it.
 identifiers:
   - type: doi
     value: 10.5281/zenodo.22870466
@@ -42,17 +47,21 @@ identifiers:
     value: 10.5281/zenodo.22870467
     description: The version DOI of AquaSolDB v1.0
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
-date-released: "2026-09-20"
+date-released: "2026-09-21"
 preferred-citation:
   type: dataset
   title: AquaSolDB
-  version: "1.0"
-  doi: 10.5281/zenodo.22870467
+  version: "1.1"
+  doi: 10.5281/zenodo.22870466
   authors:
     - given-names: Abdulsalam
       family-names: Abd
       affiliation: Hamad Bin Khalifa University
       orcid: https://orcid.org/0009-0009-9536-5988
+    - given-names: Ahmad
+      family-names: Abushaikha
+      affiliation: Hamad Bin Khalifa University
+      orcid: https://orcid.org/0000-0002-6916-050X
   license: CC-BY-4.0
   notes: >-
     Citing this dataset does not replace citing the source of a value. For any

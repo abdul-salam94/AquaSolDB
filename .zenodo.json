@@ -1,11 +1,16 @@
 {
-  "title": "AquaSolDB v1.0",
+  "title": "AquaSolDB v1.1",
   "upload_type": "dataset",
   "creators": [
     {
       "name": "Abd, Abdulsalam",
       "affiliation": "Hamad Bin Khalifa University",
       "orcid": "0009-0009-9536-5988"
+    },
+    {
+      "name": "Abushaikha, Ahmad",
+      "affiliation": "Hamad Bin Khalifa University",
+      "orcid": "0000-0002-6916-050X"
     }
   ],
   "description": "Published experimental measurements of how much gas dissolves in water and in brine, read from the printed pages of the papers that reported them and put into one set of tables with one set of units. 22,872 measurement rows from 496 sources.",
@@ -30,6 +35,6 @@
       "scheme": "url"
     }
   ],
-  "version": "1.0",
+  "version": "1.1",
   "access_right": "open"
 }

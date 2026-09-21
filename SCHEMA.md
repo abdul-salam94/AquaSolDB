@@ -1,4 +1,4 @@
-# AquaSolDB v1.0 -- schema
+# AquaSolDB v1.1 -- schema
 
 Every column of every published file, with its unit, what it means, when it is blank, and whether the value was copied from the record behind it or computed when the file was built.
 

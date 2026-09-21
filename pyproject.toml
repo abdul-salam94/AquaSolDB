@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aquasoldb"
-version = "1.0.0"
+version = "1.1.0"
 description = "Reader for AquaSolDB: published gas solubility in water and brine, one schema"
 # Inside the module folder so that this one pyproject works unchanged from the package
 # source folder in the project repository AND from the public repository root, where the

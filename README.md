@@ -1,10 +1,11 @@
-# AquaSolDB v1.0
+# AquaSolDB v1.1
 
 Published experimental measurements of how much gas dissolves in water and in
 brine, read from the printed pages of the papers that reported them and put into
 one set of tables with one set of units. 22,872 measurement rows from
-496 sources. **Status: v1.0, released 2026-09-21** -- archived on Zenodo:
-version DOI 10.5281/zenodo.22870467, concept DOI 10.5281/zenodo.22870466.
+496 sources. **Status: v1.1, released 2026-09-21** -- archived on Zenodo
+under concept DOI 10.5281/zenodo.22870466; this version's own DOI is minted
+at the release and written here after.
 
 ## How to cite
 
@@ -13,15 +14,18 @@ for the value itself**. Every row names its source in `source_id`, and
 `csv/sources.csv` gives that source's full reference and, where one exists, its
 DOI. `CITATION.cff` carries the same instruction in machine-readable form.
 
-> Abd, A. (2026). AquaSolDB v1.0 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870467
+> Abd, A., & Abushaikha, A. (2026). AquaSolDB v1.1 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466
 
-There are two addresses and they say different things. The version DOI above
-names exactly v1.0 and nothing else, so it is the one to cite for a number you
-took from these files: it can never resolve to a different set of rows. The
-concept DOI https://doi.org/10.5281/zenodo.22870466 always resolves to the
-newest version, so it is the one to cite for the database as a whole. The files
-and the release notes are in the GitHub repository
-https://github.com/abdul-salam94/AquaSolDB.
+The concept DOI in that line always resolves to the newest version, so it is the
+one to cite for the database as a whole. To cite exactly one version, use that
+version's own DOI from the list below: a version DOI can never resolve to a
+different set of rows. The files and the release notes are in the GitHub
+repository https://github.com/abdul-salam94/AquaSolDB.
+
+Version DOIs:
+
+- v1.1 -- minted by Zenodo at this release; added here after
+- v1.0 -- 10.5281/zenodo.22870467
 
 ## What is in it, and what is not
 
@@ -157,10 +161,10 @@ computed from this database can be traced to the exact release it came from.
 
 - Repository (the files and the release notes):
   https://github.com/abdul-salam94/AquaSolDB
-- Zenodo record (the archived copy of exactly these files, under the version
-  DOI 10.5281/zenodo.22870467): https://zenodo.org/records/22870467
-- Concept DOI, which always resolves to the newest version:
+- Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
+- v1.0's archived copy on Zenodo (the record its version DOI resolves to):
+  https://zenodo.org/records/22870467
 
 **Python package.** The repository ships a small reader, `aquasoldb`: it loads
 these files into pandas with the units and blank rules above, narrows by gas,
