@@ -3,8 +3,8 @@
 Published experimental measurements of how much gas dissolves in water and in
 brine, read from the printed pages of the papers that reported them and put into
 one set of tables with one set of units. 22,872 measurement rows from
-496 sources. **Status: v1.0 (public candidate, NOT deposited)** -- no DOI has been minted and no
-archive record exists.
+496 sources. **Status: v1.0, released 2026-09-21** -- archived on Zenodo:
+version DOI 10.5281/zenodo.22870467, concept DOI 10.5281/zenodo.22870466.
 
 ## How to cite
 
@@ -13,14 +13,15 @@ for the value itself**. Every row names its source in `source_id`, and
 `csv/sources.csv` gives that source's full reference and, where one exists, its
 DOI. `CITATION.cff` carries the same instruction in machine-readable form.
 
-> AquaSolDB v1.0. https://github.com/abdul-salam94/AquaSolDB
+> Abd, A. (2026). AquaSolDB v1.0 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870467
 
-This release has no DOI in it because it cannot have one: the version DOI is
-minted by Zenodo at the moment the GitHub release is published, which is after
-these files are archived. The permanent concept DOI -- the one that always
-resolves to the newest version -- is written into the repository README once the
-first release is archived, and that is the address to cite from then on. Until
-you see it there, cite the repository and the version above.
+There are two addresses and they say different things. The version DOI above
+names exactly v1.0 and nothing else, so it is the one to cite for a number you
+took from these files: it can never resolve to a different set of rows. The
+concept DOI https://doi.org/10.5281/zenodo.22870466 always resolves to the
+newest version, so it is the one to cite for the database as a whole. The files
+and the release notes are in the GitHub repository
+https://github.com/abdul-salam94/AquaSolDB.
 
 ## What is in it, and what is not
 
@@ -154,15 +155,12 @@ computed from this database can be traced to the exact release it came from.
 
 ## Where to get it
 
-- Repository (the files, the release notes, and the archive link once there is
-  one): https://github.com/abdul-salam94/AquaSolDB
-
-That is the only address there is today, and it is private until the deposit,
-when the author makes it public. No archive link is printed here because no
-archive record exists yet: Zenodo creates it when the GitHub release is
-published, which is after these files are written. The link to it appears in the
-repository README once the first release is archived, in the same place and at
-the same moment as the concept DOI.
+- Repository (the files and the release notes):
+  https://github.com/abdul-salam94/AquaSolDB
+- Zenodo record (the archived copy of exactly these files, under the version
+  DOI 10.5281/zenodo.22870467): https://zenodo.org/records/22870467
+- Concept DOI, which always resolves to the newest version:
+  https://doi.org/10.5281/zenodo.22870466
 
 **Python package.** The repository ships a small reader, `aquasoldb`: it loads
 these files into pandas with the units and blank rules above, narrows by gas,

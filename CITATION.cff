@@ -11,6 +11,7 @@ authors:
     affiliation: Hamad Bin Khalifa University
     orcid: https://orcid.org/0009-0009-9536-5988
 version: "1.0"
+doi: 10.5281/zenodo.22870466
 license: CC-BY-4.0
 abstract: >-
   A curated collection of published experimental measurements of gas solubility
@@ -30,18 +31,23 @@ keywords:
   - water content
   - phase boundaries
   - experimental data
-# No `doi:` and no `url:` field. The version DOI is minted by Zenodo when the
-# GitHub release is published (R-DB3-20), so it does not exist while this file is
-# being written. CFF 1.2.0 makes both fields optional; a citation tool that finds
-# neither falls back on `repository-code`, which is correct, whereas a placeholder
-# DOI makes it emit a dead link with confidence. The author adds `doi:` here in a
-# documentation commit after the first release, with the CONCEPT DOI.
+# R-DB3-23: the `doi:` above is the CONCEPT DOI, the address that always resolves
+# to the newest version; the two entries below name the same concept DOI and the
+# VERSION DOI of this release, which is the one to cite for a number taken from it.
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22870466
+    description: The concept DOI of the dataset (all versions)
+  - type: doi
+    value: 10.5281/zenodo.22870467
+    description: The version DOI of AquaSolDB v1.0
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
 date-released: "2026-09-20"
 preferred-citation:
   type: dataset
   title: AquaSolDB
   version: "1.0"
+  doi: 10.5281/zenodo.22870467
   authors:
     - given-names: Abdulsalam
       family-names: Abd
