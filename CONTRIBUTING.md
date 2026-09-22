@@ -73,5 +73,4 @@ and in the changelog line of the release that carries them.
 
 Issues and pull requests on the public repository are the route for anything
 about the data. For anything that does not belong in public, write to
-<MAINTAINER-CONTACT>. That address is a placeholder in this draft and is filled
-in by the author before the release.
+abdul.salam.abd@hotmail.com.

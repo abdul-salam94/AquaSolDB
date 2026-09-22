@@ -1,5 +1,5 @@
 {
-  "title": "AquaSolDB v1.1",
+  "title": "AquaSolDB v1.2",
   "upload_type": "dataset",
   "creators": [
     {
@@ -13,7 +13,7 @@
       "orcid": "0000-0002-6916-050X"
     }
   ],
-  "description": "Published experimental measurements of how much gas dissolves in water and in brine, read from the printed pages of the papers that reported them and put into one set of tables with one set of units. 22,872 measurement rows from 496 sources.",
+  "description": "Published experimental measurements of how much gas dissolves in water and in brine, read from the printed pages of the papers that reported them and put into one set of tables with one set of units. 22,872 measurement rows from 497 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6, 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous solubilities of organic compounds; this one holds gas solubilities in water and brine.",
   "license": "CC-BY-4.0",
   "keywords": [
     "gas solubility",
@@ -35,6 +35,6 @@
       "scheme": "url"
     }
   ],
-  "version": "1.1",
+  "version": "1.2",
   "access_right": "open"
 }

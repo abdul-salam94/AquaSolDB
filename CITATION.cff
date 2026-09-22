@@ -14,14 +14,14 @@ authors:
     family-names: Abushaikha
     affiliation: Hamad Bin Khalifa University
     orcid: https://orcid.org/0000-0002-6916-050X
-version: "1.1"
+version: "1.2"
 doi: 10.5281/zenodo.22870466
 license: CC-BY-4.0
 abstract: >-
   A curated collection of published experimental measurements of gas solubility
   in water and brines, with companion tables for water content of gas and
   hydrocarbon-liquid phases, gas-mixture solubilities and phase-boundary points.
-  22,872 measurement rows from 496 sources, read from rendered images
+  22,872 measurement rows from 497 sources, read from rendered images
   of the printed pages, normalised to common units beside the value as printed.
 keywords:
   - gas solubility
@@ -37,9 +37,8 @@ keywords:
   - experimental data
 # R-DB3-24: the `doi:` above is the CONCEPT DOI, the address that always resolves
 # to the newest version.  The entries below name that concept DOI and every version
-# DOI Zenodo has MINTED, including this version's own, which Zenodo minted
-# when this version's release was published and the documentation commit
-# that followed the release wrote in here.
+# DOI Zenodo has MINTED; this version's own DOI is minted when its release is
+# published and appended here by the documentation commit that follows it.
 identifiers:
   - type: doi
     value: 10.5281/zenodo.22870466
@@ -51,11 +50,11 @@ identifiers:
     value: 10.5281/zenodo.22872900
     description: The version DOI of AquaSolDB v1.1
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
-date-released: "2026-09-21"
+date-released: "2026-09-22"
 preferred-citation:
   type: dataset
   title: AquaSolDB
-  version: "1.1"
+  version: "1.2"
   doi: 10.5281/zenodo.22870466
   authors:
     - given-names: Abdulsalam
