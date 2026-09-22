@@ -14,9 +14,8 @@ into one set of tables with one set of units. 22,872 measurement rows from 497
 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6,
 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous
 solubilities of organic compounds; this one holds gas solubilities in water
-and brine. **Status: v1.2 (public candidate, NOT deposited)** -- archived on
-Zenodo under concept DOI 10.5281/zenodo.22870466; this version's own DOI is
-minted at the release and written here after.
+and brine. **Status: v1.2, released 2026-09-22** -- archived on Zenodo:
+version DOI 10.5281/zenodo.22905509, concept DOI 10.5281/zenodo.22870466.
 
 ## How to cite
 
@@ -35,7 +34,7 @@ repository https://github.com/abdul-salam94/AquaSolDB.
 
 Version DOIs:
 
-- v1.2 -- minted by Zenodo at this release; added here after
+- v1.2 -- 10.5281/zenodo.22905509
 - v1.1 -- 10.5281/zenodo.22872900
 - v1.0 -- 10.5281/zenodo.22870467
 
@@ -184,6 +183,8 @@ Every added, removed and changed cell is listed by identifier in `CHANGELOG.md`.
   https://github.com/abdul-salam94/AquaSolDB
 - Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
+- v1.2's archived copy on Zenodo (the record its version DOI resolves to):
+  https://zenodo.org/records/22905509
 - v1.1's archived copy on Zenodo (the record its version DOI resolves to):
   https://zenodo.org/records/22872900
 - v1.0's archived copy on Zenodo (the record its version DOI resolves to):
