@@ -29,9 +29,9 @@ from .brine import (ION_CHARGE_NUMBER, ION_COLUMNS, charge_residual, composition
                     ion_strength, total_ions)
 from .save import save_csv, save_parquet
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 #: The dataset release this reader is the reference reader for.
-DATASET_VERSION = "1.1"
+DATASET_VERSION = "1.2"
 
 __all__ = [
     "__version__", "DATASET_VERSION",

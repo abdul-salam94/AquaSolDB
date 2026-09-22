@@ -1,18 +1,22 @@
-# AquaSolDB v1.1
+# AquaSolDB v1.2
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22870466.svg)](https://doi.org/10.5281/zenodo.22870466)
 [![checks](https://github.com/abdul-salam94/AquaSolDB/actions/workflows/checks.yml/badge.svg)](https://github.com/abdul-salam94/AquaSolDB/actions)
 ![data CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-blue)
 ![code MIT](https://img.shields.io/badge/code-MIT-blue)
 ![rows 22,872](https://img.shields.io/badge/rows-22%2C872-teal)
-![sources 496](https://img.shields.io/badge/sources-496-teal)
-![version v1.1](https://img.shields.io/badge/version-v1.1-blue)
+![sources 497](https://img.shields.io/badge/sources-497-teal)
+![version v1.2](https://img.shields.io/badge/version-v1.2-blue)
 
 Published experimental measurements of how much gas dissolves in water and in
 brine, read from the printed pages of the papers that reported them and put
-into one set of tables with one set of units. 22,872 measurement rows from 496
-sources. **Status: v1.1, released 2026-09-21** -- archived on Zenodo: version
-DOI 10.5281/zenodo.22872900, concept DOI 10.5281/zenodo.22870466.
+into one set of tables with one set of units. 22,872 measurement rows from 497
+sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6,
+143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous
+solubilities of organic compounds; this one holds gas solubilities in water
+and brine. **Status: v1.2 (public candidate, NOT deposited)** -- archived on
+Zenodo under concept DOI 10.5281/zenodo.22870466; this version's own DOI is
+minted at the release and written here after.
 
 ## How to cite
 
@@ -21,7 +25,7 @@ for the value itself**. Every row names its source in `source_id`, and
 `csv/sources.csv` gives that source's full reference and, where one exists, its
 DOI. `CITATION.cff` carries the same instruction in machine-readable form.
 
-> Abd, A., & Abushaikha, A. (2026). AquaSolDB v1.1 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466
+> Abd, A., & Abushaikha, A. (2026). AquaSolDB v1.2 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466
 
 The concept DOI in that line always resolves to the newest version, so it is the
 one to cite for the database as a whole. To cite exactly one version, use that
@@ -31,6 +35,7 @@ repository https://github.com/abdul-salam94/AquaSolDB.
 
 Version DOIs:
 
+- v1.2 -- minted by Zenodo at this release; added here after
 - v1.1 -- 10.5281/zenodo.22872900
 - v1.0 -- 10.5281/zenodo.22870467
 
@@ -40,8 +45,8 @@ Nine gases -- CO2, CH4, H2, N2, H2S, ethane, propane, n-butane and i-butane --
 plus a few audited rows of other gases, labelled as such. Two kinds of medium:
 pure water and brine, where brine means **dissolved salts only**. Six kinds of
 measurement: gas dissolved in water, gas dissolved in brine, gas-mixture
-solubility, water content of a gas or vapour phase, water content of a
-hydrocarbon-rich liquid phase, and phase-boundary points.
+solubility, water content of a gas or vapour phase, water content of a liquid
+non-aqueous phase (hydrocarbon- or CO2-rich), and phase-boundary points.
 
 Measurements in anything else are out of scope and are in none of these files:
 acids, bases, organic co-solvents such as methanol and the glycols, surfactants,
@@ -67,11 +72,11 @@ from a figure, which have no printed digit to check. Rows flagged
 | file | rows | what it holds |
 |---|---|---|
 | `csv/solubility.csv` | 18,200 | gas dissolved in water or brine |
-| `csv/watercontent.csv` | 2,013 | water in the gas or vapour phase |
-| `csv/liquidwatercontent.csv` | 18 | water in a hydrocarbon-rich liquid phase |
+| `csv/watercontent.csv` | 2,010 | water in the gas or vapour phase |
+| `csv/liquidwatercontent.csv` | 21 | water in a liquid non-aqueous phase (hydrocarbon- or CO2-rich) |
 | `csv/mixtures.csv` | 1,661 | solubility from a gas mixture |
 | `csv/phaseboundaries.csv` | 980 | hydrate, dew, bubble and three-phase points |
-| `csv/sources.csv` | 496 | one row per source: full reference, year, DOI, row counts |
+| `csv/sources.csv` | 497 | one row per source: full reference, year, DOI, row counts |
 | `csv/column_dictionary.csv` | - | every column: unit, meaning, blank rule, how it was arrived at |
 | `provenance/row_crosswalk.csv` | 22,872 | one row per published row, naming the internal record behind it |
 | `provenance/screened_rows.csv` | 1,827 | every audited row NOT published, with the reason |
@@ -123,15 +128,18 @@ decide.
 ## Methods
 
 `method` says how the measurement was made, read from the source itself and
-recorded per source rather than per row, so where a paper prints several tables
-measured different ways the column gives the dominant one. Ten classes, each
-defined in `SCHEMA.md`; `unstated` means the paper was read and does not say. In
-this release, by rows:
+recorded per source rather than per row, so where a paper prints several
+tables measured different ways the column gives the dominant one. Ten classes,
+each defined in `SCHEMA.md`. `unstated` covers two cases and does not tell
+them apart: the paper was read and does not state a method, or the paper was
+not available to us, so nobody could read it -- 1,203 rows over 42 sources in
+this release are the second case, and the per-source evidence is in the
+project trackers. In this release, by rows:
 
-analytical sampling 8,960, manometric volumetric 3,312, chromatography 1,831,
+analytical sampling 8,960, manometric volumetric 3,312, chromatography 2,049,
 synthetic visual 2,328, electrochemical 409, gravimetric 1,271, pressure
 decrease mass balance 32, calculated compilation 1,121, other 1,514, unstated
-1,850.
+1,632.
 
 ## Known limitations
 
@@ -163,6 +171,12 @@ append. Each release gets its own DOI, and all of them sit under one concept DOI
 that always resolves to the newest -- **cite the version DOI**, so that a number
 computed from this database can be traced to the exact release it came from.
 `CHANGELOG.md` has one section per release.
+
+## What changed in v1.2
+
+A corrections release under the versioning rule in the README: what the database covers is exactly what v1.1 covered. Measured against v1.1 across the seven shipped tables: 0 measurement values changed on the rows both releases publish under the same identifier (`temperature_K`, `pressure_MPa`, `solubility_mole_fraction`, `solubility_mol_per_kgw`, `value_as_printed`, `unit_as_printed`), 0 columns gained or lost, 78 rows added and 77 removed -- and every added and removed row is accounted for in `CHANGELOG.md`, by table. What moved is the identification of the papers behind the rows, the published definitions, and the release documents.
+
+Every added, removed and changed cell is listed by identifier in `CHANGELOG.md`.
 
 ## Where to get it
 

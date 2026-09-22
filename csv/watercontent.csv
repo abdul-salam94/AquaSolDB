@@ -1,27 +1,27 @@
 point_id,gas,temperature_K,pressure_MPa,pressure_basis,salt,salt_molality,salt_composition,m_Na,m_Cl,m_K,m_Ca,m_Mg,m_SO4,source_id,reference,method,flags,water_mole_fraction_vapor,value_as_printed,unit_as_printed
-C2H6_alassi2023_c2c4_001,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.33e-05,63.3,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_002,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.33e-05,63.3,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_001,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.33e-05,63.3,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_002,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.33e-05,63.3,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_003,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.39e-05,63.9,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_004,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.43e-05,64.3,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_005,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.43e-05,64.3,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_004,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.43e-05,64.3,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_005,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.43e-05,64.3,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_006,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.46e-05,64.6,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_007,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.49e-05,64.9,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_008,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.49e-05,64.9,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_009,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.54e-05,65.4,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_010,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.54e-05,65.4,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_011,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.59e-05,65.9,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_012,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.59e-05,65.9,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_007,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.49e-05,64.9,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_008,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.49e-05,64.9,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_009,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.54e-05,65.4,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_010,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.54e-05,65.4,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_011,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.59e-05,65.9,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_012,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.59e-05,65.9,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_013,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.6e-05,66,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_014,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.61e-05,66.1,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_015,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.61e-05,66.1,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_014,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.61e-05,66.1,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_015,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,6.61e-05,66.1,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_016,C2H6,273.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,6.92e-05,69.2,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_017,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.46e-05,84.6,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_018,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.66e-05,86.6,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_019,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.79e-05,87.9,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_020,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.84e-05,88.4,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_021,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.84e-05,88.4,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_022,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.88e-05,88.8,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_023,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.88e-05,88.8,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_020,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,8.84e-05,88.4,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_021,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,8.84e-05,88.4,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_022,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,8.88e-05,88.8,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_023,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,8.88e-05,88.8,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_024,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.89e-05,88.9,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_025,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,8.93e-05,89.3,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_026,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,9.06e-05,90.6,"y2 water content, ppm in ethane (phase LHE)"
@@ -29,16 +29,16 @@ C2H6_alassi2023_c2c4_027,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.0000
 C2H6_alassi2023_c2c4_028,C2H6,278.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,9.27e-05,92.7,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_029,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001178,117.8,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_030,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001195,119.5,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_031,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001207,120.7,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_032,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001207,120.7,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_031,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001207,120.7,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_032,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001207,120.7,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_033,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.000121,121,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_034,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001211,121.1,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_035,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001211,121.1,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_034,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001211,121.1,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_035,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001211,121.1,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_036,C2H6,283.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001222,122.2,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_037,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001702,170.2,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_038,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001705,170.5,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_039,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001713,171.3,"y2 water content, ppm in ethane (phase LHE)"
-C2H6_alassi2023_c2c4_040,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001715,171.5,"y2 water content, ppm in ethane (phase LHE)"
+C2H6_alassi2023_c2c4_040,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001715,171.5,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_041,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001715,171.5,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_042,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.0001715,171.5,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_043,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0001717,171.7,"y2 water content, ppm in ethane (phase LHE)"
@@ -47,8 +47,8 @@ C2H6_alassi2023_c2c4_045,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.0000
 C2H6_alassi2023_c2c4_046,C2H6,288.15,24.2,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.000173,173,"y2 water content, ppm in ethane (phase LHE)"
 C2H6_alassi2023_c2c4_047,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0002181,218.1,"y2 water content, ppm in ethane (phase LLE)"
 C2H6_alassi2023_c2c4_048,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0002224,222.4,"y2 water content, ppm in ethane (phase LLE)"
-C2H6_alassi2023_c2c4_049,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.000224,224,"y2 water content, ppm in ethane (phase LLE)"
-C2H6_alassi2023_c2c4_050,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.000224,224,"y2 water content, ppm in ethane (phase LLE)"
+C2H6_alassi2023_c2c4_049,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.000224,224,"y2 water content, ppm in ethane (phase LLE)"
+C2H6_alassi2023_c2c4_050,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,replicate,0.000224,224,"y2 water content, ppm in ethane (phase LLE)"
 C2H6_alassi2023_c2c4_051,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0002253,225.3,"y2 water content, ppm in ethane (phase LLE)"
 C2H6_alassi2023_c2c4_052,C2H6,293.15,24.1,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,alassi2023_c2c4,"Alassi, Chapoy & Burgass (2023)",electrochemical,,0.0002267,226.7,"y2 water content, ppm in ethane (phase LLE)"
 C2H6_coanking1971_c2c4_001,C2H6,298.15,2.4419325,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00142,0.00142,Y2 (mole fraction water in the compressed gas phase)
@@ -56,8 +56,8 @@ C2H6_coanking1971_c2c4_002,C2H6,298.15,2.9688225,total,none,0,,0.000000,0.000000
 C2H6_coanking1971_c2c4_003,C2H6,298.15,3.5970375,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.0009,0.00090,Y2 (mole fraction water in the compressed gas phase)
 C2H6_coanking1971_c2c4_004,C2H6,298.15,3.60717,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00093,0.00093,Y2 (mole fraction water in the compressed gas phase)
 C2H6_coanking1971_c2c4_005,C2H6,323.15,2.2798125,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00563,0.00563,Y2 (mole fraction water in the compressed gas phase)
-C2H6_coanking1971_c2c4_006,C2H6,323.15,2.9688225,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00432,0.00432,Y2 (mole fraction water in the compressed gas phase)
-C2H6_coanking1971_c2c4_007,C2H6,323.15,2.9688225,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00432,0.00432,Y2 (mole fraction water in the compressed gas phase)
+C2H6_coanking1971_c2c4_006,C2H6,323.15,2.9688225,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,replicate,0.00432,0.00432,Y2 (mole fraction water in the compressed gas phase)
+C2H6_coanking1971_c2c4_007,C2H6,323.15,2.9688225,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,replicate,0.00432,0.00432,Y2 (mole fraction water in the compressed gas phase)
 C2H6_coanking1971_c2c4_008,C2H6,323.15,2.9688225,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00437,0.00437,Y2 (mole fraction water in the compressed gas phase)
 C2H6_coanking1971_c2c4_009,C2H6,323.15,3.5767725,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00354,0.00354,Y2 (mole fraction water in the compressed gas phase)
 C2H6_coanking1971_c2c4_010,C2H6,323.15,3.627435,total,none,0,,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,coanking1971_c2c4,Coan & King (1971),gravimetric,,0.00354,0.00354,Y2 (mole fraction water in the compressed gas phase)
@@ -803,110 +803,110 @@ CO2_dsouza1988_co2_001,CO2,323,10.13,total,,,,,,,,,,dsouza1988_co2,D'Souza et al
 CO2_dsouza1988_co2_002,CO2,323,15.2,total,,,,,,,,,,dsouza1988_co2,D'Souza et al. (1988),unstated,from_compilation,0.0079,0.0079,y_H2O mole fraction
 CO2_dsouza1988_co2_003,CO2,348,10.13,total,,,,,,,,,,dsouza1988_co2,D'Souza et al. (1988),unstated,from_compilation,0.0074,0.0074,y_H2O mole fraction
 CO2_dsouza1988_co2_004,CO2,348,15.2,total,,,,,,,,,,dsouza1988_co2,D'Souza et al. (1988),unstated,from_compilation,0.009,0.009,y_H2O mole fraction
-CO2_hou2013_co2_115,CO2,298,1.66,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00268,0.00268,y_H2O mole fraction
-CO2_hou2013_co2_116,CO2,298,3.26,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0016,0.0016,y_H2O mole fraction
-CO2_hou2013_co2_117,CO2,298,6.39,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00194,0.00194,y_H2O mole fraction
-CO2_hou2013_co2_118,CO2,323,2.98,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00507,0.00507,y_H2O mole fraction
-CO2_hou2013_co2_119,CO2,323,7.41,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0035,0.0035,y_H2O mole fraction
-CO2_hou2013_co2_120,CO2,323,10.02,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00403,0.00403,y_H2O mole fraction
-CO2_hou2013_co2_121,CO2,323,12.97,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00533,0.00533,y_H2O mole fraction
-CO2_hou2013_co2_122,CO2,323,17.53,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00614,0.00614,y_H2O mole fraction
-CO2_hou2013_co2_123,CO2,348,1.1,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.03132,0.03132,y_H2O mole fraction
-CO2_hou2013_co2_124,CO2,348,2.92,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01422,0.01422,y_H2O mole fraction
-CO2_hou2013_co2_125,CO2,348,7.12,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00845,0.00845,y_H2O mole fraction
-CO2_hou2013_co2_126,CO2,348,10.17,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00805,0.00805,y_H2O mole fraction
-CO2_hou2013_co2_127,CO2,348,13.28,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00836,0.00836,y_H2O mole fraction
-CO2_hou2013_co2_128,CO2,348,16.92,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00996,0.00996,y_H2O mole fraction
-CO2_hou2013_co2_129,CO2,373,1.11,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.08802,0.08802,y_H2O mole fraction
-CO2_hou2013_co2_130,CO2,373,2.42,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.04691,0.04691,y_H2O mole fraction
-CO2_hou2013_co2_131,CO2,373,7.09,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.02102,0.02102,y_H2O mole fraction
-CO2_hou2013_co2_132,CO2,373,10.24,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01747,0.01747,y_H2O mole fraction
-CO2_hou2013_co2_133,CO2,373,13.35,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01675,0.01675,y_H2O mole fraction
-CO2_hou2013_co2_134,CO2,373,17.07,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01712,0.01712,y_H2O mole fraction
-CO2_hou2013_co2_135,CO2,423,1.43,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.3464,0.3464,y_H2O mole fraction
-CO2_hou2013_co2_136,CO2,423,2.99,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.18927,0.18927,y_H2O mole fraction
-CO2_hou2013_co2_137,CO2,423,7.2,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.09452,0.09452,y_H2O mole fraction
-CO2_hou2013_co2_138,CO2,423,10.01,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.07499,0.07499,y_H2O mole fraction
-CO2_hou2013_co2_139,CO2,423,13.42,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.06368,0.06368,y_H2O mole fraction
-CO2_hou2013_co2_140,CO2,423,17.35,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.05661,0.05661,y_H2O mole fraction
-CO2_hou2013_co2_141,CO2,448,1.33,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.70431,0.70431,y_H2O mole fraction
-CO2_hou2013_co2_142,CO2,448,3.66,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.29,0.29,y_H2O mole fraction
-CO2_hou2013_co2_143,CO2,448,7.57,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.15731,0.15731,y_H2O mole fraction
-CO2_hou2013_co2_144,CO2,448,10.5,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.11921,0.11921,y_H2O mole fraction
-CO2_hou2013_co2_145,CO2,448,13.44,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.10667,0.10667,y_H2O mole fraction
-CO2_hou2013_co2_146,CO2,448,17.46,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.10175,0.10175,y_H2O mole fraction
-CO2_hou2013_co2_147,CO2,323.15,2.92,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00391,0.00391,y_H2O mole fraction
-CO2_hou2013_co2_148,CO2,323.15,3.027,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0034,0.0034,y_H2O mole fraction
-CO2_hou2013_co2_149,CO2,323.15,5.895,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00241,0.00241,y_H2O mole fraction
-CO2_hou2013_co2_150,CO2,323.15,5.959,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00199,0.00199,y_H2O mole fraction
-CO2_hou2013_co2_151,CO2,323.15,8.88,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00222,0.00222,y_H2O mole fraction
-CO2_hou2013_co2_152,CO2,323.15,8.998,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00177,0.00177,y_H2O mole fraction
-CO2_hou2013_co2_153,CO2,323.15,11.774,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00272,0.00272,y_H2O mole fraction
-CO2_hou2013_co2_154,CO2,323.15,12.084,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00247,0.00247,y_H2O mole fraction
-CO2_hou2013_co2_155,CO2,323.15,15.036,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00362,0.00362,y_H2O mole fraction
-CO2_hou2013_co2_156,CO2,323.15,15.062,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0038,0.0038,y_H2O mole fraction
-CO2_hou2013_co2_157,CO2,323.15,18.078,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00413,0.00413,y_H2O mole fraction
-CO2_hou2013_co2_158,CO2,323.15,18.184,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00402,0.00402,y_H2O mole fraction
-CO2_hou2013_co2_159,CO2,373.15,2.945,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.03088,0.03088,y_H2O mole fraction
-CO2_hou2013_co2_160,CO2,373.15,3.025,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01649,0.01649,y_H2O mole fraction
-CO2_hou2013_co2_161,CO2,373.15,6.023,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00944,0.00944,y_H2O mole fraction
-CO2_hou2013_co2_162,CO2,373.15,6.08,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01244,0.01244,y_H2O mole fraction
-CO2_hou2013_co2_163,CO2,373.15,8.978,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00844,0.00844,y_H2O mole fraction
-CO2_hou2013_co2_164,CO2,373.15,9.071,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01166,0.01166,y_H2O mole fraction
-CO2_hou2013_co2_165,CO2,373.15,12.032,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00767,0.00767,y_H2O mole fraction
-CO2_hou2013_co2_166,CO2,373.15,12.032,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0107,0.0107,y_H2O mole fraction
-CO2_hou2013_co2_167,CO2,373.15,14.874,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0122,0.0122,y_H2O mole fraction
-CO2_hou2013_co2_168,CO2,373.15,15.103,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00938,0.00938,y_H2O mole fraction
-CO2_hou2013_co2_169,CO2,373.15,17.883,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01266,0.01266,y_H2O mole fraction
-CO2_hou2013_co2_170,CO2,373.15,18.215,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01038,0.01038,y_H2O mole fraction
-CO2_hou2013_co2_171,CO2,423.15,2.745,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.18882,0.18882,y_H2O mole fraction
-CO2_hou2013_co2_172,CO2,423.15,2.908,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.16007,0.16007,y_H2O mole fraction
-CO2_hou2013_co2_173,CO2,423.15,5.957,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.08999,0.08999,y_H2O mole fraction
-CO2_hou2013_co2_174,CO2,423.15,6.074,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.10112,0.10112,y_H2O mole fraction
-CO2_hou2013_co2_175,CO2,423.15,8.889,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.07575,0.07575,y_H2O mole fraction
-CO2_hou2013_co2_176,CO2,423.15,8.984,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0648,0.0648,y_H2O mole fraction
-CO2_hou2013_co2_177,CO2,423.15,11.957,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.06225,0.06225,y_H2O mole fraction
-CO2_hou2013_co2_178,CO2,423.15,12.035,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.05495,0.05495,y_H2O mole fraction
-CO2_hou2013_co2_179,CO2,423.15,14.958,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.05455,0.05455,y_H2O mole fraction
-CO2_hou2013_co2_180,CO2,423.15,14.991,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.04767,0.04767,y_H2O mole fraction
-CO2_hou2013_co2_181,CO2,423.15,17.858,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.05094,0.05094,y_H2O mole fraction
-CO2_hou2013_co2_182,CO2,423.15,18.12,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.04322,0.04322,y_H2O mole fraction
-CO2_hou2013_co2_183,CO2,323.15,2.782,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00363,0.00363,y_H2O mole fraction
-CO2_hou2013_co2_184,CO2,323.15,2.983,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00294,0.00294,y_H2O mole fraction
-CO2_hou2013_co2_185,CO2,323.15,5.739,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00233,0.00233,y_H2O mole fraction
-CO2_hou2013_co2_186,CO2,323.15,5.954,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00191,0.00191,y_H2O mole fraction
-CO2_hou2013_co2_187,CO2,323.15,8.73,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00218,0.00218,y_H2O mole fraction
-CO2_hou2013_co2_188,CO2,323.15,8.953,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00164,0.00164,y_H2O mole fraction
-CO2_hou2013_co2_189,CO2,323.15,11.773,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00266,0.00266,y_H2O mole fraction
-CO2_hou2013_co2_190,CO2,323.15,12.017,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0024,0.0024,y_H2O mole fraction
-CO2_hou2013_co2_191,CO2,323.15,14.959,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00349,0.00349,y_H2O mole fraction
-CO2_hou2013_co2_192,CO2,323.15,15.02,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00374,0.00374,y_H2O mole fraction
-CO2_hou2013_co2_193,CO2,323.15,17.954,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00391,0.00391,y_H2O mole fraction
-CO2_hou2013_co2_194,CO2,323.15,18.211,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00409,0.00409,y_H2O mole fraction
-CO2_hou2013_co2_195,CO2,373.15,2.613,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.02903,0.02903,y_H2O mole fraction
-CO2_hou2013_co2_196,CO2,373.15,2.951,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01419,0.01419,y_H2O mole fraction
-CO2_hou2013_co2_197,CO2,373.15,5.742,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01172,0.01172,y_H2O mole fraction
-CO2_hou2013_co2_198,CO2,373.15,6.068,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00902,0.00902,y_H2O mole fraction
-CO2_hou2013_co2_199,CO2,373.15,8.789,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01064,0.01064,y_H2O mole fraction
-CO2_hou2013_co2_200,CO2,373.15,8.916,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00811,0.00811,y_H2O mole fraction
-CO2_hou2013_co2_201,CO2,373.15,11.867,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00955,0.00955,y_H2O mole fraction
-CO2_hou2013_co2_202,CO2,373.15,12.003,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00742,0.00742,y_H2O mole fraction
-CO2_hou2013_co2_203,CO2,373.15,14.921,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01083,0.01083,y_H2O mole fraction
-CO2_hou2013_co2_204,CO2,373.15,14.924,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00847,0.00847,y_H2O mole fraction
-CO2_hou2013_co2_205,CO2,373.15,18.013,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.01156,0.01156,y_H2O mole fraction
-CO2_hou2013_co2_206,CO2,373.15,18.162,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.00945,0.00945,y_H2O mole fraction
-CO2_hou2013_co2_207,CO2,423.15,2.643,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.18559,0.18559,y_H2O mole fraction
-CO2_hou2013_co2_208,CO2,423.15,3.093,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.15439,0.15439,y_H2O mole fraction
-CO2_hou2013_co2_209,CO2,423.15,5.766,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.10155,0.10155,y_H2O mole fraction
-CO2_hou2013_co2_210,CO2,423.15,5.816,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.08669,0.08669,y_H2O mole fraction
-CO2_hou2013_co2_211,CO2,423.15,8.6,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.07567,0.07567,y_H2O mole fraction
-CO2_hou2013_co2_212,CO2,423.15,8.857,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.06268,0.06268,y_H2O mole fraction
-CO2_hou2013_co2_213,CO2,423.15,11.604,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.06231,0.06231,y_H2O mole fraction
-CO2_hou2013_co2_214,CO2,423.15,11.922,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.0531,0.0531,y_H2O mole fraction
-CO2_hou2013_co2_215,CO2,423.15,14.881,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.05364,0.05364,y_H2O mole fraction
-CO2_hou2013_co2_216,CO2,423.15,14.979,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.04672,0.04672,y_H2O mole fraction
-CO2_hou2013_co2_217,CO2,423.15,17.794,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.05022,0.05022,y_H2O mole fraction
-CO2_hou2013_co2_218,CO2,423.15,18.079,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 73)",unstated,from_compilation,0.04304,0.04304,y_H2O mole fraction
+CO2_hou2013_co2_147,CO2,323.15,2.92,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00391,0.00391,y_H2O mole fraction
+CO2_hou2013_co2_148,CO2,323.15,3.027,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0034,0.0034,y_H2O mole fraction
+CO2_hou2013_co2_149,CO2,323.15,5.895,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00241,0.00241,y_H2O mole fraction
+CO2_hou2013_co2_150,CO2,323.15,5.959,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00199,0.00199,y_H2O mole fraction
+CO2_hou2013_co2_151,CO2,323.15,8.88,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00222,0.00222,y_H2O mole fraction
+CO2_hou2013_co2_152,CO2,323.15,8.998,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00177,0.00177,y_H2O mole fraction
+CO2_hou2013_co2_153,CO2,323.15,11.774,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00272,0.00272,y_H2O mole fraction
+CO2_hou2013_co2_154,CO2,323.15,12.084,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00247,0.00247,y_H2O mole fraction
+CO2_hou2013_co2_155,CO2,323.15,15.036,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00362,0.00362,y_H2O mole fraction
+CO2_hou2013_co2_156,CO2,323.15,15.062,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0038,0.0038,y_H2O mole fraction
+CO2_hou2013_co2_157,CO2,323.15,18.078,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00413,0.00413,y_H2O mole fraction
+CO2_hou2013_co2_158,CO2,323.15,18.184,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00402,0.00402,y_H2O mole fraction
+CO2_hou2013_co2_159,CO2,373.15,2.945,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.03088,0.03088,y_H2O mole fraction
+CO2_hou2013_co2_160,CO2,373.15,3.025,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01649,0.01649,y_H2O mole fraction
+CO2_hou2013_co2_161,CO2,373.15,6.023,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00944,0.00944,y_H2O mole fraction
+CO2_hou2013_co2_162,CO2,373.15,6.08,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01244,0.01244,y_H2O mole fraction
+CO2_hou2013_co2_163,CO2,373.15,8.978,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00844,0.00844,y_H2O mole fraction
+CO2_hou2013_co2_164,CO2,373.15,9.071,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01166,0.01166,y_H2O mole fraction
+CO2_hou2013_co2_165,CO2,373.15,12.032,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00767,0.00767,y_H2O mole fraction
+CO2_hou2013_co2_166,CO2,373.15,12.032,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0107,0.0107,y_H2O mole fraction
+CO2_hou2013_co2_167,CO2,373.15,14.874,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0122,0.0122,y_H2O mole fraction
+CO2_hou2013_co2_168,CO2,373.15,15.103,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00938,0.00938,y_H2O mole fraction
+CO2_hou2013_co2_169,CO2,373.15,17.883,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01266,0.01266,y_H2O mole fraction
+CO2_hou2013_co2_170,CO2,373.15,18.215,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01038,0.01038,y_H2O mole fraction
+CO2_hou2013_co2_171,CO2,423.15,2.745,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.18882,0.18882,y_H2O mole fraction
+CO2_hou2013_co2_172,CO2,423.15,2.908,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.16007,0.16007,y_H2O mole fraction
+CO2_hou2013_co2_173,CO2,423.15,5.957,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.08999,0.08999,y_H2O mole fraction
+CO2_hou2013_co2_174,CO2,423.15,6.074,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.10112,0.10112,y_H2O mole fraction
+CO2_hou2013_co2_175,CO2,423.15,8.889,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.07575,0.07575,y_H2O mole fraction
+CO2_hou2013_co2_176,CO2,423.15,8.984,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0648,0.0648,y_H2O mole fraction
+CO2_hou2013_co2_177,CO2,423.15,11.957,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.06225,0.06225,y_H2O mole fraction
+CO2_hou2013_co2_178,CO2,423.15,12.035,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.05495,0.05495,y_H2O mole fraction
+CO2_hou2013_co2_179,CO2,423.15,14.958,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.05455,0.05455,y_H2O mole fraction
+CO2_hou2013_co2_180,CO2,423.15,14.991,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.04767,0.04767,y_H2O mole fraction
+CO2_hou2013_co2_181,CO2,423.15,17.858,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.05094,0.05094,y_H2O mole fraction
+CO2_hou2013_co2_182,CO2,423.15,18.12,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.04322,0.04322,y_H2O mole fraction
+CO2_hou2013_co2_183,CO2,323.15,2.782,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00363,0.00363,y_H2O mole fraction
+CO2_hou2013_co2_184,CO2,323.15,2.983,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00294,0.00294,y_H2O mole fraction
+CO2_hou2013_co2_185,CO2,323.15,5.739,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00233,0.00233,y_H2O mole fraction
+CO2_hou2013_co2_186,CO2,323.15,5.954,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00191,0.00191,y_H2O mole fraction
+CO2_hou2013_co2_187,CO2,323.15,8.73,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00218,0.00218,y_H2O mole fraction
+CO2_hou2013_co2_188,CO2,323.15,8.953,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00164,0.00164,y_H2O mole fraction
+CO2_hou2013_co2_189,CO2,323.15,11.773,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00266,0.00266,y_H2O mole fraction
+CO2_hou2013_co2_190,CO2,323.15,12.017,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0024,0.0024,y_H2O mole fraction
+CO2_hou2013_co2_191,CO2,323.15,14.959,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00349,0.00349,y_H2O mole fraction
+CO2_hou2013_co2_192,CO2,323.15,15.02,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00374,0.00374,y_H2O mole fraction
+CO2_hou2013_co2_193,CO2,323.15,17.954,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00391,0.00391,y_H2O mole fraction
+CO2_hou2013_co2_194,CO2,323.15,18.211,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00409,0.00409,y_H2O mole fraction
+CO2_hou2013_co2_195,CO2,373.15,2.613,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.02903,0.02903,y_H2O mole fraction
+CO2_hou2013_co2_196,CO2,373.15,2.951,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01419,0.01419,y_H2O mole fraction
+CO2_hou2013_co2_197,CO2,373.15,5.742,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01172,0.01172,y_H2O mole fraction
+CO2_hou2013_co2_198,CO2,373.15,6.068,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00902,0.00902,y_H2O mole fraction
+CO2_hou2013_co2_199,CO2,373.15,8.789,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01064,0.01064,y_H2O mole fraction
+CO2_hou2013_co2_200,CO2,373.15,8.916,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00811,0.00811,y_H2O mole fraction
+CO2_hou2013_co2_201,CO2,373.15,11.867,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00955,0.00955,y_H2O mole fraction
+CO2_hou2013_co2_202,CO2,373.15,12.003,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00742,0.00742,y_H2O mole fraction
+CO2_hou2013_co2_203,CO2,373.15,14.921,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01083,0.01083,y_H2O mole fraction
+CO2_hou2013_co2_204,CO2,373.15,14.924,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00847,0.00847,y_H2O mole fraction
+CO2_hou2013_co2_205,CO2,373.15,18.013,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.01156,0.01156,y_H2O mole fraction
+CO2_hou2013_co2_206,CO2,373.15,18.162,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.00945,0.00945,y_H2O mole fraction
+CO2_hou2013_co2_207,CO2,423.15,2.643,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.18559,0.18559,y_H2O mole fraction
+CO2_hou2013_co2_208,CO2,423.15,3.093,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.15439,0.15439,y_H2O mole fraction
+CO2_hou2013_co2_209,CO2,423.15,5.766,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.10155,0.10155,y_H2O mole fraction
+CO2_hou2013_co2_210,CO2,423.15,5.816,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.08669,0.08669,y_H2O mole fraction
+CO2_hou2013_co2_211,CO2,423.15,8.6,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.07567,0.07567,y_H2O mole fraction
+CO2_hou2013_co2_212,CO2,423.15,8.857,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.06268,0.06268,y_H2O mole fraction
+CO2_hou2013_co2_213,CO2,423.15,11.604,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.06231,0.06231,y_H2O mole fraction
+CO2_hou2013_co2_214,CO2,423.15,11.922,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.0531,0.0531,y_H2O mole fraction
+CO2_hou2013_co2_215,CO2,423.15,14.881,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.05364,0.05364,y_H2O mole fraction
+CO2_hou2013_co2_216,CO2,423.15,14.979,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.04672,0.04672,y_H2O mole fraction
+CO2_hou2013_co2_217,CO2,423.15,17.794,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.05022,0.05022,y_H2O mole fraction
+CO2_hou2013_co2_218,CO2,423.15,18.079,total,,,,,,,,,,hou2013_co2,"Hou et al. (2013, JSF 78)",chromatography,from_compilation,0.04304,0.04304,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_043,CO2,298,1.66,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00268,0.00268,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_044,CO2,298,3.26,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.0016,0.0016,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_045,CO2,298,6.39,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00194,0.00194,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_046,CO2,323,2.98,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00507,0.00507,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_047,CO2,323,7.41,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.0035,0.0035,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_048,CO2,323,10.02,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00403,0.00403,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_049,CO2,323,12.97,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00533,0.00533,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_050,CO2,323,17.53,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00614,0.00614,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_051,CO2,348,1.1,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.03132,0.03132,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_052,CO2,348,2.92,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.01422,0.01422,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_053,CO2,348,7.12,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00845,0.00845,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_054,CO2,348,10.17,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00805,0.00805,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_055,CO2,348,13.28,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00836,0.00836,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_056,CO2,348,16.92,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.00996,0.00996,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_057,CO2,373,1.11,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.08802,0.08802,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_058,CO2,373,2.42,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.04691,0.04691,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_059,CO2,373,7.09,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.02102,0.02102,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_060,CO2,373,10.24,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.01747,0.01747,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_061,CO2,373,13.35,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.01675,0.01675,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_062,CO2,373,17.07,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.01712,0.01712,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_063,CO2,423,1.43,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.3464,0.3464,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_064,CO2,423,2.99,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.18927,0.18927,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_065,CO2,423,7.2,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.09452,0.09452,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_066,CO2,423,10.01,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.07499,0.07499,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_067,CO2,423,13.42,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.06368,0.06368,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_068,CO2,423,17.35,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.05661,0.05661,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_069,CO2,448,1.33,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.70431,0.70431,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_070,CO2,448,3.66,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.29,0.29,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_071,CO2,448,7.57,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.15731,0.15731,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_072,CO2,448,10.5,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.11921,0.11921,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_073,CO2,448,13.44,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.10667,0.10667,y_H2O mole fraction
+CO2_hou2013jsf73water_co2_074,CO2,448,17.46,total,,,,,,,,,,hou2013jsf73water_co2,"Hou et al. (2013, JSF 73)",chromatography,from_compilation,0.10175,0.10175,y_H2O mole fraction
 CO2_jacksonbowmanfulton1995_co2_001,CO2,323.15,34.48,total,,,,,,,,,,jacksonbowmanfulton1995_co2,"Jackson, Bowman & Fulton (1995)",other,,0.0075,0.75,"mol% H2O in CO2-rich (near-critical/supercritical) phase, measured by near-IR"
 CO2_jacksonbowmanfulton1995_co2_002,CO2,348.15,34.48,total,,,,,,,,,,jacksonbowmanfulton1995_co2,"Jackson, Bowman & Fulton (1995)",other,,0.0133,1.33,"mol% H2O in CO2-rich (near-critical/supercritical) phase, measured by near-IR"
 CO2_jooss2025_co2_001,CO2,308.14,1,total,,,,,,,,,,jooss2025_co2,Jooss et al. (2025),chromatography,,0.00636,0.636%,"y_w = mole fraction H2O in CO2-rich (gas/carbonic) phase, mol%"
@@ -999,9 +999,6 @@ CO2_jooss2025_co2_087,CO2,393.15,21.5,total,,,,,,,,,,jooss2025_co2,Jooss et al. 
 CO2_jooss2025_co2_088,CO2,393.18,27,total,,,,,,,,,,jooss2025_co2,Jooss et al. (2025),chromatography,,0.02606,2.606%,"y_w = mole fraction H2O in CO2-rich (gas/carbonic) phase, mol%"
 CO2_jooss2025_co2_089,CO2,393.18,42,total,,,,,,,,,,jooss2025_co2,Jooss et al. (2025),chromatography,,0.02759,2.759%,"y_w = mole fraction H2O in CO2-rich (gas/carbonic) phase, mol%"
 CO2_jooss2025_co2_090,CO2,393.19,70,total,,,,,,,,,,jooss2025_co2,Jooss et al. (2025),chromatography,,0.02924,2.924%,"y_w = mole fraction H2O in CO2-rich (gas/carbonic) phase, mol%"
-CO2_king1992_co2_028,CO2,288.15,5.17,total,,,,,,,,,,king1992_co2,King et al. (1992),analytical_sampling,,0.00222,2.22,"yw^c x10^3 = moles H2O per thousand moles of fluid (CO2-rich phase), as printed"
-CO2_king1992_co2_029,CO2,293.15,5.88,total,,,,,,,,,,king1992_co2,King et al. (1992),analytical_sampling,,0.00261,2.61,"yw^c x10^3 = moles H2O per thousand moles of fluid (CO2-rich phase), as printed"
-CO2_king1992_co2_030,CO2,298.15,6.59,total,,,,,,,,,,king1992_co2,King et al. (1992),analytical_sampling,,0.003,3.00,"yw^c x10^3 = moles H2O per thousand moles of fluid (CO2-rich phase), as printed"
 CO2_king1992_co2_031,CO2,293.15,7.09,total,,,,,,,,,,king1992_co2,King et al. (1992),analytical_sampling,,0.00272,2.72,"yw^c x10^3 = moles H2O per thousand moles of fluid (CO2-rich phase), as printed"
 CO2_king1992_co2_032,CO2,298.15,7.09,total,,,,,,,,,,king1992_co2,King et al. (1992),analytical_sampling,,0.00307,3.07,"yw^c x10^3 = moles H2O per thousand moles of fluid (CO2-rich phase), as printed"
 CO2_king1992_co2_033,CO2,288.15,7.6,total,,,,,,,,,,king1992_co2,King et al. (1992),analytical_sampling,,0.00235,2.35,"yw^c x10^3 = moles H2O per thousand moles of fluid (CO2-rich phase), as printed"

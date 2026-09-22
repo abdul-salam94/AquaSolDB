@@ -333,4 +333,4 @@ def test_the_module_entry_point_prints_a_count_per_family(root, capsys):
         assert family in printed, printed
     assert aquasoldb.__version__ in printed
     assert print_counts([str(root), "extra"]) == 2
-    assert sys.modules["aquasoldb"].__version__ == "1.1.0"
+    assert sys.modules["aquasoldb"].__version__ == "1.2.0"
