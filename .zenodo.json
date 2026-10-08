@@ -13,7 +13,7 @@
       "orcid": "0000-0002-6916-050X"
     }
   ],
-  "description": "Published experimental measurements of how much gas dissolves in water and in brine, read from the printed pages of the papers that reported them and put into one set of tables with one set of units. 23,263 measurement rows from 499 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6, 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous solubilities of organic compounds; this one holds gas solubilities in water and brine. Browse and download the data in the web viewer: https://abdul-salam94.github.io/AquaSolDB/",
+  "description": "Published experimental measurements of how much gas dissolves in water and in brine, read from the printed pages of the papers that reported them and put into one set of tables with one set of units. 23,263 measurement rows from 499 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6, 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous solubilities of organic compounds; this one holds gas solubilities in water and brine. Browse and download the data in the web viewer: <a title=\"AquaSolDB web viewer\" href=\"https://abdul-salam94.github.io/AquaSolDB/\">https://abdul-salam94.github.io/AquaSolDB/</a>",
   "license": "CC-BY-4.0",
   "keywords": [
     "gas solubility",

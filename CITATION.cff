@@ -37,11 +37,14 @@ keywords:
   - phase boundaries
   - experimental data
 # The `doi:` above is the concept DOI, which always resolves to the newest version.
-# This version's own DOI is added after the Zenodo deposit.
+# The second entry below is this version's own DOI.
 identifiers:
   - type: doi
     value: 10.5281/zenodo.22870466
     description: The concept DOI of the dataset (all versions)
+  - type: doi
+    value: 10.5281/zenodo.23237311
+    description: The version DOI of AquaSolDB v2.0
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
 date-released: "2026-10-08"
 preferred-citation:

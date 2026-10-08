@@ -1,6 +1,7 @@
 # AquaSolDB v2.0
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22870466.svg)](https://doi.org/10.5281/zenodo.22870466)
+[![web viewer](https://img.shields.io/badge/web%20viewer-open-teal)](https://abdul-salam94.github.io/AquaSolDB/)
 [![checks](https://github.com/abdul-salam94/AquaSolDB/actions/workflows/checks.yml/badge.svg)](https://github.com/abdul-salam94/AquaSolDB/actions)
 ![data CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-blue)
 ![code MIT](https://img.shields.io/badge/code-MIT-blue)
@@ -14,9 +15,12 @@ into one set of tables with one set of units. 23,263 measurement rows from 499
 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6,
 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous
 solubilities of organic compounds; this one holds gas solubilities in water
-and brine. **Status: AquaSolDB v2.0, released 2026-10-08** (version DOI: added
-after the Zenodo deposit) -- concept DOI 10.5281/zenodo.22870466, which always
+and brine. **Status: AquaSolDB v2.0, released 2026-10-08** (version DOI:
+10.5281/zenodo.23237311) -- concept DOI 10.5281/zenodo.22870466, which always
 resolves to the newest version on Zenodo.
+
+**Browse the data online:** [https://abdul-salam94.github.io/AquaSolDB/](https://abdul-salam94.github.io/AquaSolDB/) --
+filter, plot and download the tables in your browser, nothing to install.
 
 ## How to cite
 
@@ -31,7 +35,7 @@ instruction in machine-readable form.
 
 The concept DOI 10.5281/zenodo.22870466 in that line always resolves to the newest
 version, so it is the one to cite for the database as a whole. To cite exactly
-this version, use its own DOI (added after the Zenodo deposit). A version DOI never
+this version, use its own DOI (10.5281/zenodo.23237311). A version DOI never
 resolves to a different set of rows. The files and the release notes are in
 the GitHub repository https://github.com/abdul-salam94/AquaSolDB.
 
@@ -219,10 +223,10 @@ Version 2.0 is the corrected database in a simpler layout. Every measurement row
   https://github.com/abdul-salam94/AquaSolDB
 - Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
-- This version's own DOI: added after the Zenodo deposit.
-- Web viewer, to browse, plot and download the data in a browser, with no
-  installation: https://abdul-salam94.github.io/AquaSolDB/.
-  The repository's `docs/` folder holds this web viewer, served at
+- This version's own DOI: 10.5281/zenodo.23237311.
+- This version's archived copy on Zenodo (the record its version DOI resolves to):
+  https://zenodo.org/records/23237311
+- The repository's `docs/` folder holds the web viewer, served at
   https://abdul-salam94.github.io/AquaSolDB/; it is not documentation.
 
 **Python package.** The repository ships a small reader, `aquasoldb`: it loads
