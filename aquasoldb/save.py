@@ -33,7 +33,7 @@ def save_parquet(df, path, **kwargs):
     """Write `df` as Parquet. Returns `path`.
 
     Parquet is optional: it needs `pyarrow`, which is not a dependency of this package
-    (the release is CSV only, R-DB3-9).  Without it this raises ImportError naming the
+    (the release is CSV only).  Without it this raises ImportError naming the
     package to install -- it never silently writes a CSV instead.
     """
     if not parquet_available():

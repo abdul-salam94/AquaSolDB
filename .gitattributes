@@ -1,6 +1,8 @@
 # Every file in this repository is text and is stored and checked out
-# with LF line endings (R-DB3-9: CSV only, UTF-8, LF).
+# with LF line endings (R-DB3-9: CSV only, UTF-8, LF), except AquaSolDB.xlsx, the
+# spreadsheet copy of the same tables (R-DCR-321), which is binary and never converted.
 * text=auto eol=lf
+*.xlsx binary
 *.csv text eol=lf
 *.md text eol=lf
 *.cff text eol=lf

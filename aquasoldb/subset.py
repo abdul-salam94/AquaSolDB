@@ -1,22 +1,26 @@
 # -*- coding: utf-8 -*-
 """One selection function over any AquaSolDB measurement table.
 
-`narrow` refuses a value the column does not hold.  A misspelt gas, salt or flag is an
-error naming what is there, never a silently empty result -- the failure mode that turns
-into a wrong number in a paper.
+`narrow` refuses a value the column does not hold.  A misspelt gas, salt, status or flag
+is an error naming what is there, never a silently empty result -- the failure mode that
+turns into a wrong number in a paper.
 """
 import pandas as pd
 
-#: The five row-status flags the release publishes (README, "Flags").  `replicate` joined
-#: the set at the final v1.0 build (PD-DB8-1, KI-143): it marks both rows of a measurement
-#: the paper prints more than once, and a reader who wants one point per state excludes it
-#: by hand rather than being handed our choice of which run to keep.
+#: The five row notes the release publishes in `flags` (README, "Flags").  `replicate`
+#: marks every row of a measurement the paper prints more than once: a reader who wants
+#: one point per state excludes it by hand rather than being handed our choice of which
+#: run to keep.
 FLAG_VOCABULARY = ("from_compilation", "digitized_from_figure", "printed_defect",
                    "suspect_value", "replicate")
 #: `medium=` takes one of these.  The dataset has exactly two kinds of medium.
 MEDIA = ("water", "brine")
-#: The `salt` value that means pure water; every other value is a dissolved-salt medium.
+#: The `salt` value that means pure water; every other recorded value is a dissolved-salt
+#: medium.
 PURE_WATER = "none"
+#: The `salt` value of a row whose source records no medium: it is neither water nor
+#: brine, and `salt="not_stated"` selects it.
+NOT_STATED = "not_stated"
 
 
 def _as_list(value):
@@ -79,16 +83,19 @@ def _window(df, column, bounds, what):
     return mask
 
 
-def narrow(df, gas=None, medium=None, T_K=None, P_MPa=None, salt=None, source_id=None,
-           flags_exclude=None):
+def narrow(df, gas=None, medium=None, salt=None, status=None, phase=None, T_K=None,
+           P_MPa=None, source_id=None, flags_exclude=None):
     """Return the rows of `df` that match every argument given.
 
     gas           one gas label or a sequence of them, e.g. "H2" or ["CO2", "CH4"]
     medium        "water" (salt = none) or "brine" (any dissolved salt).  Rows whose
-                  medium the source did not record are in neither.
-    T_K, P_MPa    inclusive (low, high) pairs; either end may be None
+                  medium the source did not record (salt = not_stated) are in neither.
     salt          one medium label or a sequence: none, NaCl, KCl, CaCl2, MgCl2,
-                  seawater, mixed
+                  seawater, mixed, not_stated
+    status        measured, calculated or no_value, or a sequence of them
+    phase         the phase a water content (or a quantity) is given for: vapour,
+                  liquid_hydrocarbon_or_co2
+    T_K, P_MPa    inclusive (low, high) pairs; either end may be None
     source_id     one source key or a sequence
     flags_exclude one flag word or a sequence; rows carrying any of them are dropped
 
@@ -101,6 +108,10 @@ def narrow(df, gas=None, medium=None, T_K=None, P_MPa=None, salt=None, source_id
         mask &= _match(df, "gas", _as_list(gas), "gas")
     if salt is not None:
         mask &= _match(df, "salt", _as_list(salt), "salt")
+    if status is not None:
+        mask &= _match(df, "status", _as_list(status), "status")
+    if phase is not None:
+        mask &= _match(df, "phase", _as_list(phase), "phase")
     if source_id is not None:
         mask &= _match(df, "source_id", _as_list(source_id), "source_id")
 
@@ -108,9 +119,9 @@ def narrow(df, gas=None, medium=None, T_K=None, P_MPa=None, salt=None, source_id
         if medium not in MEDIA:
             raise ValueError("medium is one of %s, got %r" % (", ".join(MEDIA), medium))
         _require_column(df, "salt", "medium")
-        labels = df["salt"].astype("string").fillna("")
-        recorded = labels.str.strip() != ""
-        is_water = labels.str.casefold() == PURE_WATER
+        labels = df["salt"].astype("string").fillna("").str.strip().str.casefold()
+        recorded = (labels != "") & (labels != NOT_STATED.casefold())
+        is_water = labels == PURE_WATER
         mask &= (recorded & is_water) if medium == "water" else (recorded & ~is_water)
 
     if T_K is not None:

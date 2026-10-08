@@ -1,3 +1,4 @@
+<!-- DRAFT for the author's approval (R-DB3-12 pending). Not approved, not deposited, not published. -->
 # Contributing to AquaSolDB
 
 This dataset is a compilation of published measurements, read from the printed

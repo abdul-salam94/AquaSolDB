@@ -1,3 +1,4 @@
+# DRAFT for the author's approval. Not approved, not deposited, not published.
 cff-version: 1.2.0
 title: AquaSolDB
 message: >-
@@ -14,51 +15,40 @@ authors:
     family-names: Abushaikha
     affiliation: Hamad Bin Khalifa University
     orcid: https://orcid.org/0000-0002-6916-050X
-version: "1.2"
+version: "2.0"
 doi: 10.5281/zenodo.22870466
 license: CC-BY-4.0
 abstract: >-
   A curated collection of published experimental measurements of gas solubility
   in water and brines, with companion tables for water content of gas and
   hydrocarbon-liquid phases, gas-mixture solubilities and phase-boundary points.
-  22,872 measurement rows from 497 sources, read from rendered images
-  of the printed pages, normalised to common units beside the value as printed.
+  23,263 measurement rows from 499 sources, read from rendered images
+  of the printed pages and put into one set of units, with each value as printed
+  kept beside it in a detail file.
 keywords:
   - gas solubility
   - brine
-  - hydrogen
-  - carbon dioxide
-  - methane
-  - nitrogen
-  - hydrogen sulfide
+  - H2
+  - CO2
+  - CH4
+  - N2
+  - H2S
   - light hydrocarbons
   - water content
   - phase boundaries
   - experimental data
-# R-DB3-24: the `doi:` above is the CONCEPT DOI, the address that always resolves
-# to the newest version.  The entries below name that concept DOI and every version
-# DOI Zenodo has MINTED, including this version's own, which Zenodo minted
-# when this version's release was published and the documentation commit
-# that followed the release wrote in here.
+# The `doi:` above is the concept DOI, which always resolves to the newest version.
+# This version's own DOI is minted by Zenodo at this release; added here after.
 identifiers:
   - type: doi
     value: 10.5281/zenodo.22870466
     description: The concept DOI of the dataset (all versions)
-  - type: doi
-    value: 10.5281/zenodo.22870467
-    description: The version DOI of AquaSolDB v1.0
-  - type: doi
-    value: 10.5281/zenodo.22872900
-    description: The version DOI of AquaSolDB v1.1
-  - type: doi
-    value: 10.5281/zenodo.22905509
-    description: The version DOI of AquaSolDB v1.2
 repository-code: "https://github.com/abdul-salam94/AquaSolDB"
-date-released: "2026-09-22"
+date-released: "2026-MM-DD (set at publication)"
 preferred-citation:
   type: dataset
   title: AquaSolDB
-  version: "1.2"
+  version: "2.0"
   doi: 10.5281/zenodo.22870466
   authors:
     - given-names: Abdulsalam

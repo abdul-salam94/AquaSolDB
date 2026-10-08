@@ -1,4 +1,58 @@
+<!-- DRAFT for the author's approval. Not approved, not deposited, not published. -->
 # AquaSolDB -- CHANGELOG
+
+## v2.0 -- corrected data in a simpler layout
+
+Version 2.0 is the corrected database in a simpler layout. Every measurement row now says whether its number was measured or calculated, or that the source prints none (`status`), and why (`status_reason`). Dissolved gas is given in one unit, mol per kg of water. Rows that are not a solubility, a water content, a gas-mixture solubility or a phase-boundary point, or that have no number in those units, are in the new file `csv/other_quantities.csv` (1,922 rows). Compared with the previous release, 431 rows gained a value converted from the printed page; 252 row ids were renamed so that the gas part names the row's gas; 20 ids were retired; and 295 rows were removed when the records behind them were corrected, 283 of them as duplicates. Each of these ids is listed with its reason in `detail/id_changes.csv`.
+
+Cite as: Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.0 [Data set]. Zenodo. Concept DOI 10.5281/zenodo.22870466; this version's own DOI is minted by Zenodo at this release; added here after.
+
+### The layout
+
+- One CSV file per kind of measurement, all gases together, in `csv/`: `csv/solubility.csv` 17,423 rows; `csv/water_content.csv` 1,954 rows; `csv/mixtures.csv` 1,122 rows; `csv/phase_boundaries.csv` 842 rows; `csv/other_quantities.csv` 1,922 rows. Beside them `csv/sources.csv` and `csv/column_dictionary.csv`.
+- Water content is one file, `csv/water_content.csv`, for the gas or vapour phase and the liquid non-aqueous phase together; the column `phase` says which.
+- New file `csv/other_quantities.csv`: rows the source prints as another quantity, or prints with no number in the units of the four main files, kept with the quantity and the value as printed.
+- Every row of the five measurement files has `status` (measured, calculated or no_value) and `status_reason` (one plain sentence).
+- Dissolved gas is given in mol per kg of water only: the mole-fraction column is gone, and the few rows the source printed only as a mole fraction are converted.
+- The value, unit wording and page exactly as printed moved to `detail/printed_values.csv`, one row per measurement row.
+- `reference` left the row files: `csv/sources.csv` holds each source's full reference and DOI, and now its `method`; its year, address and row-count columns are gone (one address moved into its source's reference).
+- `salt` is never blank: `not_stated` means the source names no medium.
+- Each file keeps only the ion columns it uses; the dictionary names the ones it leaves out because they are zero on all of its rows. `pressure_basis` stays in solubility and other_quantities; elsewhere the pressure is the total pressure.
+- `flags` keeps five tags: `digitized_from_figure`, `from_compilation`, `printed_defect`, `replicate`, `suspect_value`.
+- New file `AquaSolDB.xlsx`: the same tables as the CSV files, one sheet each, for reading in a spreadsheet; the CSV files are the reference copy.
+- `csv/column_dictionary.csv` is rewritten: one row per file and column (115 rows), with unit, meaning and what an empty cell means; `SCHEMA.md` is the same as a document.
+- The row-by-row lists of where each row came from and of the rows left out are no longer shipped. `detail/excluded_sources.csv` counts the rows left out by source and reason (1,810 rows over 81 sources), and `detail/id_changes.csv` lists each row id of the previous release that no longer ships under the same id.
+
+### Where the rows of v1.2 are now
+
+- `csv/solubility.csv` (18,200 rows): 16,899 in `csv/solubility.csv`, 1,014 in `csv/other_quantities.csv`; 287 not shipped under the same or a renamed id.
+- `csv/watercontent.csv` (2,010 rows): 1,775 in `csv/water_content.csv`, 223 in `csv/other_quantities.csv`; 12 not shipped under the same or a renamed id.
+- `csv/liquidwatercontent.csv` (21 rows): 21 in `csv/water_content.csv`; 0 not shipped under the same or a renamed id.
+- `csv/mixtures.csv` (1,661 rows): 1,122 in `csv/mixtures.csv`, 539 in `csv/other_quantities.csv`; 0 not shipped under the same or a renamed id.
+- `csv/phaseboundaries.csv` (980 rows): 838 in `csv/phase_boundaries.csv`, 126 in `csv/other_quantities.csv`; 16 not shipped under the same or a renamed id.
+- Three sources moved whole from `csv/solubility.csv` to `csv/other_quantities.csv`, where their rows keep their ids and give the value as printed, unconverted: `schroder1971_n2` 46 rows (read by the authors from their own diagrams); `kishimasakai1984_h2` 52 rows (a buffered experiment with no gas phase); `pei2026_ch4` 240 rows (printed gas volumes whose standard state the source does not define).
+- `csv/sources.csv` (497 sources): 6 added (`anthonymcketta1967_c2c4`, `gamsjaeger1969_h2s`, `lebreton1964_c2c4`, `rettichhandabattinowilhelm1981_c2c4`, `salomaavesala1969_co2`, `winkler1901_c2c4`); 4 no longer listed (`shagiakhmetovandtarzimanov1981_co2`, `vilcuandgainar1967_co2`, `wiebegaddyheins1932_h2`, `wiebegaddyheins1932_n2`).
+- Columns of the previous release no longer in any file: `solubility_mole_fraction`, `water_mole_fraction_vapor`, `water_mole_fraction_liquid_hydrocarbon`, `year`, `url`, `n_solubility`, `n_watercontent`, `n_liquidwatercontent`, `n_mixtures`, `n_phaseboundaries`. New columns: `status`, `status_reason`, `phase`, `water_mole_fraction`, `extra_value`, `extra_quantity`, `source_table`, `quantity_as_printed`, `table`, `column`, `unit`, `meaning`, `blank_means`, `page_ref`, `page_ref_convention`, `page_offset`, `rows_left_out`, `reason`, `old_point_id`, `what_happened`, `new_point_id`.
+
+### Cells that differ from v1.2, on the rows both releases hold
+
+Each row of v1.2 is compared with the same row now, a renamed row under its new id. The corrections behind these changes were made to the records the database is built from, not to the files by hand.
+
+- The dissolved-gas or water value: filled on 431 rows that had none, different on 580 rows, and on 338 rows the value is now given only as printed (the row moved to `csv/other_quantities.csv`).
+- `salt` written `not_stated` where it was blank: 897 rows.
+- Other columns, rows that differ: `gas` 252, `temperature_K` 502, `pressure_MPa` 392, `pressure_basis` 652, `salt` 25, `salt_molality` 1,841, `salt_composition` 1,130 (24 of them blank before), `m_Na` 445, `m_Cl` 456, `m_K` 67, `m_Ca` 63, `m_Mg` 59, `m_SO4` 25, `gas2` 78, `boundary_type` 563 (563 of them blank before), `method` 324, `flags` 13 (2 of them blank before).
+
+### Row ids
+
+`detail/id_changes.csv` lists every row id of the previous release that does not ship under the same id, with what happened and why: removed 295, renamed 252, retired 20.
+A renamed id keeps its source part and running number; only the gas part changed. A row that moved to another file keeps its id, so it is not listed there; the section above says where the rows went. From this release on, ids are permanent: never renamed, never reused.
+
+### The release documents
+
+- `README.md`, `CITATION.cff` and `.zenodo.json` say v2.0 and name both authors (`Abd, A., & Abushaikha, A.`), each with their own affiliation and ORCID in `CITATION.cff` and `.zenodo.json`.
+- They cite the concept DOI 10.5281/zenodo.22870466, which always resolves to the newest version, and this version's own DOI, which is minted by Zenodo at this release; added here after.
+- The version DOIs of the earlier releases: v1.0 10.5281/zenodo.22870467; v1.1 10.5281/zenodo.22872900; v1.2 10.5281/zenodo.22905509.
+- `CHANGELOG.md` keeps one section per release, newest first. The sections below are quoted from the releases that wrote them, unchanged.
 
 ## v1.2 -- definitions, source identification and the replicate flag corrected
 

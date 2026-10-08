@@ -8,18 +8,17 @@ Both directions, because they are different failures:
   * a manifest entry with no file is a file that was deleted after the build, which makes
     the published tree a different thing from the one the DOI describes.
 
-Reported separately for csv/ and provenance/, which are the data, and for the rest of the
-repository.  Standard library only: this runs in the public repository, which holds the
-files and nothing else.
+The data files are counted apart: csv/ and detail/ hold the data, and a folder of them
+with no file in it means the walk has gone blind.  Standard library only: this runs in the
+public repository, which holds the files and nothing else.
 """
-import hashlib
 import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 MANIFEST = "SHA256SUMS.txt"
-DATA_DIRS = ("csv", "provenance")
+DATA_DIRS = ("csv", "detail")
 # Not part of the published tree: version-control internals and Python bytecode, neither
 # of which a release ships.  The manifest never names them, so the walk must not either.
 SKIP_DIRS = (".git", "__pycache__", ".pytest_cache")
@@ -68,9 +67,9 @@ def main():
             problems.append("named in %s, not on disk: %s" % (MANIFEST, rel))
     data_files = [rel for rel in disk
                   if rel.split("/")[0] in DATA_DIRS]
-    if not data_files:
-        problems.append("no files found under %s -- the walk has gone blind"
-                        % "/, ".join(DATA_DIRS))
+    for folder in DATA_DIRS:
+        if not any(rel.split("/")[0] == folder for rel in data_files):
+            problems.append("no files found under %s/ -- the walk has gone blind" % folder)
     for p in problems:
         print("UNTRACKED:", p)
     print("%d files on disk, %d manifest entries, %d of them data files, %d problems"

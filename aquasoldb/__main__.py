@@ -3,13 +3,14 @@
 
     python -m aquasoldb [ROOT]
 
-ROOT is the folder holding `csv/`; without it the reader falls back to the AQUASOLDB_ROOT
-environment variable and then to the folder beside the package.
+ROOT is the folder holding `csv/` and `detail/`; without it the reader falls back to the
+AQUASOLDB_ROOT environment variable, then to the folder beside the package, then to a
+copy `download()` saved in the cache.
 """
 import sys
 
 from . import __version__
-from .tables import TABLE_NAMES, release_folder, row_counts
+from .tables import MEASUREMENT_TABLES, TABLE_NAMES, release_folder, row_counts
 
 
 def print_counts(argv=None):
@@ -28,10 +29,10 @@ def print_counts(argv=None):
         print("aquasoldb: %s" % exc, file=sys.stderr)
         return 1
     print("aquasoldb %s reading %s" % (__version__, where))
-    for family in TABLE_NAMES:
-        print("  %-20s %8d rows" % (family, counts[family]))
+    for name in TABLE_NAMES:
+        print("  %-20s %8d rows" % (name, counts[name]))
     print("  %-20s %8d rows"
-          % ("(measurements)", sum(counts[f] for f in TABLE_NAMES if f != "sources")))
+          % ("(measurements)", sum(counts[n] for n in MEASUREMENT_TABLES)))
     return 0
 
 

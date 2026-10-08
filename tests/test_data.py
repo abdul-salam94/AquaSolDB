@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-"""The DATA's own rules, re-checked in a downloader's clone (R-DB3-18).
+"""The DATA's own rules, re-checked in a downloader's clone.
 
 `test_package.py` beside this file tests the READER.  This file tests the RELEASE: it
 opens the shipped CSVs with the standard library and asks whether they still obey the
 rules the release states about itself -- the schema, the vocabularies, the ion rule, the
-row-for-row provenance, the plausibility bands.  Every one of those rules is enforced by
-the build that wrote the files; the point of running them again here is that a clone is
-the only place a reader can check, and a file edited by hand after publication is the one
+row-for-row detail, the plausibility bands.  Every one of those rules is enforced by the
+build that wrote the files; the point of running them again here is that a clone is the
+only place a reader can check, and a file edited by hand after publication is the one
 thing that must never go unnoticed.
 
-Nothing is restated.  The vocabularies, the tolerance, the forbidden markers, the row
+Nothing is restated.  The vocabularies, the tolerance, the forbidden cell values, the row
 totals and the bands are READ out of the shipped `SCHEMA.md` block titled "Machine-readable
 rule constants", and the per-file schema is read out of the shipped
 `csv/column_dictionary.csv`.  So a rule cannot be changed in the build and left standing
@@ -27,25 +27,37 @@ from collections import Counter, defaultdict
 import pytest
 
 from aquasoldb.brine import ION_CHARGE_NUMBER
+from aquasoldb.subset import FLAG_VOCABULARY, PURE_WATER
 
 csv.field_size_limit(10 ** 7)
 
-MEASUREMENT_FILES = ("solubility", "watercontent", "liquidwatercontent",
-                     "mixtures", "phaseboundaries")
-ALL_FILES = MEASUREMENT_FILES + ("sources",)
-CROSSWALK = ("provenance", "row_crosswalk.csv")
-SCREENED = ("provenance", "screened_rows.csv")
+MEASUREMENT_FILES = ("csv/solubility.csv", "csv/water_content.csv", "csv/mixtures.csv",
+                     "csv/phase_boundaries.csv", "csv/other_quantities.csv")
+SOURCES = "csv/sources.csv"
+DICTIONARY = "csv/column_dictionary.csv"
+PRINTED_VALUES = "detail/printed_values.csv"
+EXCLUDED_SOURCES = "detail/excluded_sources.csv"
+ID_CHANGES = "detail/id_changes.csv"
+ALL_FILES = MEASUREMENT_FILES + (SOURCES, DICTIONARY, PRINTED_VALUES, EXCLUDED_SOURCES,
+                                 ID_CHANGES)
 
 RULE_HEADING = "## Machine-readable rule constants"
 RULE_FENCE = "```"
+DROPPED_ZERO = re.compile(r"Dropped as always zero: ([A-Za-z0-9_, ]+)\.")
 
 #: Keys the block must carry.  A block that lost one is a release this file cannot check,
 #: which is a failure and never a silent skip.
 REQUIRED_RULE_KEYS = (
-    "flags", "method", "method_extra", "source_type", "ion_columns",
-    "ion_charge_balance_tolerance", "value_labels", "forbidden_cell_values",
-    "forbidden_columns", "published_rows", "screened_rows", "audited_rows",
+    "flags", "method", "source_type", "ion_columns", "ion_charge_balance_tolerance",
+    "value_labels", "forbidden_cell_values", "published_rows", "screened_rows",
+    "audited_rows",
 )
+
+#: Words that would make a column a statement about somebody's model fit rather than about
+#: the measurement: no column name of the release may carry one (matched as whole parts of
+#: the name between underscores).
+MODEL_ROLE_WORDS = {"fit", "fitted", "fitting", "tier", "regression", "route", "holdout",
+                    "training", "validation"}
 
 #: Floor on the number of published rows, so a reader that silently returns nothing
 #: cannot turn every test below into a pass over an empty set.
@@ -58,6 +70,10 @@ def _read(path):
     with open(path, encoding="utf-8", newline="") as fh:
         reader = csv.DictReader(fh)
         return list(reader.fieldnames or []), list(reader)
+
+
+def _stem(name):
+    return name.rsplit("/", 1)[1][:-len(".csv")]
 
 
 @pytest.fixture(scope="session")
@@ -85,22 +101,19 @@ def rules(root):
 
 @pytest.fixture(scope="session")
 def dictionary(root):
-    """The shipped column dictionary: [(column, applies_to set), ...]."""
-    _header, rows = _read(os.path.join(root, "csv", "column_dictionary.csv"))
+    """The shipped column dictionary: [(table, column, meaning), ...] in file order."""
+    header, rows = _read(os.path.join(root, *DICTIONARY.split("/")))
+    assert header[:2] == ["table", "column"], header
     assert len(rows) >= DICTIONARY_ROW_FLOOR, (
         "the column dictionary holds %d rows, floor %d" % (len(rows), DICTIONARY_ROW_FLOOR))
-    return [(r["column"], {p.strip() for p in r["applies_to"].split(",") if p.strip()})
-            for r in rows]
+    return [(r["table"], r["column"], r["meaning"]) for r in rows]
 
 
 @pytest.fixture(scope="session")
 def shipped(root):
-    """{stem: (header list, [row dict])} for the six shipped CSVs."""
-    out = {}
-    for stem in ALL_FILES:
-        out[stem] = _read(os.path.join(root, "csv", stem + ".csv"))
-    published = sum(len(rows) for stem, (_h, rows) in out.items()
-                    if stem in MEASUREMENT_FILES)
+    """{"csv/<name>.csv" or "detail/<name>.csv": (header list, [row dict])}."""
+    out = {name: _read(os.path.join(root, *name.split("/"))) for name in ALL_FILES}
+    published = sum(len(out[name][1]) for name in MEASUREMENT_FILES)
     assert published >= PUBLISHED_ROW_FLOOR, (
         "read %d published rows, floor %d -- the reader has gone blind and every check "
         "below would pass over nothing" % (published, PUBLISHED_ROW_FLOOR))
@@ -118,36 +131,39 @@ def _number(value):
 def test_every_csv_header_is_exactly_the_columns_the_dictionary_gives_it(
         shipped, dictionary):
     """A column in a file and not in the dictionary is a column with no meaning; a
-    column in the dictionary and not in its file is a promise the release does not keep."""
-    for stem in ALL_FILES:
-        header, _rows = shipped[stem]
-        declared = {name for name, applies in dictionary if stem in applies}
-        assert set(header) == declared, (
-            "csv/%s.csv and the column dictionary disagree: %s"
-            % (stem, sorted(set(header) ^ declared)))
-        assert len(header) == len(set(header)), "csv/%s.csv repeats a column name" % stem
+    column in the dictionary and not in its file is a promise the release does not keep.
+    Both folders, csv/ and detail/, and in the file's own order."""
+    for name in ALL_FILES:
+        header, _rows = shipped[name]
+        declared = [column for table, column, _m in dictionary if table == _stem(name)]
+        assert header == declared, (
+            "%s and the column dictionary disagree: %s"
+            % (name, sorted(set(header) ^ set(declared)) or "order"))
+        assert len(header) == len(set(header)), "%s repeats a column name" % name
+    files = {_stem(n) for n in ALL_FILES}
+    assert {table for table, _c, _m in dictionary} == files
 
 
-def test_no_column_anywhere_names_a_fit_tier_or_a_fit_role(shipped, dictionary, rules):
-    """R-DB3-3, fit neutrality: whether a row was used in somebody's model fit is a
-    property of the fit, and no column of this database encodes it."""
-    forbidden = {w.lower() for w in rules["forbidden_columns"]}
-    assert forbidden, "the rule block names no forbidden columns"
+def test_no_column_anywhere_names_a_role_in_a_model_fit(shipped, dictionary):
+    """Whether a row was used in somebody's model fit is a property of the fit, and no
+    column of this database encodes it."""
     named = set()
-    for stem in ALL_FILES:
-        named |= {c.strip().lower() for c in shipped[stem][0]}
-    named |= {name.strip().lower() for name, _ in dictionary}
-    offenders = sorted(named & forbidden)
-    assert not offenders, "fit-role or tier columns in the published schema: %s" % offenders
+    for name in ALL_FILES:
+        named |= {c.strip().lower() for c in shipped[name][0]}
+    named |= {column.strip().lower() for _t, column, _m in dictionary}
+    offenders = sorted(c for c in named if set(c.split("_")) & MODEL_ROLE_WORDS)
+    assert not offenders, "model-role columns in the published schema: %s" % offenders
 
 
 # ------------------------------------------------------------- the vocabularies
 def test_every_flag_on_every_row_is_in_the_published_flag_vocabulary(shipped, rules):
     vocabulary = set(rules["flags"])
-    assert len(vocabulary) >= 3, vocabulary
+    assert vocabulary == set(FLAG_VOCABULARY), (
+        "the release's flags and the reader's FLAG_VOCABULARY disagree: %s"
+        % sorted(vocabulary ^ set(FLAG_VOCABULARY)))
     seen = Counter()
-    for stem in MEASUREMENT_FILES:
-        for row in shipped[stem][1]:
+    for name in MEASUREMENT_FILES:
+        for row in shipped[name][1]:
             for flag in (row.get("flags") or "").split(";"):
                 if flag.strip():
                     seen[flag.strip()] += 1
@@ -157,9 +173,9 @@ def test_every_flag_on_every_row_is_in_the_published_flag_vocabulary(shipped, ru
 
 
 def test_every_method_value_is_in_the_published_method_vocabulary(shipped, rules):
-    vocabulary = set(rules["method"]) | set(rules["method_extra"])
-    seen = Counter(row.get("method", "") for stem in MEASUREMENT_FILES
-                   for row in shipped[stem][1])
+    vocabulary = set(rules["method"])
+    seen = Counter(row.get("method", "") for name in MEASUREMENT_FILES + (SOURCES,)
+                   for row in shipped[name][1])
     assert seen, "no method values read"
     blank = seen.pop("", 0)
     assert not blank, "%d published rows carry no method value" % blank
@@ -168,40 +184,28 @@ def test_every_method_value_is_in_the_published_method_vocabulary(shipped, rules
 
 
 def test_every_source_carries_exactly_one_source_type_word(shipped, rules):
-    """R-DB3-19(a): one word per source, out of the six the release publishes."""
+    """One word per source, out of the six the release publishes."""
     vocabulary = set(rules["source_type"])
     assert len(vocabulary) == 6, sorted(vocabulary)
-    _header, rows = shipped["sources"]
+    _header, rows = shipped[SOURCES]
     seen = Counter((r.get("source_type") or "").strip() for r in rows)
     assert not seen.pop("", 0), "sources with an empty source_type"
     outside = sorted(set(seen) - vocabulary)
     assert not outside, "source_type values outside the published vocabulary: %s" % outside
 
 
-def test_a_url_is_a_well_formed_web_record_and_never_sits_beside_a_doi(shipped):
-    """R-DB3-19(a).  The release carries no network test -- these tests must run in a
-    clone with no internet -- so what is checked is the SHAPE of the locator and the rule
-    that a source with a DOI has no second locator to keep in step with it.
-
-    R-DB3-26 (author, 2026-09-21, "B. Widen the rule to allow http"): `http://` passes as
-    well as `https://`.  One published source exists only at an http address -- a Chinese
-    journal's publisher page, where the https form fails its certificate check -- and that
-    source has no DOI, so refusing http would publish it with no locator at all.  What is
-    still refused is anything that is not a web address: `ftp://` and the rest stay red,
-    and `code/tests/test_aquasoldb_package.py` injects an `ftp://` value to prove it.
-    """
-    _header, rows = shipped["sources"]
-    pattern = re.compile(r"^https?://[^\s\"'<>]+\.[^\s\"'<>]+$")
-    malformed, doubled = [], []
-    for r in rows:
-        url = (r.get("url") or "").strip()
-        doi = (r.get("doi") or "").strip()
-        if url and not pattern.match(url):
-            malformed.append((r["source_id"], url))
-        if url and doi:
-            doubled.append(r["source_id"])
-    assert not malformed, "urls that are not well-formed http(s) locators: %s" % malformed
-    assert not doubled, "sources carrying both a doi and a url: %s" % doubled
+def test_a_doi_is_a_bare_doi_and_every_source_is_cited(shipped):
+    """The release carries no network test -- these tests must run in a clone with no
+    internet -- so what is checked is the SHAPE of the locator: a DOI cell is the bare
+    `10.<registrant>/<suffix>`, never a web address, and every source has a reference."""
+    _header, rows = shipped[SOURCES]
+    pattern = re.compile(r"^10\.\d{4,9}/\S+$")
+    malformed = [(r["source_id"], r["doi"]) for r in rows
+                 if (r.get("doi") or "").strip() and not pattern.match(r["doi"])]
+    assert not malformed, "doi cells that are not bare DOIs: %s" % malformed[:5]
+    uncited = [r["source_id"] for r in rows if not (r.get("reference") or "").strip()]
+    assert not uncited, "sources with no reference: %s" % uncited[:5]
+    assert len({r["source_id"] for r in rows}) == len(rows), "a source_id repeats"
 
 
 # ---------------------------------------------------------------- the cells
@@ -215,12 +219,12 @@ def test_no_cell_in_any_shipped_csv_is_a_sentinel_or_a_placeholder(shipped, rule
     forbidden = set(rules["forbidden_cell_values"])
     assert len(forbidden) >= 10, sorted(forbidden)
     hits = []
-    for stem in ALL_FILES:
-        header, rows = shipped[stem]
+    for name in ALL_FILES:
+        header, rows = shipped[name]
         for row in rows:
             for column in header:
                 if (row.get(column) or "").strip() in forbidden:
-                    hits.append((stem, column, row.get(column)))
+                    hits.append((name, column, row.get(column)))
     assert not hits, "%d sentinel or placeholder cells: %s" % (len(hits), hits[:5])
 
 
@@ -232,8 +236,8 @@ def test_every_number_lies_inside_the_band_the_release_publishes_for_it(shipped,
              for key, v in rules.items() if key.startswith("range ") and len(v) == 2}
     assert len(bands) >= 6, sorted(bands)
     checked, offenders = 0, []
-    for stem in MEASUREMENT_FILES:
-        header, rows = shipped[stem]
+    for name in MEASUREMENT_FILES:
+        header, rows = shipped[name]
         for column, (low, high) in sorted(bands.items()):
             if column not in header:
                 continue
@@ -243,11 +247,11 @@ def test_every_number_lies_inside_the_band_the_release_publishes_for_it(shipped,
                     continue
                 value = _number(cell)
                 if value is None:
-                    offenders.append((stem, row["point_id"], column, cell, "not a number"))
+                    offenders.append((name, row["point_id"], column, cell, "not a number"))
                     continue
                 checked += 1
                 if not (low <= value <= high):
-                    offenders.append((stem, row["point_id"], column, cell,
+                    offenders.append((name, row["point_id"], column, cell,
                                       "outside %g..%g" % (low, high)))
     assert checked >= PUBLISHED_ROW_FLOOR, (
         "only %d numbers were checked against a band; the columns have been renamed and "
@@ -257,10 +261,12 @@ def test_every_number_lies_inside_the_band_the_release_publishes_for_it(shipped,
 
 
 # ------------------------------------------------------------------- the ions
-def test_the_six_ion_columns_ship_whole_or_blank_and_balance_charge(shipped, rules):
-    """R-DB3-3. Three rules in one: the six columns are in every measurement file; a row
-    fills all six or none; and a filled row balances charge inside the published
-    tolerance. The tolerance is read from the release, and is a ceiling."""
+def test_the_ion_columns_ship_whole_or_blank_and_balance_charge(shipped, rules, dictionary):
+    """Three rules in one: a measurement file carries each of the six ion columns or the
+    dictionary declares it dropped as always zero; a row fills all of its file's ion
+    columns or none; and a filled row balances charge inside the published tolerance,
+    a dropped column counting as zero. The tolerance is read from the release, and is a
+    ceiling."""
     ions = rules["ion_columns"]
     assert len(ions) == 6, ions
     assert set(ions) == set(ION_CHARGE_NUMBER), (
@@ -268,109 +274,120 @@ def test_the_six_ion_columns_ship_whole_or_blank_and_balance_charge(shipped, rul
         % sorted(set(ions) ^ set(ION_CHARGE_NUMBER)))
     tolerance = float(rules["ion_charge_balance_tolerance"][0])
     assert tolerance > 0
-    partial, unbalanced, filled = [], [], 0
-    for stem in MEASUREMENT_FILES:
-        header, rows = shipped[stem]
-        missing = [c for c in ions if c not in header]
-        assert not missing, "csv/%s.csv is missing ion columns %s" % (stem, missing)
+    partial, unbalanced, filled, undeclared = [], [], 0, []
+    for name in MEASUREMENT_FILES:
+        header, rows = shipped[name]
+        dropped = set()
+        for table, _column, meaning in dictionary:
+            if table == _stem(name):
+                for listed in DROPPED_ZERO.findall(meaning):
+                    dropped |= {c.strip() for c in listed.split(",") if c.strip()}
+        present = [c for c in ions if c in header]
+        undeclared += [(name, c) for c in ions if c not in header and c not in dropped]
         for row in rows:
-            cells = [(row.get(c) or "").strip() for c in ions]
+            cells = [(row.get(c) or "").strip() for c in present]
             given = [c for c in cells if c]
             if not given:
                 continue
-            if len(given) != len(ions):
-                partial.append((stem, row["point_id"]))
+            if len(given) != len(present):
+                partial.append((name, row["point_id"]))
                 continue
             filled += 1
             values = [_number(c) for c in cells]
             if any(v is None for v in values):
-                unbalanced.append((stem, row["point_id"], "non-numeric ion cell"))
+                unbalanced.append((name, row["point_id"], "non-numeric ion cell"))
                 continue
-            residual = sum(v * ION_CHARGE_NUMBER[c] for c, v in zip(ions, values))
+            residual = sum(v * ION_CHARGE_NUMBER[c] for c, v in zip(present, values))
             if abs(residual) > tolerance:
-                unbalanced.append((stem, row["point_id"], residual))
+                unbalanced.append((name, row["point_id"], residual))
+    assert not undeclared, ("ion columns missing from a file without the dictionary "
+                            "declaring them dropped as always zero: %s" % undeclared)
     assert filled >= PUBLISHED_ROW_FLOOR, (
         "only %d rows carry a filled ion composition; the columns have been renamed and "
         "the charge balance is being checked on nothing" % filled)
-    assert not partial, "%d rows carry some but not all six ions: %s" % (len(partial),
-                                                                         partial[:5])
+    assert not partial, "%d rows carry some but not all ion columns: %s" % (len(partial),
+                                                                            partial[:5])
     assert not unbalanced, ("%d filled rows miss charge balance by more than %g: %s"
                             % (len(unbalanced), tolerance, unbalanced[:5]))
+    # A pure-water row never carries a non-zero ion.
+    salty_water = [(name, row["point_id"]) for name in MEASUREMENT_FILES
+                   for row in shipped[name][1] if row.get("salt") == PURE_WATER
+                   and any(_number(row.get(c)) for c in ions if (row.get(c) or "").strip())]
+    assert not salty_water, salty_water[:5]
 
 
-# -------------------------------------------------------------- the provenance
-def test_one_crosswalk_row_per_published_row_and_one_published_row_per_crosswalk_row(
-        root, shipped):
-    """The release's core traceability promise: every published row names the internal
-    record behind it, and the crosswalk names no row this release does not publish."""
-    _header, cross = _read(os.path.join(root, *CROSSWALK))
-    assert cross, "provenance/row_crosswalk.csv is empty"
-    published = set()
-    for stem in MEASUREMENT_FILES:
-        published |= {r["point_id"] for r in shipped[stem][1]}
-    listed = Counter(r["public_point_id"] for r in cross)
+# -------------------------------------------------------------- the detail files
+def test_one_printed_values_row_per_published_row_and_one_published_row_per_printed_row(
+        shipped):
+    """The release's traceability promise: every published row has its value, unit and
+    page as printed in detail/printed_values.csv, and that file names no row this release
+    does not publish."""
+    _header, printed = shipped[PRINTED_VALUES]
+    assert printed, "detail/printed_values.csv is empty"
+    published = Counter()
+    for name in MEASUREMENT_FILES:
+        published.update(r["point_id"] for r in shipped[name][1])
+    twice = sorted(k for k, n in published.items() if n > 1)
+    assert not twice, "point_ids published twice: %s" % twice[:5]
+    listed = Counter(r["point_id"] for r in printed)
     repeated = sorted(k for k, n in listed.items() if n > 1)
-    assert not repeated, "crosswalk names %d point_ids twice: %s" % (len(repeated),
-                                                                     repeated[:5])
-    assert len(cross) == len(published), (
-        "%d crosswalk rows for %d published rows" % (len(cross), len(published)))
-    assert set(listed) == published, sorted(set(listed) ^ published)[:10]
+    assert not repeated, "printed_values names %d point_ids twice: %s" % (len(repeated),
+                                                                          repeated[:5])
+    assert set(listed) == set(published), sorted(set(listed) ^ set(published))[:10]
 
 
-def test_the_published_and_screened_rows_account_for_every_audited_row(
-        root, shipped, rules):
-    """The screened list is the other half of the crosswalk: the audited rows this
-    release does NOT publish, each with its reason. Published plus screened must be the
-    audited total the release states -- a number that comes from the compilation's own
-    records, not from adding these two files together."""
-    _header, screened = _read(os.path.join(root, *SCREENED))
-    assert screened, "provenance/screened_rows.csv is empty"
-    reasonless = [r for r in screened if not (r.get("reason") or "").strip()]
-    assert not reasonless, "%d screened rows carry no reason" % len(reasonless)
-    published = sum(len(shipped[stem][1]) for stem in MEASUREMENT_FILES)
+def test_the_published_and_left_out_rows_account_for_every_audited_row(shipped, rules):
+    """detail/excluded_sources.csv counts the audited rows this release does NOT publish,
+    by source and reason. Published plus left out must be the audited total the release
+    states -- a number that comes from the compilation's own records, not from adding
+    these files together."""
+    _header, excluded = shipped[EXCLUDED_SOURCES]
+    assert excluded, "detail/excluded_sources.csv is empty"
+    reasonless = [r for r in excluded if not (r.get("reason") or "").strip()]
+    assert not reasonless, "%d excluded-source rows carry no reason" % len(reasonless)
+    left_out = sum(int(r["rows_left_out"]) for r in excluded)
+    published = sum(len(shipped[name][1]) for name in MEASUREMENT_FILES)
     stated_published = int(rules["published_rows"][0])
     stated_screened = int(rules["screened_rows"][0])
     audited = int(rules["audited_rows"][0])
     assert published == stated_published, (
         "the CSVs hold %d rows, the release states %d" % (published, stated_published))
-    assert len(screened) == stated_screened, (
-        "the screened list holds %d rows, the release states %d"
-        % (len(screened), stated_screened))
-    assert published + len(screened) == audited, (
-        "%d published + %d screened = %d, but the release states %d audited rows"
-        % (published, len(screened), published + len(screened), audited))
+    assert left_out == stated_screened, (
+        "the excluded sources leave out %d rows, the release states %d"
+        % (left_out, stated_screened))
+    assert published + left_out == audited, (
+        "%d published + %d left out = %d, but the release states %d audited rows"
+        % (published, left_out, published + left_out, audited))
 
 
-def test_every_replicate_flag_sits_on_both_rows_of_a_byte_identical_pair(shipped, rules):
+def test_every_replicate_flag_sits_on_both_rows_of_an_identical_pair(shipped, rules):
     """`replicate` means the paper prints this measurement more than once and BOTH rows
     are kept.  So the flag is never true of a row on its own: a flagged row must have at
-    least one other row byte-identical to it -- the same in every published column but
-    `point_id`, the flag included.  Drop the flag from one member of a pair and this goes
-    red, which is what makes it a check.
+    least one other row identical to it -- the same in every published column but
+    `point_id` (the flag included), and the same value, unit and page as printed.  Drop
+    the flag from one member of a pair and this goes red, which is what makes it a check.
 
-    Deliberately ONE-DIRECTIONAL, and the reason is worth stating because the converse
-    looks tempting.  Two rows of one paper can print the same digits without being the
-    same measurement: this release holds 214 groups of rows identical but for `point_id`
-    and only 34 of them are printed replicates.  `replicate` is a statement about the
-    record behind the row, and a published row that merely coincides with a pair is not
-    one, so "every identical pair is flagged" is FALSE here and is not asserted.
+    Deliberately ONE-DIRECTIONAL: two rows of one paper can print the same digits without
+    being the same measurement, so "every identical pair is flagged" is not asserted.
     """
     assert "replicate" in set(rules["flags"]), rules["flags"]
+    printed_header, printed_rows = shipped[PRINTED_VALUES]
+    printed = {r["point_id"]: tuple(r[c] for c in printed_header if c != "point_id")
+               for r in printed_rows}
     lonely, flagged = [], 0
-    for stem in MEASUREMENT_FILES:
-        header, rows = shipped[stem]
-        if not rows:
-            continue
+    for name in MEASUREMENT_FILES:
+        header, rows = shipped[name]
         key_columns = [c for c in header if c != "point_id"]
         grouped = defaultdict(list)
         for row in rows:
-            grouped[tuple(row.get(c) or "" for c in key_columns)].append(row)
+            key = tuple(row.get(c) or "" for c in key_columns) + printed[row["point_id"]]
+            grouped[key].append(row)
         for members in grouped.values():
             if not any("replicate" in (m.get("flags") or "") for m in members):
                 continue
             flagged += len(members)
             if len(members) < 2:
-                lonely.append((stem, members[0]["point_id"]))
+                lonely.append((name, members[0]["point_id"]))
     assert flagged, ("no row in this release carries the `replicate` flag, so this test "
                      "checked nothing; the flag was in the vocabulary when it was written")
     assert not lonely, ("%d rows are flagged `replicate` and have no identical twin: %s"
