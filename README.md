@@ -1,4 +1,3 @@
-<!-- DRAFT for the author's approval. Not approved, not deposited, not published. -->
 # AquaSolDB v2.0
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22870466.svg)](https://doi.org/10.5281/zenodo.22870466)
@@ -15,9 +14,9 @@ into one set of tables with one set of units. 23,263 measurement rows from 499
 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6,
 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous
 solubilities of organic compounds; this one holds gas solubilities in water
-and brine. **Status: v2.0 (public candidate, NOT deposited)** -- archived on
-Zenodo under concept DOI 10.5281/zenodo.22870466; this version's own DOI is
-minted at the release and written here after.
+and brine. **Status: AquaSolDB v2.0, released 2026-10-08** (version DOI: added
+after the Zenodo deposit) -- concept DOI 10.5281/zenodo.22870466, which always
+resolves to the newest version on Zenodo.
 
 ## How to cite
 
@@ -32,7 +31,7 @@ instruction in machine-readable form.
 
 The concept DOI 10.5281/zenodo.22870466 in that line always resolves to the newest
 version, so it is the one to cite for the database as a whole. To cite exactly
-this version, use its own DOI (minted by Zenodo at this release; added here after). A version DOI never
+this version, use its own DOI (added after the Zenodo deposit). A version DOI never
 resolves to a different set of rows. The files and the release notes are in
 the GitHub repository https://github.com/abdul-salam94/AquaSolDB.
 
@@ -220,9 +219,11 @@ Version 2.0 is the corrected database in a simpler layout. Every measurement row
   https://github.com/abdul-salam94/AquaSolDB
 - Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
-- This version's own DOI: minted by Zenodo at this release; added here after.
+- This version's own DOI: added after the Zenodo deposit.
 - Web viewer, to browse, plot and download the data in a browser, with no
-  installation: (its address is added here at publication).
+  installation: https://abdul-salam94.github.io/AquaSolDB/.
+  The repository's `docs/` folder holds this web viewer, served at
+  https://abdul-salam94.github.io/AquaSolDB/; it is not documentation.
 
 **Python package.** The repository ships a small reader, `aquasoldb`: it loads
 these files into pandas with the units and blank rules above, narrows by gas,

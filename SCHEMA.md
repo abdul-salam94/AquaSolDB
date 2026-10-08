@@ -1,4 +1,3 @@
-<!-- DRAFT for the author's approval. Not approved, not deposited, not published. -->
 # AquaSolDB v2.0 -- schema
 
 Every column of every published file, with its unit, what it means, how its value is set, and what an empty cell means.

@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<meta name="theme-color" content="#15181d">
+<script>
+(function () {
+  var t = null;
+  try { t = localStorage.getItem("aquasoldb-theme"); } catch (e) {}
+  if (t !== "dark" && t !== "light") t = "dark";
+  document.documentElement.setAttribute("data-theme", t);
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "dark" ? "#15181d" : "#ffffff");
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@600&display=swap">
+<title>AquaSolDB viewer</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-size: 16px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+.banner { text-align: center; padding: 8px 14px; font-size: 14px; }
+header.top h1 { margin: 0; }
+.tabs { display: flex; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.tabs button { flex: 0 0 auto; min-height: 44px; font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+.tabs .short { display: none; }
+.sidehead { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+.sidehead b { font-size: 16px; }
+.sidehead span { font-size: 13px; }
+#side .morebtn { display: none; }
+.field { margin-bottom: 12px; min-width: 0; }
+.lbl { display: flex; align-items: center; gap: 6px; font-size: 14px; margin-bottom: 6px; }
+.hint { font-size: 12px; font-weight: 400; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip, .pchip { min-height: 40px; font: inherit; font-size: 14px; cursor: pointer; padding: 0 12px;
+  display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.help { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; margin: -9px 0;
+  border: none; background: none; cursor: pointer; padding: 0; color: inherit; }
+.help span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid currentColor; font-size: 12px; opacity: .7; }
+.helptext { display: none; font-size: 13px; padding: 6px 8px; margin: -2px 0 8px; }
+.helptext.open { display: block; }
+.range-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.range-row .rl { width: 32px; }
+.range-row .v { min-width: 52px; text-align: right; font-variant-numeric: tabular-nums; }
+input[type=range] { flex: 1; min-width: 0; height: 40px; }
+.check { display: flex; align-items: center; gap: 10px; min-height: 40px; font-size: 14px; cursor: pointer; }
+.check input { width: 20px; height: 20px; flex: 0 0 auto; }
+input[type=text] { width: 100%; font: inherit; padding: 8px 10px; min-height: 44px; }
+.countbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin: 0 0 14px; }
+.count { font-size: 17px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; font: inherit; font-size: 15px; cursor: pointer; }
+.card { margin-bottom: 18px; min-width: 0; }
+.sechead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 8px; }
+.sechead h2 { margin: 0; font-size: 18px; }
+.secnote { font-size: 13px; }
+.plotctl { display: flex; flex-wrap: wrap; gap: 0 28px; }
+.seg { display: inline-flex; }
+.seg label { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; cursor: pointer; font-size: 14px; position: relative; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.pchip .tick { display: inline-block; width: 12px; text-align: center; font-size: 13px; }
+.sw { flex: 0 0 auto; display: block; }
+.tablewrap { overflow: auto; max-height: 70vh; -webkit-overflow-scrolling: touch; margin: 8px 0 6px; }
+table { border-collapse: separate; border-spacing: 0; font-size: 13px; width: max-content; min-width: 100%; }
+th, td { padding: 7px 10px; text-align: left; white-space: nowrap; }
+th { position: sticky; top: 0; z-index: 2; cursor: pointer; }
+th.sel, td.sel { width: 44px; text-align: center; position: sticky; left: 0; z-index: 1; }
+th.sel { z-index: 3; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr { cursor: pointer; }
+td.sel input { width: 18px; height: 18px; }
+.colhelp { font-size: 13px; min-height: 20px; }
+.printed { padding: 10px 12px; margin: 10px 0; }
+.printed h3 { font-size: 15px; margin: 0 0 6px; }
+.printed .tablewrap { max-height: none; }
+.plot { position: relative; }
+.plot svg { width: 100%; height: auto; display: block; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+.plot svg { cursor: crosshair; }
+.tip { position: absolute; display: none; pointer-events: none; font-size: 12px; line-height: 1.35; padding: 8px 10px; width: max-content; max-width: min(320px, 100%); z-index: 5; overflow-wrap: anywhere; }
+.tip table { font-size: 12px; min-width: 0; width: auto; }
+.tip td { border: none !important; padding: 1px 8px 1px 0 !important; background: none !important; white-space: normal; vertical-align: top; }
+.tip td.k { white-space: nowrap; }
+.caption { font-size: 13px; margin: 6px 0; }
+.info { padding: 12px 14px; font-size: 14px; }
+#body { min-width: 0; }
+.shell { min-height: 100vh; }  /* keeps the footer below the fold while a table loads (no layout shift) */
+@media (max-width: 760px) {
+  #side .morebtn { display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 0 8px; min-height: 48px;
+    font: inherit; cursor: pointer; text-align: left; padding: 6px 12px; }
+  #side .morebtn .sub { font-size: 12px; flex: 1 1 auto; opacity: .75; }
+  #side .morebtn .caret { margin-left: auto; }
+  #side.nomore .morebtn { display: none; }
+  #side:not(.open) #more { display: none; }
+  #side.open #more { display: block; padding-top: 10px; }
+  #quick .field { margin-bottom: 8px; }
+  .plotctl { gap: 0 16px; }
+}
+/* ---- real-data additions: tick-box lists, pager, legend, footer ---- */
+.banner a, .foot a { color: inherit; text-decoration: underline; }
+.listsearch { margin-bottom: 6px; }
+.checklist { max-height: 210px; overflow-y: auto; -webkit-overflow-scrolling: touch; border: 1px solid rgba(128,128,128,.35); border-radius: 6px; padding: 2px 0; }
+.checklist .li { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 10px; font-size: 14px; cursor: pointer; }
+.checklist .lmore { font-size: 13px; opacity: .8; padding: 8px 10px; }
+.checklist .li + .li { border-top: 1px solid rgba(128,128,128,.15); }
+.checklist .li input { width: 18px; height: 18px; flex: 0 0 auto; margin: 0; }
+.checklist .nm { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.checklist .n { font-size: 12px; opacity: .75; font-variant-numeric: tabular-nums; }
+.checklist .li.gone { opacity: .7; font-style: italic; }  /* a picked plot source with no rows under the current filters */
+.checklist .li.gone .n { opacity: 1; white-space: nowrap; }
+.listbtns { display: flex; gap: 8px; margin-top: 6px; }
+.btn.small { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.btn[disabled] { opacity: .45; cursor: default; }
+.pickfield { flex: 1 1 280px; max-width: 460px; }
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0; }
+.pager .pinfo { font-size: 14px; font-variant-numeric: tabular-nums; text-align: center; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin: 6px 0 2px; }
+.legend .lg { display: inline-flex; align-items: center; gap: 5px; }
+.legend .more { opacity: .8; }
+td.long { white-space: normal; min-width: 16em; max-width: 34em; }
+tr.sizer { visibility: collapse; }
+.info.err { border-left: 4px solid #c0392b; }
+.foot { max-width: 1180px; margin: 0 auto; padding: 14px 20px 36px; font-size: 13px; line-height: 1.5; }
+.foot p { margin: 0 0 6px; }
+@media (max-width: 760px) {
+  td.long { min-width: 14em; max-width: 20em; }
+  .foot { padding: 10px 14px 28px; }
+  .pickfield { max-width: none; }
+}
+/* ---- units and extra columns panel; converted cells ---- */
+.units > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-height: 44px; padding: 10px 0; cursor: pointer; list-style-position: outside; }
+.units > summary .sumt { font-weight: 600; }
+.unitgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0 28px; padding-top: 4px; }
+.unitgrid .seg label { padding: 0 16px; }
+.howconv > summary { min-height: 40px; display: flex; align-items: center; cursor: pointer; font-size: 14px; }
+.howtext { font-size: 14px; padding: 4px 12px 8px; }
+.howtext p { margin: 6px 0; }
+.howtext ul { margin: 6px 0; padding-left: 20px; }
+.howtext li { margin: 3px 0; }
+td.conv .why { font-size: 12px; font-style: italic; }
+.plotctl .seg { flex-wrap: wrap; }
+.units > summary, .howconv > summary { list-style: none; }
+.units > summary::-webkit-details-marker, .howconv > summary::-webkit-details-marker { display: none; }
+.units > summary::after, .howconv > summary::after { content: "\25BE"; margin-left: auto; padding-left: 8px; font-size: 14px; }
+.units[open] > summary::after, .howconv[open] > summary::after { content: "\25B4"; }
+.howconv > summary::after { margin-left: 8px; }
+/* ---- round-1 fixes: chip counts, number boxes, two download buttons, plot pickers, hollow markers ---- */
+.chip .cn { font-size: 12px; opacity: .7; font-variant-numeric: tabular-nums; }
+.chip[disabled] { opacity: .4; cursor: default; }
+.range-row .rnum { width: 92px; flex: 0 0 auto; font: inherit; font-size: 14px; padding: 6px 8px; min-height: 40px; font-variant-numeric: tabular-nums; }
+.dlbtns { display: flex; flex-wrap: wrap; gap: 8px; }
+.pselect { font: inherit; font-size: 14px; min-height: 40px; padding: 0 8px; max-width: 100%; }
+.sidehead #clearAll { margin-left: auto; }
+.sidehead #clearAll[hidden] { display: none; }
+ul.zero { margin: 6px 0 10px; padding-left: 20px; }
+.plot .pt.calc { fill: none; fill-opacity: 0; stroke-width: 1.4; }
+/* ---- round-2 fixes (function only; the look is round 3): sortable titles, column-help box, page box, tab-row edge,
+   focus rings on the hidden radios, a tappable touch tooltip, the first-visit note ---- */
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+th .sortbtn { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; text-align: left; }
+th .colq { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin: -4px 0 -4px 4px;
+  padding: 0; border: none; background: none; color: inherit; cursor: pointer; vertical-align: middle; }
+th .colq span { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%;
+  border: 1px solid currentColor; font-size: 10px; opacity: .7; }
+.tablecard { position: relative; }
+.colpop { position: absolute; z-index: 6; width: min(360px, 100%); font-size: 13px; padding: 8px 10px; background: var(--field, #fff);
+  border: 1px solid var(--rule, #ccc); box-shadow: var(--tipshadow, none); white-space: normal; }
+.colpop .cplinks { margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.pjump input { width: 64px; font: inherit; font-size: 14px; padding: 4px 6px; }
+.tabs.ovr-r { -webkit-mask-image: linear-gradient(to right, #000 85%, transparent); mask-image: linear-gradient(to right, #000 85%, transparent); }
+.tabs.ovr-l { -webkit-mask-image: linear-gradient(to left, #000 85%, transparent); mask-image: linear-gradient(to left, #000 85%, transparent); }
+.tabs.ovr-l.ovr-r { -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--accent, #be5915); outline-offset: -2px; }
+.plot svg:focus-visible { outline: 2px solid var(--accent, #be5915); outline-offset: 2px; }
+.tip.touch { pointer-events: auto; }
+.tip .btn { margin-top: 6px; }
+.guide { max-width: 1180px; margin: 10px auto 0; }
+.guide[hidden] { display: none; }
+.nearest { margin: 4px 0 10px; }
+/* the column-help box lets clicks through to the rows under it (it stays open across redraws); its links and Close work */
+.colpop { pointer-events: none; }
+.colpop a, .colpop button { pointer-events: auto; }
+/* ---- round 3 (design review D01-D33): one container width, the chart beside the filters, chart tools, banner, cite box,
+   loading blocks, print ---- */
+/* D28: header, tabs, tab note, guide, shell and footer share one width and side padding */
+header.top, .tabnote, .shell, .foot, .guide { max-width: 1180px; margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+.guide { margin-top: 10px; }
+.guide.info { padding: 12px 24px; }
+.tabs { max-width: 1180px; margin-left: auto; margin-right: auto; padding: 0 24px; border-bottom: 0 !important;
+  background: linear-gradient(var(--rule, #ddd), var(--rule, #ddd)) center bottom / calc(100% - 48px) 1px no-repeat; }
+.tabs button:first-child { padding-left: 0; }
+.tabnote p { margin: 8px 0 0; font-size: 14px; max-width: 95ch; }
+.foot p { max-width: 75ch; }
+/* D27: Cite, Download data and the round theme button at the top right */
+header.top .toprow { flex-wrap: wrap; }
+.topact { display: flex; align-items: center; gap: 8px; }
+.topact .btn[hidden] { display: none; }
+/* D14 + D32: a one-line banner; the rest under the i */
+.banner { position: relative; padding: 4px 16px; font-size: 13px; }
+.bwrap { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 2px 6px; flex-wrap: wrap; }
+.bmore > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; min-width: 32px; min-height: 32px; font-size: 16px; }
+.bmore > summary::-webkit-details-marker { display: none; }
+.bmore .bmoretext { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); width: min(560px, calc(100vw - 32px)); z-index: 30;
+  padding: 10px 12px; text-align: left; font-size: 13px; }
+/* D01 + D02 + D20: from 1024 px the chart column on the left, the filters as a 300 px column on the right */
+@media (min-width: 1024px) {
+  .shell { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 0 28px; align-items: start; }
+  #body { grid-column: 1; grid-row: 1; }
+  #side { grid-column: 2; grid-row: 1; margin-bottom: 0; }  /* not sticky: it would slide over the full-width table below */
+  #quick, #more { display: block; }
+}
+/* the source picker beside the chart where there is room, under it otherwise */
+.plotmain { display: block; }
+@media (min-width: 1280px) {
+  .plotmain { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 0 18px; align-items: start; }
+  .plotmain .pickfield .checklist { max-height: 320px; }
+}
+.plotctl .field { margin-bottom: 6px; }
+.plotctl .field.wide { flex: 1 1 100%; }
+.check.small { min-height: 32px; font-size: 13px; gap: 8px; }
+.check.small input { width: 16px; height: 16px; }
+.pickfield { max-width: none; }
+.plot svg.zoommode { touch-action: none; }
+/* D08: the tooltip pinned under the chart on a phone or after a tap */
+.tip .tiphead { font-size: 13px; margin-bottom: 4px; }
+.tip .tdoi { display: block; font-size: 11px; }
+.tip .tid { font-size: 11px; margin-top: 4px; }
+.tip.pinned { position: static; display: block; width: auto; max-width: none; margin-top: 8px; pointer-events: auto; }
+/* legend entries are buttons: a click brings that source to the front (D18) */
+.legend .lg { font: inherit; font-size: 13px; background: none; border: none; padding: 2px 4px; min-height: 32px; cursor: pointer; text-align: left; }
+.legfold > summary { cursor: pointer; min-height: 40px; display: flex; align-items: center; font-size: 14px; }
+/* D21: one caption line, the rest behind the i */
+.infobtn { background: none; border: none; cursor: pointer; font: inherit; font-size: 15px; padding: 0 4px; min-width: 32px; min-height: 32px; }
+.capmore { display: block; margin-top: 4px; }
+.capmore[hidden] { display: none; }
+/* D04: chart tools under the chart */
+.ptools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 10px 0 4px; }
+.ptools .ptlbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; margin-left: 6px; }
+.ptools .btn[hidden] { display: none; }
+@media (hover: hover) and (pointer: fine) { #zoomMode { display: none; } }
+/* D23: the download box */
+.dlbox { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.dlopts { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0 14px; }
+.dlopts .check { min-height: 36px; font-size: 13px; }
+.dlnote { font-size: 12px; max-width: 46ch; text-align: right; opacity: .85; }
+.countbar .caption:empty { display: none; }
+/* D33: the units arrow right after its words */
+.units > summary::after { margin-left: 6px; }
+.units > summary .chg { font-size: 13px; text-decoration: underline; }
+.units > summary .hint + .chg { margin-left: 4px; }
+/* D16: Sources and Column meanings show the whole table */
+.tablewrap.full { max-height: none; }
+/* D05: the cite box */
+.citedlg { width: min(640px, calc(100vw - 32px)); padding: 18px 22px; border-radius: 4px; }
+.citedlg::backdrop { background: rgba(0, 0, 0, .5); }
+.citedlg .clbl { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; margin-top: 12px; }
+.citedlg .ctext { margin: 4px 0 6px; }
+.citedlg .cbib { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; padding: 8px 10px; margin: 4px 0 6px; }
+.citedlg form { margin-top: 10px; }
+/* D26: grey blocks while a table loads */
+.skel { padding-top: 4px; }
+.sk { border-radius: 3px; margin: 0 0 10px; }
+.sk-count { height: 40px; width: 55%; } .sk-title { height: 28px; width: 70%; } .sk-chart { height: 320px; } .sk-row { height: 26px; }
+@media (prefers-reduced-motion: no-preference) { .sk { animation: skpulse 1.4s ease-in-out infinite; } }
+@keyframes skpulse { 50% { opacity: .55; } }
+@media (max-width: 760px) {
+  header.top, .tabnote, .shell, .foot, .guide { padding-left: 14px; padding-right: 14px; }
+  .tabs { padding: 0 14px; background-size: calc(100% - 28px) 1px; }
+  header.top h1 { font-size: 26px; }
+  .topact .btn.small { min-height: 40px; padding: 0 12px; }
+  .charthead .ctitle { font-size: 19px; }
+  .dlbox { align-items: stretch; }
+  .dlopts { justify-content: flex-start; }
+  .dlnote { text-align: left; max-width: none; }
+}
+/* D04: print the chart and the table, not the controls; colours as on screen, the light palette */
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .banner .bmore, .topact, .tabs, #side, .plotctl, .pickfield, .ptools, .pager, .guide, .dlbox, .unitcard, .colq, .tip, td.sel, th.sel,
+  .infobtn, .legfold > summary, .skel, dialog, .colpop { display: none !important; }
+  .shell { display: block; max-width: none; padding: 0; min-height: 0; }
+  .tablewrap { max-height: none !important; overflow: visible !important; }
+  .plotmain { display: block; }
+  .legfold .legend { display: flex; }
+  header.top, .foot { padding-left: 0; padding-right: 0; }
+}
+/* D11: the column-help and filter-help buttons show an "i" (what it means), apart from the title (sort) */
+th .colq span, .help span { font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 700; }
+th .colq { width: 28px; height: 28px; }
+.count .plotmiss { display: block; font-family: Lato, "Segoe UI", system-ui, sans-serif; font-size: 13px; color: var(--muted, #6e6e6e); margin-top: 2px; }
+.count .plotmiss:empty { display: none; }
+/* the count beside the download box; the chart pickers on one line where they fit */
+.countbar { flex-wrap: nowrap; align-items: flex-start; }
+.countbar .count { flex: 1 1 auto; min-width: 0; }
+.countbar .dlbox { flex: 0 0 auto; }
+.plotctl { gap: 0 16px; }
+.plotctl .pselect { max-width: 230px; }
+.plotctl .field.wide .pselect { max-width: 100%; }
+@media (max-width: 760px) { .countbar { flex-wrap: wrap; } .plotctl .pselect { max-width: 100%; } }
+@media (max-width: 760px) { .countbar .dlbox { flex: 1 1 100%; min-width: 0; } .dlbtns .btn { flex: 1 1 auto; justify-content: center; } }
+@media (max-width: 760px) { .plotctl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; } .plotctl .field { min-width: 0; } .plotctl .pselect { width: 100%; } }
+/* the zoom buttons sit right above the chart (a phone reader taps Zoom, then drags on the chart without scrolling) */
+.ztools { display: flex; justify-content: flex-end; gap: 6px; min-height: 0; }
+.ztools .btn[hidden] { display: none; }
+.ztools:has(> :not([hidden]):not(#zoomMode)) { margin-bottom: 4px; }
+@media (hover: none), (pointer: coarse) { .ztools { margin-bottom: 4px; } }
+@media (max-width: 760px) {
+  .banner { padding-top: 3px; padding-bottom: 3px; }
+  /* D15: column titles wrap on a phone, so temperature, pressure and the measured value fit the first screen */
+  #datatable th { white-space: normal; vertical-align: bottom; max-width: 7.5em; }
+  #datatable td { padding: 7px 8px; }
+}
+
+/* ---- light/dark mode ---- */
+/* Light/dark mode for the viewer.
+   The mode is set on <html data-theme="light|dark"> by a tiny head script before first paint.
+   The style sheet after this one supplies the colour variables used here. */
+header.top .toprow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.themebtn { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 40px; height: 40px; padding: 0;
+  font: inherit; cursor: pointer; color: var(--accent-ink); background: var(--card);
+  border: 1px solid var(--line); border-radius: 50%; box-shadow: var(--shadow); }
+.themebtn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.themebtn svg { width: 20px; height: 20px; flex: 0 0 auto; display: block; }
+.themebtn .to-dark, :root[data-theme="dark"] .themebtn .to-light { display: inline-flex; align-items: center; gap: 8px; }
+.themebtn .to-light, :root[data-theme="dark"] .themebtn .to-dark { display: none; }
+:root { --s1: #6d3e91; --s2: #c05917; --s3: #58ac8c; --s4: #286bbb; --s5: #883039; --s6: #bc8e5a; }
+@media not print { :root[data-theme="dark"] { --s1: #bb98d8; --s2: #e3925e; --s3: #6cc3a2; --s4: #80b2ea; --s5: #dc8c94; --s6: #d8b384; } }
+.plot [fill="#6d3e91"], .sw [fill="#6d3e91"] { fill: var(--s1); }
+.plot [fill="#c05917"], .sw [fill="#c05917"] { fill: var(--s2); }
+.plot [fill="#58ac8c"], .sw [fill="#58ac8c"] { fill: var(--s3); }
+.plot [fill="#286bbb"], .sw [fill="#286bbb"] { fill: var(--s4); }
+.plot [fill="#883039"], .sw [fill="#883039"] { fill: var(--s5); }
+.plot [fill="#bc8e5a"], .sw [fill="#bc8e5a"] { fill: var(--s6); }
+.plot .pt.calc.c1 { stroke: var(--s1); }
+.plot .pt.calc.c2 { stroke: var(--s2); }
+.plot .pt.calc.c3 { stroke: var(--s3); }
+.plot .pt.calc.c4 { stroke: var(--s4); }
+.plot .pt.calc.c5 { stroke: var(--s5); }
+.plot .pt.calc.c6 { stroke: var(--s6); }
+
+/* ---- theme ---- */
+/* Our World in Data theme (the one viewer theme, R-DCR-298): white page, serif headings, muted colours, thin rules; light and dark mode.
+   The mode is set on <html data-theme="light|dark"> by a tiny head script before first paint. */
+:root, :root[data-theme="light"] { color-scheme: light;
+  --bg: #ffffff; --ink: #1d3d63; --text: #3a3a3a; --muted: #6e6e6e; --rule: #dadada; --soft: #f7f7f7; --accent: #be5915; --blue: #3b6798;
+  --field: #ffffff; --fline: #c9c9c9; --fline2: #8a8a8a; --on-ink: #ffffff; --banner-bg: #fbf3d9; --banner-ink: #6a5300; --banner-line: #ecdca4;
+  --grid: #e3e3e3; --axis: #9a9a9a; --tick: #6e6e6e; --axlbl: #5a5a5a; --pt-stroke: #ffffff; --thline: #b9b9b9; --tdline: #ececec;
+  --blank: #767676; --picked: #fdf0e6; --tipshadow: 0 2px 8px rgba(0,0,0,.1);
+  --card: #ffffff; --line: #c9c9c9; --accent-ink: #1d3d63; --shadow: none;
+  --bgpt: #bcbcbc; --primary: #1d3d63; --on-primary: #ffffff; --chipon: #1d3d63; --on-chipon: #ffffff; }
+:root[data-theme="dark"] { color-scheme: dark;
+  --bg: #15181d; --ink: #c8d6e8; --text: #d5d8dd; --muted: #a0a6af; --rule: #343a43; --soft: #1d2127; --accent: #e3925e; --blue: #94b6df;
+  --field: #1d2127; --fline: #4a525d; --fline2: #7d8692; --on-ink: #15181d; --banner-bg: #2b2716; --banner-ink: #e8d59c; --banner-line: #4a4225;
+  --grid: #2c3139; --axis: #5f6772; --tick: #a0a6af; --axlbl: #c0c5cc; --pt-stroke: #15181d; --thline: #4a525d; --tdline: #2a2f36;
+  --blank: #858c96; --picked: #3a2b20; --tipshadow: 0 2px 10px rgba(0,0,0,.5);
+  --card: #1d2127; --line: #4a525d; --accent-ink: #c8d6e8; --shadow: none;
+  --bgpt: #59616c; --primary: #94b6df; --on-primary: #15181d; --chipon: #34557d; --on-chipon: #ffffff; }
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--text); font-family: Lato, "Segoe UI", "Helvetica Neue", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+h1, h2, h3, .sidehead b { font-family: "Playfair Display", Georgia, "Times New Roman", serif; color: var(--ink); font-weight: 600; }
+a { color: var(--blue); }
+.banner { background: var(--banner-bg); color: var(--banner-ink); border-bottom: 1px solid var(--banner-line); }
+header.top { max-width: 1180px; margin: 0 auto; padding: 18px 24px 10px; }
+header.top h1 { font-size: 32px; letter-spacing: -0.2px; }
+header.top .lede { color: var(--muted); margin: 6px 0 0; max-width: 720px; font-size: 15px; }
+.tabs { max-width: 1180px; margin: 6px auto 0; padding: 0 16px; border-bottom: 1px solid var(--rule); }
+.tabs button { padding: 0 12px; color: var(--muted); font-size: 15px; border-bottom: 3px solid transparent; }
+.tabs button.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.shell { max-width: 1180px; margin: 0 auto; padding: 18px 24px 60px; }
+#side { background: var(--soft); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 14px 18px 4px; margin-bottom: 24px; }
+.sidehead b { font-size: 20px; }
+.sidehead span { color: var(--muted); }
+#quick, #more { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0 28px; }
+.lbl { color: var(--ink); font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: .6px; }
+.hint { color: var(--muted); text-transform: none; letter-spacing: 0; }
+.chip { background: var(--field); border: 1px solid var(--fline); border-radius: 3px; color: var(--text); }
+.chip.on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.helptext { background: var(--field); border: 1px solid var(--rule); color: var(--muted); }
+.range-row .v { color: var(--ink); }
+input[type=range], .check input, td.sel input, .checklist input { accent-color: var(--ink); }
+input[type=text] { border: 1px solid var(--fline); border-radius: 3px; background: var(--field); color: var(--text); }
+.checklist { background: var(--field); border-color: var(--fline); border-radius: 3px; }
+.countbar { border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+.count { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-size: 22px; color: var(--ink); }
+.count b { font-weight: 700; color: var(--ink); }
+.btn { background: var(--field); color: var(--ink); border: 1px solid var(--ink); border-radius: 3px; }
+.btn.primary { background: var(--ink); color: var(--on-ink); }
+.card { padding: 6px 0 14px; border-bottom: 1px solid var(--rule); margin-bottom: 26px; }
+.sechead h2 { font-size: 22px; }
+.secnote, .pinfo { color: var(--muted); }
+.seg { border: 1px solid var(--fline); border-radius: 3px; overflow: hidden; }
+.seg label { color: var(--text); }
+.seg label.on { background: var(--ink); color: var(--on-ink); }
+.plot .grid { stroke: var(--grid); stroke-dasharray: 3 3; }
+.plot .gx { display: none; }
+.plot .axis { stroke: var(--axis); }
+.plot .ay { display: none; }
+.plot .tick { fill: var(--tick); }
+.plot .axlbl { fill: var(--axlbl); font-size: 1.08em; }
+.plot .dlabel { font-size: 1.08em; font-weight: 600; }
+.plot .pt { fill-opacity: .75; stroke: var(--pt-stroke); stroke-width: .5; stroke-opacity: .6; }
+.legend { color: var(--text); }
+.tip { background: var(--field); color: var(--text); border: 1px solid var(--rule); box-shadow: var(--tipshadow); }
+.tip .k { color: var(--muted); }
+.tablewrap { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); }
+th { background: var(--bg); color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--thline); }
+td { border-bottom: 1px solid var(--tdline); }
+th.sel, td.sel { background: var(--bg); }
+td.blank { color: var(--blank); }
+tr.picked td { background: var(--picked); }
+.colhelp, .caption { color: var(--muted); }
+.printed { background: var(--soft); border-left: 3px solid var(--accent); }
+.info { background: var(--soft); color: var(--ink); }
+.foot { color: var(--muted); border-top: 1px solid var(--rule); }
+@media (max-width: 760px) {
+  header.top { padding: 12px 14px 6px; }
+  header.top h1 { font-size: 30px; }
+  .tabs { padding: 0 6px; }
+  .shell { padding: 0 14px 50px; }
+  #side { margin: 0 -14px 16px; padding: 10px 14px 4px; }
+  #quick, #more { display: block; }
+  #side .morebtn { background: var(--field); color: var(--ink); border: 1px solid var(--ink); border-radius: 3px; margin-bottom: 10px; font-weight: 600; }
+  #side .morebtn .badge { background: var(--accent); color: var(--on-ink); border-radius: 9px; padding: 0 6px; font-size: 12px; }
+  .count { font-size: 19px; }
+  .sechead h2 { font-size: 22px; }
+}
+/* units panel */
+.unitcard { padding-top: 0; }
+.units > summary .sumt { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-weight: 600; font-size: 20px; color: var(--ink); }
+.howconv > summary { color: var(--blue); }
+.howtext { background: var(--soft); border-left: 3px solid var(--rule); color: var(--text); }
+td.conv { background: var(--soft); }
+/* ---- round 3 (design review D01-D33): fonts, the chart card, dark-mode buttons, one container width ---- */
+/* D30: in dark mode the primary button is a clear blue and a chosen chip a deeper blue with white text (not pale ink) */
+.btn.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.chip.on, .seg label.on { background: var(--chipon); border-color: var(--chipon); color: var(--on-chipon); }
+:root[data-theme="dark"] .chip.on { border-color: var(--blue); }
+/* D03: the chart title and subtitle */
+.charthead .ctitle { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 600; line-height: 1.25; color: var(--ink); margin: 0; }
+.charthead .csub { margin: 4px 0 12px; color: var(--muted); font-size: 14px; }
+.plot .pt.bg { fill: var(--bgpt); fill-opacity: .6; stroke: none; }
+.plot .pts.hasHl .pt:not(.hl):not(.bg) { opacity: .25; }
+.plot .pt.hl { stroke: var(--ink); stroke-opacity: 1; stroke-width: 1; }
+.plot .hring { fill: none; stroke: var(--ink); stroke-width: 2; }
+.plot .zbox { fill: var(--accent); fill-opacity: .08; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 4 3; }
+.legend .lg { color: var(--text); }
+.legend .lg.hl { box-shadow: inset 0 -2px 0 var(--accent); }
+.tip .tdoi, .tip .tid { color: var(--muted); }
+.legfold > summary, .infobtn { color: var(--blue); }
+.ptools .ptlbl, .citedlg .clbl { color: var(--ink); }
+#zoomMode.on { background: var(--chipon); color: var(--on-chipon); border-color: var(--chipon); }
+.tabnote p { color: var(--muted); }
+.banner .bmoretext { background: var(--card); color: var(--text); border: 1px solid var(--rule); box-shadow: var(--tipshadow); }
+.citedlg { background: var(--bg); color: var(--text); border: 1px solid var(--rule); }
+.citedlg h2 { font-size: 22px; }
+.citedlg .cbib { background: var(--soft); color: var(--text); }
+.sk { background: var(--soft); }
+.units > summary .chg { color: var(--blue); }
+.tabs { padding: 0 24px; }
+@media (max-width: 760px) { .tabs { padding: 0 14px; } }
+/* print: the light palette whatever the screen mode */
+@media print {
+  :root, :root[data-theme="dark"] { color-scheme: light;
+  --bg: #ffffff; --ink: #1d3d63; --text: #3a3a3a; --muted: #6e6e6e; --rule: #dadada; --soft: #f7f7f7; --accent: #be5915; --blue: #3b6798;
+  --field: #ffffff; --fline: #c9c9c9; --fline2: #8a8a8a; --on-ink: #ffffff; --banner-bg: #fbf3d9; --banner-ink: #6a5300; --banner-line: #ecdca4;
+  --grid: #e3e3e3; --axis: #9a9a9a; --tick: #6e6e6e; --axlbl: #5a5a5a; --pt-stroke: #ffffff; --thline: #b9b9b9; --tdline: #ececec;
+  --blank: #767676; --picked: #fdf0e6; --tipshadow: 0 2px 8px rgba(0,0,0,.1);
+  --card: #ffffff; --line: #c9c9c9; --accent-ink: #1d3d63; --shadow: none;
+  --bgpt: #bcbcbc; --primary: #1d3d63; --on-primary: #ffffff; --chipon: #1d3d63; --on-chipon: #ffffff;   }
+}
+/* fluid width (coordinator 2026-10-07: big screens): one container up to 1800 px; the filter column 300-340 px; the table
+   below both columns, full width */
+:root { --wrap: 1800px; }
+header.top, .tabs, .tabnote, .shell, .foot, .guide, .bwrap { max-width: var(--wrap); }
+@media (min-width: 1024px) {
+  .shell { grid-template-columns: minmax(0, 1fr) clamp(300px, 18vw, 340px); }
+  #below { grid-column: 1 / -1; grid-row: 2; min-width: 0; }
+}
+@media (min-width: 1280px) { .plotmain { grid-template-columns: minmax(0, 1fr) clamp(210px, 13vw, 260px); } }
+.plot .pt.bg { fill-opacity: .45; }
+.bgsw { fill: var(--bgpt); }
+.legend .greykey { cursor: default; color: var(--muted); }
+.tip .tgrey { margin-top: 4px; color: var(--blue); font-weight: 700; }
+/* an axis property with no data: a centred message in the empty chart */
+.plot .nodatamsg { fill: var(--ink); font-size: 1.2em; font-weight: 700; }
+.plot .nodatawhy { fill: var(--muted); font-size: 1em; }
+select.pselect optgroup { color: var(--muted); font-style: normal; }
+
+</style>
+</head>
+<body>
+<div class="banner" role="region" aria-label="About this data"><div class="bwrap"><b class="bstat">AquaSolDB v2.0, released 2026-10-08</b><details class="bmore"><summary aria-label="More about this version" title="More about this version"><span aria-hidden="true">&#9432;</span></summary><div class="bmoretext">Data: AquaSolDB v2.0, released 2026-10-08, CC BY 4.0, <a href="https://doi.org/10.5281/zenodo.22870466" rel="noopener">doi:10.5281/zenodo.22870466</a> (concept DOI: opens the newest published version).</div></details></div></div>
+
+<header class="top"><div class="toprow"><h1>AquaSolDB viewer</h1><div class="topact"><button type="button" class="btn small" id="citeBtn">Cite</button><button type="button" class="btn small" id="getData">Download data</button><button type="button" class="themebtn" id="themeBtn" aria-label="Switch to light mode" title="Light or dark"><span class="to-dark"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg></span><span class="to-light"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg></span></button></div></div><p class="lede">Published measurements of 9 gases dissolved in water and brines, of the water in gas phases and of phase boundaries, from 499 sources (AquaSolDB v2.0, released 2026-10-08). It opens on CO₂; pick another gas under Filters. <a href="https://github.com/abdul-salam94/AquaSolDB#readme" target="_blank" rel="noopener">README</a> · <a href="https://doi.org/10.5281/zenodo.22870466" target="_blank" rel="noopener">About the data</a></p></header>
+<nav class="tabs" id="tabs" aria-label="Tables"></nav>
+<section class="tabnote" aria-label="About this table"><p id="tabnote"></p></section>
+<div class="guide info" id="guide" role="region" aria-label="Start here" hidden><b>Start here.</b> Pick a gas under Filters (on a phone, the rest is under More filters), then narrow the temperature, pressure and salt. The count, the plot and the table follow the filters; the plot can show any number column against any other, and a box dragged on it zooms in. Click a point or a row to see the value as printed in its source; click a column title to sort, its &#9432; for what it means. <a href="https://github.com/abdul-salam94/AquaSolDB#readme" target="_blank" rel="noopener">README</a> <button class="btn small" id="guideClose">Got it</button></div>
+<div class="shell">
+  <aside id="side" aria-label="Filters">
+    <div class="sidehead"><b>Filters</b><span id="sideTab"></span><button class="btn small" id="clearAll" hidden>Clear all filters</button></div>
+    <div id="quick"></div>
+    <button class="morebtn" id="moreBtn" aria-expanded="false" aria-controls="more">More filters</button>
+    <div id="more"></div>
+  </aside>
+  <main id="body"></main>
+  <section class="below" id="below" aria-label="Table"></section>
+</div>
+<footer class="foot"><p>If you use this dataset, cite it as below AND cite the original paper that printed each value you use; the source_id column of every row names that paper, and csv/sources.csv gives its full reference and DOI.</p><p>Cite: Abd, A., &amp; Abushaikha, A. (2026). AquaSolDB (Version 2.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466</p><p>Licence: <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a> · AquaSolDB v2.0, released 2026-10-08</p></footer>
+<dialog id="citeDlg" class="citedlg" aria-labelledby="citeH"><h2 id="citeH">Cite this dataset</h2><p class="cnote">If you use this dataset, cite it as below AND cite the original paper that printed each value you use; the source_id column of every row names that paper, and csv/sources.csv gives its full reference and DOI.</p><div class="clbl">Citation</div><p class="ctext" id="citeText">Abd, A., &amp; Abushaikha, A. (2026). AquaSolDB (Version 2.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466</p><button type="button" class="btn small" data-copy="citeText">Copy citation</button><div class="clbl">BibTeX</div><pre class="cbib" id="citeBib">@misc{aquasoldb_v2_0,
+  author = {Abd, Abdulsalam and Abushaikha, Ahmad},
+  title = {AquaSolDB},
+  version = {2.0},
+  year = {2026},
+  publisher = {Zenodo},
+  doi = {10.5281/zenodo.22870466},
+  url = {https://doi.org/10.5281/zenodo.22870466},
+  note = {Data set, CC BY 4.0}
+}</pre><button type="button" class="btn small" data-copy="citeBib">Copy BibTeX</button><p>DOI: <a href="https://doi.org/10.5281/zenodo.22870466" target="_blank" rel="noopener">10.5281/zenodo.22870466</a> (concept DOI: opens the newest published version)</p><p class="caption" id="citeStat" role="status"></p><form method="dialog"><button class="btn">Close</button></form></dialog>
+<script>
+"use strict";
+const THEME = {"palette": ["#6d3e91", "#c05917", "#58ac8c", "#286bbb", "#883039", "#bc8e5a"], "direct": true, "shapes": true, "r": 6};
+const META = {"name": "AquaSolDB v2.0, released 2026-10-08", "version": "2.0", "date_released": "2026-10-08", "doi": "10.5281/zenodo.22870466", "doi_url": "https://doi.org/10.5281/zenodo.22870466", "concept_doi": "10.5281/zenodo.22870466", "licence": "CC BY 4.0", "licence_url": "https://creativecommons.org/licenses/by/4.0/", "repository": "https://github.com/abdul-salam94/AquaSolDB", "citation": "Abd, A., & Abushaikha, A. (2026). AquaSolDB (Version 2.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466", "citation_note": "If you use this dataset, cite it as below AND cite the original paper that printed each value you use; the `source_id` column of every row names that paper, and `csv/sources.csv` gives its full reference and DOI.", "draft": false, "doi_is_concept": true, "row_counts": {"solubility": 17423, "water_content": 1954, "mixtures": 1122, "phase_boundaries": 842, "other_quantities": 1922, "printed_values": 23263, "sources": 499, "dictionary": 115}, "tables": {"solubility": "csv/solubility.csv", "water_content": "csv/water_content.csv", "mixtures": "csv/mixtures.csv", "phase_boundaries": "csv/phase_boundaries.csv", "other_quantities": "csv/other_quantities.csv", "sources": "csv/sources.csv", "column_dictionary": "csv/column_dictionary.csv", "printed_values": "detail/printed_values.csv"}};
+const GASINFO = {"solubility": {"n": 9, "extra": []}, "water_content": {"n": 9, "extra": [["N2O", 38, ["vapour"]]]}, "mixtures": {"n": 8, "extra": []}, "phase_boundaries": {"n": 7, "extra": []}, "other_quantities": {"n": 7, "extra": []}};
+// ---------- table shapes, labels and column help (the rows themselves are fetched from ../data/*.json) ----------
+// META (name, version, DOI, citation, row counts of the release shown) is written into the page by build.py from the
+// release folder's CITATION.cff, so no version word below is fixed.
+const VERSION = "v" + META.version;
+const LABELS = {
+  point_id:"Row ID", gas:"Gas", gas2:"Second gas", gas2_mole_fraction_feed:"Second gas in feed (mole fraction)",
+  phase:"Phase", boundary_type:"Boundary type", temperature_K:"Temperature (K)", pressure_MPa:"Pressure (MPa)",
+  pressure_basis:"Pressure basis", salt:"Salt", salt_molality:"Salt molality (mol/kg water)", salt_composition:"Salt composition",
+  m_Na:"Na⁺ (mol/kg water)", m_Cl:"Cl⁻ (mol/kg water)", m_K:"K⁺ (mol/kg water)", m_Ca:"Ca²⁺ (mol/kg water)",
+  m_Mg:"Mg²⁺ (mol/kg water)", m_SO4:"SO₄²⁻ (mol/kg water)", solubility_mol_per_kgw:"Solubility (mol/kg water)",
+  solubility_mole_fraction:"Solubility (mole fraction)",
+  water_mole_fraction:"Water mole fraction", value_as_printed:"Value as printed", unit_as_printed:"Unit as printed",
+  flags:"Flags", method:"Method", source_id:"Source", reference:"Reference", short_reference:"Short reference",
+  source_type:"Source type", doi:"DOI",
+  status:"Status", status_reason:"Why this status", extra_value:"Extra value", extra_quantity:"What the extra value is",
+  source_table:"Table the row belongs with", quantity_as_printed:"Quantity as printed",
+  page_ref:"Page", page_ref_convention:"Page numbering", page_offset:"Page offset",
+  source_reference:"Source reference (full)", source_doi:"Source DOI",
+  // converted for viewing and download only (the stored data never changes); see "How values are converted"
+  temperature_C:"Temperature (°C)", pressure_bar:"Pressure (bar)",
+  x_gas_salt_ignored:"Gas mole fraction (salt-free)", x_gas_with_salt:"Gas mole fraction (with ions)",
+  ionic_strength_mol_per_kgw:"Ionic strength (mol/kg water)", total_ions_mol_per_kgw:"Total ions (mol/kg water)",
+  charge_balance_mol_per_kgw:"Charge balance (mol/kg water)",
+};
+const label = c => LABELS[c] || c;
+// One display-label map for the raw words of the data (D17): plain sentence-case words on screen, the stored word in the
+// cell's title and in every download. Formulas and salt names (CO2, NaCl, ...) are shown as stored.
+const WORDS = {none: "none (pure water)", not_stated: "not stated", partial_gas: "partial (gas)", partial_H2: "partial (H₂)",
+  total: "total", unclear: "unclear", unresolved: "unresolved", liquid_hydrocarbon_or_co2: "liquid hydrocarbon or CO₂",
+  no_value: "no value", column_dictionary: "column dictionary", co2: "CO₂", c2c4: "C₂H₆, C₃H₈, n-C₄H₁₀"};
+// Chemical formulas on screen (D10): digits after an element are subscripts (CO2 -> CO₂), n/i before a carbon chain take a
+// hyphen (nC4H10 -> n-C₄H₁₀). Used for the gas, second gas and salt values only, in chips, cells, the plot's title
+// and selects; the stored text stays in every download and in the cell's title.
+const SUBS = "₀₁₂₃₄₅₆₇₈₉";
+function chem(v) {
+  if (!v || !/^[ni]?(?:[A-Z][a-z]?\d*)+(?:[+ ,]+[ni]?(?:[A-Z][a-z]?\d*)+)*$/.test(v)) return v;
+  return v.replace(/(^|[ ,+])([ni])(?=C\d)/g, "$1$2-").replace(/([A-Za-z)])(\d+)/g, (m, a, d) => a + [...d].map(x => SUBS[+x]).join(""));
+}
+const CHEM_COLS = new Set(["gas", "gas2", "salt"]);
+const WORD_COLS = new Set(["method", "pressure_basis", "status", "phase", "boundary_type", "source_table", "source_type", "flags"]);
+function word(v) {  // "analytical_sampling" -> "analytical sampling"; ";"-separated lists word by word
+  if (v === "" || v === undefined || v === null) return "";
+  if (WORDS[v] !== undefined) return WORDS[v];
+  if (v.includes(";")) return v.split(";").map(x => word(x.trim())).join("; ");
+  return /^[a-z][a-z0-9]*(_[a-z0-9]+)+$/.test(v) ? v.replace(/_/g, " ") : v;
+}
+// The column guide's headers on the Column meanings tab
+const DICT_HEADS = {table: "Table", column: "Column", unit: "Unit", meaning: "Meaning", blank_means: "An empty cell means",
+  applies_to: "Files it applies to", derivation: "How it is worked out", definition: "Meaning"};
+// Plot axes (P1): the plain name of each plottable column; the unit comes from the column guide (axisUnit in app.js).
+const AXIS_NAME = {temperature_K: "Temperature", temperature_C: "Temperature", pressure_MPa: "Pressure", pressure_bar: "Pressure",
+  salt_molality: "Salt molality", m_Na: "Na⁺ molality", m_Cl: "Cl⁻ molality", m_K: "K⁺ molality", m_Ca: "Ca²⁺ molality",
+  m_Mg: "Mg²⁺ molality", m_SO4: "SO₄²⁻ molality", ionic_strength_mol_per_kgw: "Ionic strength", total_ions_mol_per_kgw: "Total ions",
+  charge_balance_mol_per_kgw: "Charge balance", gas2_mole_fraction_feed: "Second gas in feed, mole fraction",
+  solubility_mol_per_kgw: "Gas solubility", solubility_mole_fraction: "Gas solubility, mole fraction",
+  x_gas_salt_ignored: "Gas mole fraction, salt-free", x_gas_with_salt: "Gas mole fraction, with ions",
+  water_mole_fraction: "Water mole fraction", value_as_printed: "Value as printed", extra_value: "Extra value as printed"};
+// A short reference for a source ("Suciu et al. 1951"): the release's own short reference where it has one (v1.2), else
+// the first author's family name and the first year of the full reference (F32, D34). The id stays in the title.
+function shortRefOf(ref) {
+  const m = (ref || "").match(/^\s*([^,;(]+?)\s*[,(]/), y = (ref || "").match(/\b(1[6-9]\d\d|20\d\d)\b/);
+  if (!m) return "";
+  if (!y) return m[1].trim() + " (no year given)";
+  const head = ref.slice(0, ref.indexOf(y[0])), inits = [...head.matchAll(/[A-Z]\.(?:[ -]?[A-Z]\.)*/g)];
+  const n = /\bet al\b/.test(head) ? 3 : Math.max(inits.length, (head.match(/;/g) || []).length + 1);
+  let who = m[1].trim();
+  if (n === 2 && inits.length === 2) {
+    const second = head.slice(inits[0].index + inits[0][0].length).replace(/^[\s,;&]*(and\s+)?/, "").match(/^([^,;(&]+?)\s*[,(]/);
+    who += second ? " & " + second[1].trim() : " et al.";
+  } else if (n > 1) who += " et al.";
+  return who + " " + y[0];
+}
+const CONVERTED_COLS = new Set(["temperature_C", "pressure_bar", "x_gas_salt_ignored", "x_gas_with_salt",
+  "ionic_strength_mol_per_kgw", "total_ions_mol_per_kgw", "charge_balance_mol_per_kgw"]);
+const NUMERIC = new Set(["temperature_K","pressure_MPa","salt_molality","m_Na","m_Cl","m_K","m_Ca","m_Mg","m_SO4",
+  "solubility_mol_per_kgw","solubility_mole_fraction","water_mole_fraction","gas2_mole_fraction_feed"]);
+// The plot's default axes per table [x, y]; the reader can plot any plottable column of the table on either axis (P1).
+const PLOT_DEFAULT = {solubility: ["pressure_MPa", "solubility_mol_per_kgw"], mixtures: ["pressure_MPa", "solubility_mol_per_kgw"],
+  water_content: ["pressure_MPa", "water_mole_fraction"], phase_boundaries: ["temperature_K", "pressure_MPa"],
+  other_quantities: ["temperature_K", "value_as_printed"]};
+// A value column that holds different quantities, and the column that names the quantity: plotted one quantity at a time.
+const QCOL = {value_as_printed: "quantity_as_printed", extra_value: "extra_quantity"};
+// The tabs follow the release: the other-quantities table is offered only when the release has one (v2.0 on).
+const ROW_TABLES = ["solubility","water_content","mixtures","phase_boundaries"]
+  .concat("other_quantities" in META.row_counts ? ["other_quantities"] : []);
+const TAB_LIST = [
+  ["solubility","Gas solubility"],["water_content","Water content"],["mixtures","Gas mixtures"],
+  ["phase_boundaries","Phase boundaries"],["other_quantities","Other quantities"],["sources","Sources"],["dictionary","Column meanings"],
+].filter(([k]) => ROW_TABLES.includes(k) || k === "sources" || k === "dictionary");
+const TITLE = Object.fromEntries(TAB_LIST);
+// One sentence under the tabs per table (D06): what the table holds, how many gases (GASINFO, counted from the data files
+// at build time) and its units. A gas the solubility table lacks is named where it belongs, with its row count.
+const TAB_NOTE = {
+  solubility: g => `${g.n} gases dissolved in water or brine, in mol per kg of water. Temperature in K; pressure in MPa, the total pressure of the system unless the row's pressure basis says it is the gas's own (partial) pressure.`,
+  water_content: g => `Water in the gas-rich phase of ${g.n} gases, or in a liquid hydrocarbon or CO₂ phase, as a water mole fraction.${extraNote(g)} Temperature in K; pressure in MPa.`,
+  mixtures: g => `${g.n} gases dissolved from a mixture of two gases, in mol per kg of water; the second gas's share of the feed as a mole fraction. Temperature in K; pressure in MPa.`,
+  phase_boundaries: g => `Points where a phase appears or disappears for ${g.n} gases (hydrate, dew and bubble points, critical points and others): temperature in K and pressure in MPa.`,
+  other_quantities: g => `Other values the sources print for ${g.n} gases (gas-water ratios, Henry's constants, vapour-phase mole fractions and others), each in the unit it was printed in. Temperature in K; pressure in MPa.`,
+  sources: () => "The published papers and reports the rows come from: reference, DOI and how the values were measured.",
+  dictionary: () => "What every column of every table means, its unit and what an empty cell means.",
+};
+const PHASE_WORD = {vapour: "vapour", liquid_hydrocarbon_or_co2: "liquid"};
+function extraNote(g) {  // "It includes 38 rows of water in N2O vapour, a gas the solubility table does not have."
+  if (!g.extra || !g.extra.length) return "";
+  const parts = g.extra.map(([gas, n, ph]) => `${n.toLocaleString("en-US")} rows of water in ${chem(gas)}${ph && ph.length === 1 && PHASE_WORD[ph[0]] ? " " + PHASE_WORD[ph[0]] : ""}`);
+  return ` It includes ${parts.join(" and ")}, ${g.extra.length > 1 ? "gases" : "a gas"} the solubility table does not have.`;
+}
+const tabNote = key => TAB_NOTE[key] ? TAB_NOTE[key](GASINFO[key] || {n: 0, extra: []}) : "";
+
+// Column help. A v2.0-style dictionary names the table of every column (columns table, column, unit, meaning,
+// blank_means); the older 1.x one lists the FILE names a column applies to (applies_to), so the viewer's tables are mapped
+// to those file names.
+const V12_FILES = {solubility:["solubility"], water_content:["watercontent","liquidwatercontent"], mixtures:["mixtures"],
+                   phase_boundaries:["phaseboundaries"], sources:["sources"]};
+// 1.x layout only: viewer columns renamed from the 1.x files (identical meaning) or added by the viewer's converter.
+const HELP_ALIAS_V12 = {water_mole_fraction:["water_mole_fraction_vapor","water_mole_fraction_liquid_hydrocarbon"]};
+const HELP_EXTRA_V12 = {
+  phase: "Which " + VERSION + " file the row comes from: vapour = watercontent.csv (water in the gas-rich phase); " +
+         "liquid_hydrocarbon_or_co2 = liquidwatercontent.csv (water in the liquid hydrocarbon- or CO2-rich phase).",
+  short_reference: "Short reference printed in every " + VERSION + " row file (column 'reference' there).",
+  "sources|method": "The method of this source's own published rows (every source has exactly one).",
+  "sources|reference": "Full reference of the source.",
+};
+const HELP_EXTRA = {
+  temperature_C: "Converted for viewing: temperature in K minus 273.15. Not stored in the database.",
+  pressure_bar: "Converted for viewing: pressure in MPa times 10. Not stored in the database.",
+  x_gas_salt_ignored: "Converted for viewing: x = m / (m + 55.508373), m = solubility in mol per kg of water, " +
+    "55.508373 = mol of water in 1 kg (1000 / 18.0153). Not stored in the database.",
+  x_gas_with_salt: "Converted for viewing: x = m / (m + 55.508373 + total ions), total ions = Na + Cl + K + Ca + Mg + SO4 " +
+    "in mol per kg of water (0 for pure water). Blank for a brine row that does not give its ions. Not stored in the database.",
+  ionic_strength_mol_per_kgw: "Converted for viewing: I = 1/2 x sum of (ion molality x charge squared); charges Na +1, K +1, " +
+    "Ca +2, Mg +2, Cl -1, SO4 -2. Blank where the row does not give its ions.",
+  total_ions_mol_per_kgw: "Converted for viewing: Na + Cl + K + Ca + Mg + SO4, in mol per kg of water. Blank where the row does not give its ions.",
+  charge_balance_mol_per_kgw: "Converted for viewing: sum of (ion molality x charge); about 0 for a neutral brine. " +
+    "Blank where the row does not give its ions.",
+};
+let DICTIONARY = null;  // loaded with the Column meanings tab, or on the first column-title tap
+const dictByTable = () => !!DICTIONARY && DICTIONARY.length > 0 && "table" in DICTIONARY[0];
+function helpFor(table, col) {
+  if (CONVERTED_COLS.has(col)) return HELP_EXTRA[col];  // page-made columns: never in a column dictionary
+  if (!DICTIONARY) return "";
+  if (dictByTable()) {  // v2.0 layout: look the column up by (table, column)
+    const hit = DICTIONARY.find(d => d.table === table && d.column === col) || DICTIONARY.find(d => d.column === col);
+    if (!hit) return "";
+    let t = hit.meaning;
+    if (hit.unit && hit.unit !== "-") t += " Unit: " + hit.unit + ".";
+    if (hit.blank_means && !/^never blank\.?$/i.test(hit.blank_means.trim())) t += " An empty cell means: " + hit.blank_means;
+    return t;
+  }
+  if (HELP_EXTRA_V12[table + "|" + col]) return HELP_EXTRA_V12[table + "|" + col];
+  const files = V12_FILES[table] || [];
+  const names = HELP_ALIAS_V12[col] || [col];
+  const parts = [];
+  for (const n of names) {
+    const hits = DICTIONARY.filter(d => d.column === n);
+    const hit = hits.find(d => (d.applies_to || "").split(",").some(f => files.includes(f))) || hits[0];
+    if (!hit) continue;
+    let t = hit.meaning;
+    if (hit.unit && hit.unit !== "-") t += " Unit: " + hit.unit + ".";
+    if (names.length > 1) t = (n.endsWith("vapor") ? "Phase vapour: " : "Phase liquid_hydrocarbon_or_co2: ") + t;
+    parts.push(t);
+  }
+  return parts.join(" ") || HELP_EXTRA_V12[col] || "";
+}
+
+// ---------- helpers ----------
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+const num = v => (v === "" || v === undefined || v === null || isNaN(+v)) ? NaN : +v;
+const fmt = n => n.toLocaleString("en-US");
+const PAGE = 100, MAXPTS = 6000, PRESET = 6;
+// Stored columns go out exactly as stored; converted columns (CONV, below) with 8 significant figures, blank when not given.
+function csvCell(r, c) {
+  if (CONV[c]) { const k = conv(r, c); return k.why ? "" : sig(k.v, 8); }
+  return r[c] ?? "";
+}
+// A plain CSV: the first line is the column names (pandas.read_csv and spreadsheet programs read it as they are), UTF-8
+// with a byte-order mark so a spreadsheet program shows the non-ASCII characters right. Citation, units and filters go
+// in the notes file beside it (notesText).
+function toCSV(rows, cols) {
+  const q = v => /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  const out = [cols.join(",")];
+  for (const r of rows) out.push(cols.map(c => q(String(csvCell(r, c)))).join(","));
+  return "﻿" + out.join("\n") + "\n";
+}
+function download(name, blob) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+const csvBlob = text => new Blob([text], {type: "text/csv;charset=utf-8"});
+// A ZIP archive (stored, no compression) of a few text files: the CSV and its notes travel together.
+const CRC_TABLE = (() => { const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; }
+  return t; })();
+function crc32(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_TABLE[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipBlob(files) {  // files: [{name, text}]
+  const enc = new TextEncoder(), local = [], central = [], d = new Date();
+  const time = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+  const date = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+  let off = 0;
+  for (const f of files) {
+    const name = enc.encode(f.name), data = enc.encode(f.text), crc = crc32(data);
+    const h = new DataView(new ArrayBuffer(30)), c = new DataView(new ArrayBuffer(46));
+    h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true);
+    h.setUint16(10, time, true); h.setUint16(12, date, true); h.setUint32(14, crc, true);
+    h.setUint32(18, data.length, true); h.setUint32(22, data.length, true); h.setUint16(26, name.length, true);
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true);
+    c.setUint16(12, time, true); c.setUint16(14, date, true); c.setUint32(16, crc, true);
+    c.setUint32(20, data.length, true); c.setUint32(24, data.length, true); c.setUint16(28, name.length, true); c.setUint32(42, off, true);
+    local.push(h, name, data); central.push(c, name);
+    off += 30 + name.length + data.length;
+  }
+  const size = central.reduce((s, p) => s + p.byteLength, 0), e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true);
+  e.setUint32(12, size, true); e.setUint32(16, off, true);
+  return new Blob(local.concat(central, [e]), {type: "application/zip"});
+}
+const $ = id => document.getElementById(id);
+
+// ---------- conversions: view and download only, the stored data never changes ----------
+// N_W = mol of water in 1 kg = 1000 / 18.0153 = 55.508373 (the constant of the database builder this page shows,
+// data/aquasoldb/build/build_aquasoldb.py M_H2O = 18.0153; lead decision 2026-10-07).
+// The sums run in this fixed ion order; the Python reference (check_conversions.py) uses the same order.
+const N_W = 1000 / 18.0153;
+const IONS = [["m_Na", 1], ["m_Cl", -1], ["m_K", 1], ["m_Ca", 2], ["m_Mg", 2], ["m_SO4", -2]];
+const ION_COLS = new Set(IONS.map(i => i[0]));
+// Numbers parsed once on load; NaN = not given. present = the ion columns this table carries.
+// Salt "none" = pure water: its ions count as 0 even where the ion columns are empty or absent (P-DCR-97). An ion column
+// the release file does not carry counts as 0 where the row's other ion columns are filled (the release SCHEMA: "an ion
+// column the file does not carry counts as zero"); a table with no ion column gives ions only for pure water.
+function prepRow(r, present) {
+  const pure = r.salt === "none", filled = present.length > 0 && present.every(c => r[c] !== "");
+  let s = 0, i2 = 0, q = 0, ok = true;
+  for (const [c, z] of IONS) {
+    const v = !(c in r) ? (pure || filled ? 0 : NaN) : pure && r[c] === "" ? 0 : num(r[c]);
+    if (isNaN(v)) { ok = false; break; }
+    s += v; i2 += v * z * z; q += v * z;
+  }
+  r._S = ok ? s : NaN; r._I = ok ? 0.5 * i2 : NaN; r._Q = ok ? q : NaN;
+}
+const NO_IONS = "ions not given";
+const CONV = {  // f(r) -> number (NaN = blank); why = the help text shown in a blank cell
+  temperature_C: {unit: "degrees C", f: r => r._T - 273.15, why: "temperature not given"},
+  pressure_bar: {unit: "bar", f: r => r._P * 10, why: "pressure not given"},
+  x_gas_salt_ignored: {unit: "mole fraction", f: r => r._M / (r._M + N_W), why: "solubility not given"},
+  x_gas_with_salt: {unit: "mole fraction", f: r => r._M / (r._M + N_W + r._S), why: r => isNaN(r._M) ? "solubility not given" : NO_IONS},
+  ionic_strength_mol_per_kgw: {unit: "mol/kg water", f: r => r._I, why: NO_IONS},
+  total_ions_mol_per_kgw: {unit: "mol/kg water", f: r => r._S, why: NO_IONS},
+  charge_balance_mol_per_kgw: {unit: "mol/kg water", f: r => r._Q, why: NO_IONS},
+};
+function conv(r, c) { const e = CONV[c], v = e.f(r); return isNaN(v) ? {why: typeof e.why === "function" ? e.why(r) : e.why} : {v}; }
+const sig = (v, n) => String(Number(v.toPrecision(n)));  // n significant figures, no trailing zeros
+// Units and extra columns: one choice for every tab. Defaults: K, MPa, no extra columns.
+const units = {T: "K", P: "MPa", xgas: false, xsalt: false, brine: false, refdl: false};
+const EXTRA_KEYS = ["xgas", "xsalt", "brine", "refdl"];
+const hasM = key => !!DATA[key] && DATA[key].cols.includes("solubility_mol_per_kgw");
+function extraCols(key) {  // the converted columns now visible, in table order (after the stored columns)
+  const out = [];
+  if (hasM(key) && units.xgas) out.push("x_gas_salt_ignored");
+  if (hasM(key) && units.xsalt) out.push("x_gas_with_salt");
+  if (units.brine) out.push("ionic_strength_mol_per_kgw", "total_ions_mol_per_kgw", "charge_balance_mol_per_kgw");
+  return out;
+}
+// Table column order: what a reader looks for first (gas, temperature, pressure, the measured number, salt, status and
+// source; the row id last, D15), then the
+// rest in the release's order. The ion molalities show with the Brine option; a download always carries every column.
+const VIEW_FIRST = ["gas", "gas2", "gas2_mole_fraction_feed", "phase", "boundary_type", "source_table",
+  "temperature_K", "pressure_MPa", "solubility_mol_per_kgw", "solubility_mole_fraction", "water_mole_fraction", "salt",
+  "salt_molality", "quantity_as_printed", "value_as_printed", "extra_value", "extra_quantity", "pressure_basis",
+  "status", "source_id"];
+function viewCols(key) {  // stored columns with K / MPa swapped or joined by degrees C / bar, then the extra columns
+  const cols = DATA[key].cols, out = [];
+  const rest = cols.filter(c => !VIEW_FIRST.includes(c) && c !== "point_id");
+  for (const c of VIEW_FIRST.filter(c => cols.includes(c)).concat(rest, cols.includes("point_id") ? ["point_id"] : [])) {
+    if (ION_COLS.has(c) && !units.brine) continue;
+    if (c === "temperature_K") { if (units.T !== "C") out.push(c); if (units.T !== "K") out.push("temperature_C"); }
+    else if (c === "pressure_MPa") { if (units.P !== "bar") out.push(c); if (units.P !== "MPa") out.push("pressure_bar"); }
+    else out.push(c);
+  }
+  return out.concat(extraCols(key));
+}
+function downloadCols(key) {  // every stored column in the release's order (never dropped), plus the visible converted columns
+  return DATA[key].cols.concat(viewCols(key).filter(c => CONV[c]));
+}
+const UNIT_OF = {temperature_K: "K", pressure_MPa: "MPa", salt_molality: "mol/kg water", solubility_mol_per_kgw: "mol/kg water",
+  solubility_mole_fraction: "mole fraction", water_mole_fraction: "mole fraction", gas2_mole_fraction_feed: "mole fraction",
+  m_Na: "mol/kg water", m_Cl: "mol/kg water", m_K: "mol/kg water", m_Ca: "mol/kg water", m_Mg: "mol/kg water", m_SO4: "mol/kg water"};
+
+// ---------- data: fetched from the same site, each table the first time its tab opens ----------
+// Every file is an array of arrays (row 0 = header). Blank cells arrive as null and become "".
+const DATA = {}, LOADING = {}, LOADERR = {};
+let PRINTED = null, PRINTED_HEAD = [];  // Map point_id -> printed-values row, loaded on first use
+let SRC = null;  // Map source_id -> sources row (loaded with the first row table: the source lists show author and year)
+const SRCNAME = new Map();
+function srcName(id) {  // "Wiebe & Gaddy 1934" for a source id; the id itself until the sources file is in, or if no reference
+  if (!SRC) return id;
+  if (!SRCNAME.has(id)) { const s = SRC.get(id); SRCNAME.set(id, (s && (s.short_reference || shortRefOf(s.reference))) || id); }
+  return SRCNAME.get(id);
+}
+function fetchTable(name) {  // with a progress figure where the server gives the size (D26)
+  return fetch("../data/" + name + ".json").then(r => {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const total = +r.headers.get("content-length") || 0;
+    if (!total || !r.body || !r.body.getReader || typeof TextDecoder === "undefined") return r.json();
+    const rd = r.body.getReader(), parts = [];
+    let got = 0;
+    const pump = () => rd.read().then(({done, value}) => {
+      if (done) { const all = new Uint8Array(got); let o = 0; for (const p of parts) { all.set(p, o); o += p.length; } return JSON.parse(new TextDecoder().decode(all)); }
+      parts.push(value); got += value.length; loadProgress(name, got <= total ? got / total : NaN);
+      return pump();
+    });
+    return pump();
+  });
+}
+function loadProgress(name, f) {
+  const e = document.querySelector(`[data-loadpct="${name}"]`);
+  if (e) e.textContent = isNaN(f) ? "" : ` ${Math.min(99, Math.floor(f * 100))}%`;
+}
+function load(key) {
+  if (DATA[key]) return Promise.resolve(DATA[key]);
+  if (!LOADING[key]) {
+    delete LOADERR[key];
+    LOADING[key] = fetchTable(key).then(a => {
+      const cols = a[0], n = cols.length, rows = new Array(a.length - 1);
+      for (let i = 1; i < a.length; i++) {
+        const src = a[i], o = {};
+        for (let j = 0; j < n; j++) { const v = src[j]; o[cols[j]] = v === null || v === undefined ? "" : String(v); }
+        rows[i - 1] = o;
+      }
+      if (ROW_TABLES.includes(key)) {  // numbers parsed once, so filtering and plotting never re-parse text
+        const present = IONS.map(i => i[0]).filter(c => cols.includes(c));
+        for (const r of rows) {
+          r._T = num(r.temperature_K); r._P = num(r.pressure_MPa); r._Mo = num(r.salt_molality);
+          r._M = cols.includes("solubility_mol_per_kgw") ? num(r.solubility_mol_per_kgw) : NaN;
+          prepRow(r, present);
+        }
+      }
+      const t = {cols, rows};
+      DATA[key] = t;
+      if (key === "dictionary") DICTIONARY = rows;
+      if (key === "sources") { SRC = new Map(rows.map(s => [s.source_id, s])); SRCNAME.clear(); }
+      return t;
+    }).catch(e => { LOADERR[key] = `The ${(TITLE[key] || key).toLowerCase()} table did not load (data/${key}.json: ${e.message || e}). Check the connection and try again.`; throw e; })
+      .finally(() => { delete LOADING[key]; });
+  }
+  return LOADING[key];
+}
+function loadPrinted() {
+  if (PRINTED) return Promise.resolve(PRINTED);
+  return load("printed_values").then(t => {
+    PRINTED = new Map(t.rows.map(r => [r.point_id, r]));
+    PRINTED_HEAD = t.cols;
+    delete DATA.printed_values;
+    return PRINTED;
+  });
+}
+
+// ---------- state ----------
+// plotSel[tab][gas]: the reader's own plot picks for that gas, a Set of source ids, ALL ("All": every source the plot
+// has, whatever the filters), or absent until the reader ticks or unticks one (the preset then shows). No filter, unit,
+// axis, quantity, gas or basis change touches it (F33); only the picker's tick boxes, All, None and "Clear all filters"
+// do. helpOpen: the open "?" texts ("tab|id"); colhelp[tab]: the column meaning on show, [table, column]; sort[tab]:
+// [column, "asc" | "desc"].
+const ALL = "*";
+const state = {tab: "solubility", f: {}, fver: {}, page: {}, picked: {}, joined: {}, axis: {}, plotSel: {}, plotQ: {}, srcQ: {},
+               plotGas: {}, plotBasis: {}, src: {text: "", methods: []}, dictTable: [], yq: {}, unitsOpen: false, howOpen: false,
+               helpOpen: new Set(), colhelp: {}, sort: {}, plotQty: {}, plotBand: {}, xlog: {}, ylog: {}, plotSelLegacy: {},
+               zoom: {}, grey: {}, hl: {}, capOpen: false};  // zoom[tab] = [x0, x1, y0, y1] in data units; grey[tab] false = no grey points
+const FCACHE = {}, OPTS = {}, PENDING = {};  // PENDING[tab] = filters read from the link, applied when the tab's data arrives
+const CHIP_COLS = ["gas", "salt", "status", "phase", "boundary_type", "source_table"];
+const CHIP_TITLE = {gas: "Gas", salt: "Salt", status: "Status", phase: "Phase", boundary_type: "Boundary type", source_table: "Table the row belongs with"};
+const DEFAULT_CHIPS = {status: ["measured"]};  // a status column: measured rows only until the reader adds the others
+// One default gas for the whole page (author ruling D31, "yes CO2"): CO2 where the table has it, else its gas with most rows
+const DEFAULT_GAS = "CO2";
+const RANGES = [["temperature_K", "_T", "Temperature (K)", "T", 0.05], ["pressure_MPa", "_P", "Pressure (MPa)", "P", 0.01],
+                ["salt_molality", "_Mo", "Salt molality (mol/kg water)", "m", 0.001]];
+function options(key, col) {
+  const o = OPTS[key] || (OPTS[key] = {});
+  if (!o[col]) {
+    const m = new Map();
+    for (const r of DATA[key].rows) m.set(r[col], (m.get(r[col]) || 0) + 1);
+    o[col] = [...m.entries()].sort((a, b) => a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0);
+  }
+  return o[col];
+}
+function defaultChips(key, col) {
+  if (col === "gas" && DATA[key].cols.includes("gas")) {
+    const o = options(key, "gas").filter(([g]) => g !== "");
+    if (!o.length) return [];
+    return [o.some(([g]) => g === DEFAULT_GAS) ? DEFAULT_GAS : o.slice().sort((a, b) => b[1] - a[1])[0][0]];
+  }
+  const d = DEFAULT_CHIPS[col];
+  return d && DATA[key].cols.includes(col) && d.every(v => options(key, col).some(([o]) => o === v)) ? d.slice() : [];
+}
+function freshFilters(key, noDefaults) {
+  const cols = DATA[key].cols, rows = DATA[key].rows, f = {source_id: new Set()};
+  for (const c of CHIP_COLS) f[c] = noDefaults || !cols.includes(c) ? [] : defaultChips(key, c);
+  for (const [c, p] of RANGES) {
+    if (!cols.includes(c)) { f[c] = null; continue; }
+    let lo = Infinity, hi = -Infinity, blank = false;
+    for (const r of rows) { const v = r[p]; if (isNaN(v)) blank = true; else { if (v < lo) lo = v; if (v > hi) hi = v; } }
+    f[c] = lo <= hi ? {lo, hi, min: lo, max: hi, blank, keepBlank: true, blankSet: false} : null;
+  }
+  return f;
+}
+function filtersFor(key) {
+  if (!state.f[key]) {
+    state.f[key] = freshFilters(key);
+    if (PENDING[key]) { applyParams(key, PENDING[key]); delete PENDING[key]; }
+  }
+  return state.f[key];
+}
+const narrowed = g => !!g && (g.lo > g.min || g.hi < g.max);
+function autoBlank(g) { if (!g.blankSet) g.keepBlank = !narrowed(g); }  // a narrowed range drops rows with no value (F08)
+// A default (measured rows only) is not a filter the reader set (D12): it is not counted and "Clear all" returns to it.
+const chipSet = (key, c) => { const f = filtersFor(key)[c]; return f.join("\n") !== defaultChips(key, c).join("\n"); };
+const rangeSet = g => !!g && (narrowed(g) || !g.keepBlank);
+function anyFilter(key) {
+  const f = filtersFor(key);
+  return CHIP_COLS.some(c => DATA[key].cols.includes(c) && chipSet(key, c)) || f.source_id.size > 0 || RANGES.some(([c]) => rangeSet(f[c]));
+}
+function changed(key) {  // any filter moved: back to page 1 (the reader's plot picks stay)
+  state.fver[key] = (state.fver[key] || 0) + 1;
+  state.page[key] = 0;
+}
+function tests(key) {  // the active filters as [id, row test]
+  const f = filtersFor(key), cols = DATA[key].cols, out = [];
+  for (const c of CHIP_COLS) if (f[c].length && cols.includes(c)) { const s = new Set(f[c]); out.push([c, r => s.has(r[c])]); }
+  if (f.source_id.size) { const s = f.source_id; out.push(["source_id", r => s.has(r.source_id)]); }
+  for (const [c, p] of RANGES) {
+    const g = f[c];
+    if (!g || (!narrowed(g) && g.keepBlank)) continue;
+    const lo = g.lo, hi = g.hi, kb = g.keepBlank;
+    out.push([c, r => { const v = r[p]; return isNaN(v) ? kb : v >= lo - 1e-9 && v <= hi + 1e-9; }]);
+  }
+  return out;
+}
+// One pass gives the rows kept and, for every active filter, the rows that fail only that filter: the chip counts, the
+// slider ends and the "without this filter" hints all come from it.
+function facets(key) {
+  const ver = state.fver[key] || 0, c = FCACHE[key];
+  if (c && c.ver === ver) return c;
+  const ts = tests(key), keep = [], only = {};
+  for (const [id] of ts) only[id] = [];
+  for (const r of DATA[key].rows) {
+    let miss = null, n = 0;
+    for (const [id, fn] of ts) if (!fn(r)) { if (++n > 1) break; miss = id; }
+    if (n === 0) keep.push(r); else if (n === 1) only[miss].push(r);
+  }
+  return FCACHE[key] = {ver, rows: keep, only, ids: ts.map(t => t[0])};
+}
+const filtered = key => facets(key).rows;
+function eachWithout(key, id, fn) { const F = facets(key); for (const r of F.rows) fn(r); for (const r of F.only[id] || []) fn(r); }
+function chipCounts(key, col) { const m = new Map(); eachWithout(key, col, r => m.set(r[col], (m.get(r[col]) || 0) + 1)); return m; }
+function rangeView(key, col) {  // slider ends = the span of the rows every other filter keeps (F07); an open end shows that span
+  const g = filtersFor(key)[col], p = RANGES.find(x => x[0] === col)[1];
+  let a = Infinity, b = -Infinity;
+  eachWithout(key, col, r => { const v = r[p]; if (!isNaN(v)) { if (v < a) a = v; if (v > b) b = v; } });
+  if (!(a < b)) { a = g.min; b = g.max; }
+  const lo = g.lo > g.min ? g.lo : a, hi = g.hi < g.max ? g.hi : b;
+  return {dmin: Math.min(a, lo), dmax: Math.max(b, hi), lo, hi};
+}
+const rv = v => String(+(+v).toPrecision(7));
+
+// ---------- filter panel: gas always shown, the rest under "More filters" on a phone ----------
+function chipButtons(key, col) {
+  const f = filtersFor(key), cnt = chipCounts(key, col);
+  return options(key, col).map(([o]) => {
+    const on = f[col].includes(o), n = cnt.get(o) || 0;
+    const t = shownWord(col, o);
+    return `<button class="chip${on ? " on" : ""}" aria-pressed="${on}" data-col="${col}" data-val="${esc(o)}"${!n && !on ? " disabled" : ""}${t !== o ? ` title="${esc(o)}"` : ""}>${esc(t || "(blank)")}<span class="cn">${fmt(n)}</span></button>`;
+  }).join("");
+}
+function chipField(key, col, help) {
+  const f = filtersFor(key), id = "h_" + col, title = CHIP_TITLE[col], open = state.helpOpen.has(key + "|" + id);
+  return `<div class="field" data-field="${col}"><div class="lbl">${esc(title)}${help ? ` <button class="help" data-help="${id}" aria-expanded="${open}" aria-label="What '${esc(title)}' means"><span aria-hidden="true">i</span></button>` : ""}
+      <span class="hint" id="hint_${col}">${f[col].length ? f[col].length + " chosen" : "all"}</span></div>
+    ${help ? `<div class="helptext${open ? " open" : ""}" id="${id}">${esc(help)}</div>` : ""}
+    <div class="chips" id="chips_${col}">${chipButtons(key, col)}</div></div>`;
+}
+// A tick-box list with a search box. Only the first LISTMAX matches are drawn (ticked ones first), so a list of
+// hundreds of sources stays cheap to draw on a phone; the search box reaches the rest.
+const LISTMAX = 40;
+const GONE = "picked, no rows under current filters";
+// Each source shows as author and year (F32); the id is in the title, and is added where two sources share a name.
+function checkItems(entries, q, isOn, attr, gone = new Set()) {  // gone: picked entries with no row now, drawn greyed
+  q = q.toLowerCase();
+  const nm = new Map(entries.map(([s]) => [s, srcName(s)])), seen = new Map();
+  for (const v of nm.values()) seen.set(v, (seen.get(v) || 0) + 1);
+  const name = s => { const v = nm.get(s); return seen.get(v) > 1 && v !== s ? `${v} (${s})` : v; };
+  const hit = entries.filter(([s]) => !q || s.toLowerCase().includes(q) || nm.get(s).toLowerCase().includes(q));
+  const ordered = hit.filter(([s]) => isOn(s)).concat(hit.filter(([s]) => !isOn(s)));
+  const shown = ordered.slice(0, LISTMAX);
+  return shown.map(([s, n]) => { const g = gone.has(s);
+    return `<label class="li${g ? " gone" : ""}" data-q="${esc(s.toLowerCase())}"><input type="checkbox" ${attr}="${esc(s)}"${isOn(s) ? " checked" : ""}><span class="nm" title="${esc(s)}">${esc(name(s))}</span><span class="n">${g ? GONE : fmt(n)}</span></label>`; }).join("") +
+    (ordered.length > shown.length ? `<div class="lmore">+ ${fmt(ordered.length - shown.length)} more: type in the search box</div>` : "") +
+    (!ordered.length ? `<div class="lmore">No source matches.</div>` : "");
+}
+function sourceListHTML(key) {
+  const f = filtersFor(key);
+  return checkItems(options(key, "source_id"), state.srcQ[key] || "", s => f.source_id.has(s), "data-fsrc");
+}
+function plotListHTML(key) {
+  const {present, on, hidden} = plotState(key);
+  return checkItems(present.concat(hidden.map(s => [s, 0])), state.plotQ[key] || "", s => on.has(s), "data-plotsrc", new Set(hidden));
+}
+function sourceField(key) {
+  const f = filtersFor(key), q = state.srcQ[key] || "", items = sourceListHTML(key);
+  return `<div class="field" data-field="source_id"><div class="lbl">Source <span class="hint" id="hint_source_id">${f.source_id.size ? f.source_id.size + " chosen" : "all " + options(key, "source_id").length}</span></div>
+    <input type="text" inputmode="search" class="listsearch" data-listsearch="fsrclist" data-qkey="srcQ" placeholder="Search sources, e.g. Wiebe or 1934" aria-label="Search sources" value="${esc(q)}">
+    <div class="checklist" id="fsrclist">${items}</div>
+    <div class="listbtns"><button class="btn small" data-fsrcclear="1">Clear sources</button></div></div>`;
+}
+// A range: a slider and a number box for each end (type 350 for 350 K). An end at the slider's limit is open.
+function rangeField(key, col, title, step) {
+  const g = filtersFor(key)[col];
+  if (!g || g.min === g.max) return "";
+  const w = rangeView(key, col), word = title.split(" (")[0].toLowerCase(), unit = (title.match(/\((.*)\)/) || ["", ""])[1];
+  const row = (end, txt) => `<div class="range-row"><span class="rl">${txt}</span><input type="range" aria-label="${esc(word)} ${txt}" data-range="${col}" data-end="${end}" min="${w.dmin}" max="${w.dmax}" step="${step}" value="${w[end]}"><input type="number" class="rnum" inputmode="decimal" step="any" data-rnum="${col}" data-end="${end}" value="${rv(w[end])}" aria-label="${esc(word)} ${txt}, in ${esc(unit)}"></div>`;
+  return `<div class="field" data-field="${col}"><div class="lbl">${esc(title)} <span class="hint" id="hint_${col}">${narrowed(g) ? "set" : "any"}</span></div>
+    ${row("lo", "from")}${row("hi", "to")}
+    ${g.blank ? `<label class="check"><input type="checkbox" data-blank="${col}" ${g.keepBlank ? "checked" : ""}> Keep rows with no ${esc(word)} given</label>` : ""}</div>`;
+}
+function refreshSide() {  // after a filter change: counts, disabled chips, slider ends and hints, redrawn in place
+  const key = state.tab;
+  if (!DATA[key] || !ROW_TABLES.includes(key)) return;
+  const f = filtersFor(key);
+  for (const c of CHIP_COLS) {
+    const box = $("chips_" + c);
+    if (!box) continue;
+    const cnt = chipCounts(key, c);
+    box.querySelectorAll(".chip").forEach(b => {
+      const v = b.dataset.val, on = f[c].includes(v), n = cnt.get(v) || 0;
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); b.disabled = !n && !on;
+      b.querySelector(".cn").textContent = fmt(n);
+    });
+    setHint(c, f[c].length);
+  }
+  for (const [c] of RANGES) {
+    const g = f[c];
+    if (!g || !document.querySelector(`[data-field="${c}"]`)) continue;
+    const w = rangeView(key, c);
+    for (const end of ["lo", "hi"]) {
+      const s = document.querySelector(`input[data-range="${c}"][data-end="${end}"]`), n = document.querySelector(`input[data-rnum="${c}"][data-end="${end}"]`);
+      if (s && document.activeElement !== s) { s.min = w.dmin; s.max = w.dmax; s.value = w[end]; }
+      if (n && document.activeElement !== n) n.value = rv(w[end]);
+    }
+    const b = document.querySelector(`input[data-blank="${c}"]`);
+    if (b) b.checked = g.keepBlank;
+    const h = $("hint_" + c); if (h) h.textContent = narrowed(g) ? "set" : "any";
+  }
+  const ca = $("clearAll"); if (ca) ca.hidden = !(anyFilter(key) || hasPicks(key));
+  renderMoreBtn();
+}
+function renderMoreBtn() {
+  const key = state.tab, side = $("side"), btn = $("moreBtn");
+  if (!DATA[key] || !ROW_TABLES.includes(key)) return;
+  const f = filtersFor(key);
+  const extra = CHIP_COLS.filter(c => c !== "gas" && DATA[key].cols.includes(c) && chipSet(key, c)).length + (f.source_id.size ? 1 : 0) +
+    RANGES.filter(([c]) => rangeSet(f[c])).length;
+  const open = side.classList.contains("open");
+  btn.innerHTML = `<span>${open ? "Fewer filters" : "More filters"}${extra ? ` <b class="badge">${extra}</b>` : ""}</span><span class="sub">salt, status, temperature, pressure, molality, source</span><span class="caret">${open ? "&#9652;" : "&#9662;"}</span>`;
+  btn.setAttribute("aria-expanded", open);
+}
+function saltHelp(key) {  // from the values this release actually has
+  const v = options(key, "salt").map(o => o[0]);
+  return ["'none' = pure water"].concat(v.includes("not_stated") ? ["'not stated' = the source states no medium for the row"] : [],
+    v.includes("") ? ["'(blank)' = the release gives no salt for the row"] : [], v.includes("seawater") ? ["seawater: the molality is NaCl-equivalent"] : []).join("; ") + ".";
+}
+const STATUS_HELP = "Shows measured rows only until you add another status. Calculated rows are values the source worked out " +
+  "rather than measured; they are drawn hollow in the plot. The column 'Why this status' gives the reason for each row.";
+function renderSide() {
+  const key = state.tab, quick = $("quick"), more = $("more"), side = $("side");
+  $("sideTab").textContent = TITLE[key];
+  const ca = $("clearAll"); if (ca) ca.hidden = true;
+  side.classList.toggle("nomore", true);
+  if (!DATA[key]) {  // the loading line sits where the filters will appear; nothing below it is drawn yet, so nothing jumps
+    const n = (META.row_counts || {})[key];
+    quick.innerHTML = LOADERR[key] ? `<div class="hint">No data.</div>` : `<div class="info loading" role="status">Loading ${n ? fmt(n) + " rows of " : ""}${esc(TITLE[key].toLowerCase())}&hellip;<span data-loadpct="${key}"></span></div>`;
+    more.innerHTML = ""; return;
+  }
+  if (key === "sources") {
+    quick.innerHTML = `<div class="field"><label class="lbl" for="srcText">Search the references</label><input type="text" inputmode="search" id="srcText" value="${esc(state.src.text)}" placeholder="e.g. Duan or 1998"></div>
+      <div class="field"><div class="lbl">Method <span class="hint" id="hint_method">${state.src.methods.length ? state.src.methods.length + " chosen" : "all"}</span></div><div class="chips">${options("sources", "method").map(([m]) =>
+        `<button class="chip${state.src.methods.includes(m) ? " on" : ""}" aria-pressed="${state.src.methods.includes(m)}" data-method="${esc(m)}" title="${esc(m)}">${esc(word(m))}</button>`).join("")}</div></div>`;
+    more.innerHTML = "";
+    return;
+  }
+  if (key === "dictionary") {
+    quick.innerHTML = DATA.dictionary.cols.includes("table")
+      ? `<div class="field"><div class="lbl">Table <span class="hint" id="hint_dtable">${state.dictTable.length ? state.dictTable.length + " chosen" : "all"}</span></div><div class="chips">${options("dictionary", "table").map(([t, n]) =>
+        `<button class="chip${state.dictTable.includes(t) ? " on" : ""}" aria-pressed="${state.dictTable.includes(t)}" data-dtable="${esc(t)}" title="${esc(t)}">${esc(word(t))}<span class="cn">${fmt(n)}</span></button>`).join("")}</div></div>`
+      : `<div class="hint">No filters on this tab.</div>`;
+    more.innerHTML = ""; return;
+  }
+  side.classList.toggle("nomore", false);
+  const cols = DATA[key].cols;
+  quick.innerHTML = chipField(key, "gas");
+  let h = chipField(key, "salt", saltHelp(key));
+  if (cols.includes("status")) h += chipField(key, "status", STATUS_HELP);
+  for (const c of ["phase", "boundary_type", "source_table"]) if (cols.includes(c)) h += chipField(key, c);
+  for (const [c, , title, , step] of RANGES) h += rangeField(key, c, title, step);
+  h += sourceField(key);
+  more.innerHTML = h;
+  if (ca) ca.hidden = !(anyFilter(key) || hasPicks(key));
+  renderMoreBtn();
+}
+
+// ---------- tables ----------
+const LONG = new Set(["reference", "meaning", "derivation", "unit_as_printed", "applies_to", "status_reason", "blank_means",
+  "extra_quantity", "quantity_as_printed", "salt_composition"]);
+// Numbers show 6 significant figures; a stored number keeps its exact value in the cell's title, a converted one in
+// data-v. An empty cell stays empty (title "not given", F20). Raw words show in plain words (D17), the stored word in the title.
+const shownWord = (c, v) => CHEM_COLS.has(c) ? chem(c === "salt" ? word(v) : v) : WORD_COLS.has(c) ? word(v) : v;
+function cellText(r, c) {
+  if (CONV[c]) { const k = conv(r, c); return k.why ? k.why : sig(k.v, 6); }
+  const v = r[c] ?? "";
+  if (v === "") return "";
+  if (c === "source_id") return srcName(v);
+  return NUMERIC.has(c) && !isNaN(+v) ? sig(+v, 6) : shownWord(c, v);
+}
+function cellHTML(r, c) {
+  if (CONV[c]) {
+    const k = conv(r, c);
+    return k.why ? `<td class="blank conv" data-c="${c}"><span class="why">${esc(k.why)}</span></td>`
+                 : `<td class="num conv" data-c="${c}" data-v="${k.v}">${esc(sig(k.v, 6))}</td>`;
+  }
+  const v = r[c] ?? "";
+  if ((c === "doi" || c === "source_doi") && v) return `<td><a href="https://doi.org/${esc(v)}" target="_blank" rel="noopener">${esc(v)}</a></td>`;
+  if (v === "") return `<td class="blank" title="not given"></td>`;
+  if (NUMERIC.has(c) && !isNaN(+v)) { const s = sig(+v, 6); return `<td class="num"${s !== v ? ` title="${esc(v)}"` : ""}>${esc(s)}</td>`; }
+  if (c === "source_id" && SRC) return `<td title="${esc(v)}">${esc(srcName(v))}</td>`;
+  const w = shownWord(c, v);
+  return `<td class="${LONG.has(c) ? "long" : ""}"${w !== v ? ` title="${esc(v)}"` : ""}>${esc(w)}</td>`;
+}
+function rowHTML(r, cols, table, opts) {
+  const picked = opts.select && opts.pickedId === r.point_id;
+  return `<tr${picked ? ' class="picked"' : ""}${opts.select ? ` data-pick="${esc(r.point_id)}"` : ""}>` +
+    (opts.select ? `<td class="sel"><input type="radio" name="pick_${table}" ${picked ? "checked" : ""} aria-label="pick row ${esc(r.point_id)}"></td>` : "") +
+    cols.map(c => cellHTML(r, c)).join("") + "</tr>";
+}
+// Column titles (F17, F18, F19): the title is a button that sorts (ascending, descending, release order), the "?" beside
+// it opens the column's meaning at the title. Both are reached by Tab.
+function headHTML(table, c, opts) {
+  const name = opts.heads ? opts.heads(c) : label(c), sort = opts.sort, dir = sort && sort[0] === c ? sort[1] : "";
+  const help = `<button class="colq" data-colhelp="${esc(table)}|${esc(c)}" aria-label="What '${esc(name)}' means"><span aria-hidden="true">i</span></button>`;
+  if (!opts.sortable) return `<th scope="col"><span class="thl">${esc(name)}</span>${help}</th>`;
+  return `<th scope="col"${dir ? ` aria-sort="${dir === "asc" ? "ascending" : "descending"}"` : ""}><button class="sortbtn" data-sort="${esc(c)}" aria-label="Sort by ${esc(name)}${dir ? dir === "asc" ? ", now ascending" : ", now descending" : ""}">${esc(name)}<span class="sortmark" aria-hidden="true">${dir === "asc" ? " &#9650;" : dir === "desc" ? " &#9660;" : ""}</span></button>${help}</th>`;
+}
+// opts.first: draw only the first rows now (fast first paint on a phone); the caller appends the rest a frame later.
+// A collapsed "sizer" row carries the longest text of each column on the page, so the columns already have their
+// final widths and nothing jumps sideways when the other rows arrive.
+function tableHTML(rows, cols, table, opts = {}) {
+  const head = (opts.select ? `<th class="sel" scope="col"><span class="vh">Pick</span></th>` : "") + cols.map(c => headHTML(table, c, opts)).join("");
+  const n = opts.first && rows.length > opts.first ? opts.first : rows.length;
+  let body = rows.slice(0, n).map(r => rowHTML(r, cols, table, opts)).join("");
+  if (n < rows.length) {
+    const longest = {};
+    for (const c of cols) { let best = ""; for (const r of rows) { const v = cellText(r, c); if (v.length > best.length) best = v; } longest[c] = best; }
+    body += `<tr class="sizer" aria-hidden="true">${opts.select ? `<td class="sel"></td>` : ""}${cols.map(c => `<td class="${LONG.has(c) ? "long" : ""}">${esc(longest[c])}</td>`).join("")}</tr>`;
+  }
+  return `<div class="tablewrap${opts.full ? " full" : ""}"><table${opts.id ? ` id="${opts.id}"` : ""}><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+let tableGen = 0;
+const FIRST = 25;
+function appendRest(rows, cols, table, opts) {  // the rows after the first FIRST, one frame after the first paint
+  const gen = ++tableGen;
+  if (rows.length <= FIRST || !opts.first) return;
+  requestAnimationFrame(() => setTimeout(() => {
+    if (gen !== tableGen) return;
+    const tb = document.querySelector("#" + opts.id + " tbody"), sizer = tb && tb.querySelector("tr.sizer");
+    if (!tb) return;
+    tb.insertAdjacentHTML("beforeend", rows.slice(FIRST).map(r => rowHTML(r, cols, table, opts)).join(""));
+    if (sizer) sizer.remove();
+  }, 0));
+}
+// Sorting (F17): numbers by value, text alphabetically, empty cells always last; the release order otherwise.
+const SCACHE = {};
+function sortRows(rows, c, dir, key) {
+  const numeric = NUMERIC.has(c) || !!CONV[c], f = numeric ? (CONV[c] ? CONV[c].f : r => num(r[c])) : null, sign = dir === "desc" ? -1 : 1;
+  const text = c === "source_id" ? r => srcName(r[c]) : r => String(r[c] ?? "");
+  return rows.map((r, i) => [r, i]).sort((A, B) => {
+    const a = A[0], b = B[0];
+    if (numeric) { const x = f(a), y = f(b), nx = isNaN(x), ny = isNaN(y); if (nx || ny) return nx === ny ? A[1] - B[1] : nx ? 1 : -1; return (x - y) * sign || A[1] - B[1]; }
+    const x = text(a), y = text(b);
+    if (!x || !y) return !x === !y ? A[1] - B[1] : !x ? 1 : -1;
+    return x.localeCompare(y) * sign || A[1] - B[1];
+  }).map(p => p[0]);
+}
+function viewRows(key) {  // the rows the table shows, in the reader's sort order
+  const rows = key === "sources" ? sourcesFiltered() : filtered(key), s = state.sort[key];
+  if (!s) return rows;
+  const tag = (key === "sources" ? state.src.text + "|" + state.src.methods.join() : state.fver[key] || 0) + "|" + s.join("|");
+  const C = SCACHE[key];
+  if (C && C.tag === tag && C.n === rows.length) return C.rows;
+  return (SCACHE[key] = {tag, n: rows.length, rows: sortRows(rows, s[0], s[1], key)}).rows;
+}
+function cycleSort(key, c) {
+  const s = state.sort[key];
+  state.sort[key] = !s || s[0] !== c ? [c, "asc"] : s[1] === "asc" ? [c, "desc"] : undefined;
+  if (!state.sort[key]) delete state.sort[key];
+  state.page[key] = 0;
+}
+const PRINTED_COLS = ["value_as_printed", "unit_as_printed"];
+const joinCols = key => PRINTED_COLS.filter(c => !DATA[key].cols.includes(c));  // a table that already has one keeps its own
+function withPrinted(rows) {
+  return rows.map(r => { const p = PRINTED.get(r.point_id); return Object.assign({value_as_printed: p ? p.value_as_printed : "", unit_as_printed: p ? p.unit_as_printed : ""}, r); });
+}
+function pagerHTML(n, page) {  // Prev / Next and a page number box (F17)
+  const pages = Math.max(1, Math.ceil(n / PAGE));
+  const a = n ? page * PAGE + 1 : 0, b = Math.min(n, (page + 1) * PAGE);
+  return `<div class="pager"><button class="btn" data-page="-1"${page <= 0 ? " disabled" : ""}>&#8592; Prev</button>
+    <span class="pinfo"><span id="pinfo">rows ${fmt(a)}-${fmt(b)} of ${fmt(n)}</span>${pages > 1 ? ` <label class="pjump">page <input type="number" id="pagejump" min="1" max="${pages}" step="1" value="${page + 1}" inputmode="numeric" aria-label="Go to page, 1 to ${pages}"> of ${fmt(pages)}</label>` : ""}</span>
+    <button class="btn" data-page="1"${page >= pages - 1 ? " disabled" : ""}>Next &#8594;</button></div>`;
+}
+const countHTML = (n, total, what) => `<b>${fmt(n)}</b> of ${fmt(total)} ${what}<span class="plotmiss" id="plotmiss"></span>`;
+function countBar(n, total, what, btnId, btnText, key) {  // at 0 rows the downloads are switched off (D13)
+  const off = n ? "" : " disabled";
+  const opts = key ? `<div class="dlopts">${checkHTML("join", state.joined[key], "Add the value and unit as printed")}${checkHTML("refdl", units.refdl, "Add full reference and DOI")}</div>
+      <div class="dlnote" id="dlnote">${dlNote(key)}</div>` : "";
+  return `<div class="countbar"><div class="count" id="count">${countHTML(n, total, what)}</div>
+    <div class="dlbox" id="dlbox"><div class="dlbtns"><button class="btn primary" id="${btnId}"${off}>&#8681; ${n ? btnText : "No rows to download"}</button><button class="btn" id="${btnId}csv"${off}>CSV only</button></div>${opts}</div>
+    <div class="caption" id="dlstatus" role="status"></div></div>`;
+}
+function dlNote(key) {  // what a download of this tab carries (D23)
+  const ex = extraCols(key).length;
+  return `The file has every stored column${ex ? ` and ${ex} converted column${ex > 1 ? "s" : ""}` : ""}; units and extra columns are set under Units and extra columns.`;
+}
+function setDownloads(n, btnId, btnText) {  // the Sources tab redraws its count without the bar
+  const a = $(btnId), b = $(btnId + "csv");
+  if (a) { a.disabled = !n; a.innerHTML = "&#8681; " + (n ? btnText : "No rows to download"); }
+  if (b) b.disabled = !n;
+}
+const FILTER_NAME = c => CHIP_TITLE[c] || (c === "source_id" ? "Source" : (RANGES.find(x => x[0] === c) || [, , c])[2]);
+function zeroHint(key) {  // no row left: which filter takes them away; each line is a button that drops that filter (D07)
+  const F = facets(key), f = filtersFor(key);
+  const lines = F.ids.map(id => { const t = `Without the ${esc(FILTER_NAME(id))} filter: ${fmt(F.only[id].length)} rows`;
+    return `<li>${F.only[id].length ? `<button class="btn small linkbtn" data-dropfilter="${esc(id)}">${t}</button>` : t}</li>`; }).join("");
+  let near = "";
+  const g = f.salt_molality;
+  if (g && narrowed(g) && F.only.salt_molality && F.only.salt_molality.length) {  // the salt molalities that do have rows here
+    const mid = (g.lo + g.hi) / 2, vals = [...new Set(F.only.salt_molality.map(r => r._Mo).filter(v => !isNaN(v)))];
+    const best = vals.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid)).slice(0, 4).sort((a, b) => a - b);
+    near = `<div class="nearest">Nearest salt molalities with data: ${best.map(v => `<button class="btn small linkbtn" data-setmolality="${v}">${esc(rv(v))}</button>`).join(" ")} mol/kg water</div>`;
+  }
+  return `<div class="info" role="status">No rows match these filters.${lines ? `<ul class="zero">${lines}</ul>` : ""}${near}
+    <button class="btn small" data-clearall="1">Clear all filters</button></div>`;
+}
+function dropFilter(key, id) {  // one filter back to "any" (the zero-row hint's buttons)
+  const f = filtersFor(key);
+  if (CHIP_COLS.includes(id)) f[id] = [];
+  else if (id === "source_id") f.source_id.clear();
+  else if (f[id]) { const g = f[id]; g.lo = g.min; g.hi = g.max; g.keepBlank = true; g.blankSet = false; }
+}
+function renderTable(o = {}) {
+  const key = state.tab, rows = viewRows(key), cols = viewCols(key), box = $("tablecard");
+  if (!box) return;
+  if (!rows.length) {  // one empty-state box: no pager, no printed-value line (D13)
+    box.innerHTML = `<div class="sechead"><h2>Table</h2></div>${zeroHint(key)}`;
+    return;
+  }
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE));
+  const page = state.page[key] = Math.max(0, Math.min(state.page[key] || 0, pages - 1));
+  const joined = !!state.joined[key] && !!PRINTED;
+  let slice = rows.slice(page * PAGE, page * PAGE + PAGE);
+  if (joined) slice = withPrinted(slice);
+  const pickedId = state.picked[key];
+  let h = `<div class="sechead"><h2>Table</h2><span class="secnote">follows the filters, ${PAGE} rows per page; click a column title to sort, its &#9432; for what it means</span></div>`;
+  const shownCols = joined ? cols.concat(joinCols(key)) : cols;
+  const topts = {select: true, pickedId, id: "datatable", first: o.all ? 0 : FIRST, sortable: true, sort: state.sort[key]};
+  h += tableHTML(slice, shownCols, key, topts);
+  h += pagerHTML(rows.length, page);
+  h += `<div class="colpop" id="colhelp" role="dialog" aria-label="Column meaning" hidden></div>`;
+  if (pickedId) {
+    const p = PRINTED && PRINTED.get(pickedId), r = DATA[key].rows.find(x => x.point_id === pickedId), s = r && SRC && SRC.get(r.source_id);
+    const src = s ? `<p class="srcline">Source: ${esc(s.reference)}${s.doi ? ` <a href="https://doi.org/${esc(s.doi)}" target="_blank" rel="noopener">doi:${esc(s.doi)}</a>` : ""}</p>` : "";
+    h += `<div class="printed"><h3>As printed in the source, row ${esc(pickedId)}</h3>${src}` +
+      (!PRINTED ? `<div>Loading...</div>` : p ? tableHTML([p], PRINTED_HEAD, "printed_values") : `<div>No printed value recorded for this row.</div>`) + `</div>`;
+  } else {
+    h += `<div class="caption">Click a row (or a point in the plot) to see its value and unit as printed, with its page and source.</div>`;
+  }
+  box.innerHTML = h;
+  reshowColHelp(key);
+  appendRest(slice, shownCols, key, topts);
+  if ((pickedId || state.joined[key]) && !PRINTED) loadPrinted().then(() => { if (state.tab === key) renderTable(); })
+    .catch(() => { const c = $("dlstatus"); if (c) c.textContent = "Could not load data/printed_values.json."; });
+}
+const DL_TEXT = "Download these rows (CSV + citation, ZIP)";
+function renderMeasurement(key) {
+  const rows = filtered(key);
+  let h = countBar(rows.length, DATA[key].rows.length, "rows", "dl", DL_TEXT, key);
+  if (rows.length && PLOT_DEFAULT[key]) h += `<section class="card plotcard" id="plotcard"></section>`;
+  h += `<section class="card unitcard" id="unitcard">${unitsHTML(key)}</section>`;
+  const card = `<section class="card tablecard" id="tablecard"></section>`;
+  rows.length ? setBody(h, card) : setBody(h + card, "");  // the table spans the full width below; the zero-row box stays up top
+  if (rows.length && PLOT_DEFAULT[key]) renderPlot();
+  renderTable();
+}
+
+// ---------- "Units and extra columns" panel, with the plain-words conversion help ----------
+function segHTML(name, val, opts, aria) {
+  return `<div class="seg" role="radiogroup" aria-label="${esc(aria)}">` + opts.map(([v, t]) =>
+    `<label class="${val === v ? "on" : ""}"><input type="radio" name="${name}" value="${v}" ${val === v ? "checked" : ""}> ${t}</label>`).join("") + `</div>`;
+}
+const checkHTML = (id, on, text) => `<label class="check"><input type="checkbox" id="${id}" ${on ? "checked" : ""}> ${text}</label>`;
+const HOW_TEXT = `<p>These values are worked out by this page from the stored ones, for viewing and download only. The database itself never changes.</p>
+  <ul>
+  <li>Temperature in &deg;C = temperature in K &minus; 273.15.</li>
+  <li>Pressure in bar = pressure in MPa &times; 10.</li>
+  <li>One kilogram of water holds N<sub>W</sub> = 1000 / 18.0153 = 55.508373 mol of water (the constant the database builder uses).</li>
+  <li>Gas mole fraction (salt-free): x = m / (m + N<sub>W</sub>), where m is the gas solubility in mol per kg of water.</li>
+  <li>Gas mole fraction (with ions): x = m / (m + N<sub>W</sub> + total ions). Pure water (salt &ldquo;none&rdquo;) has no ions,
+    so the two mole fractions are equal there. An ion column a table does not carry counts as zero where the row's other ion
+    columns are filled. A brine row that does not give its ion molalities stays blank and says &ldquo;ions not given&rdquo;.</li>
+  <li>Total ions = Na + Cl + K + Ca + Mg + SO<sub>4</sub>, each in mol per kg of water.</li>
+  <li>Ionic strength I = &frac12; &times; the sum of (ion molality &times; charge&sup2;), with charges Na +1, K +1, Ca +2, Mg +2, Cl &minus;1, SO<sub>4</sub> &minus;2.</li>
+  <li>Charge balance = the sum of (ion molality &times; charge). It should be about 0 for a neutral brine.</li>
+  </ul>
+  <p>The table shows 6 significant figures. A download keeps every stored column at its stored value and gives the converted columns
+  8 significant figures. The CSV's first line is the column names; the notes file beside it in the ZIP gives the citation, the units and the filters.</p>`;
+function unitsHTML(key) {
+  const tsum = units.T === "both" ? "K and &deg;C" : units.T === "C" ? "&deg;C" : "K";
+  const psum = units.P === "both" ? "MPa and bar" : units.P;
+  const nx = extraCols(key).length;
+  return `<details class="units" id="unitsbox"${state.unitsOpen ? " open" : ""}><summary><span class="sumt">Units and extra columns</span>
+      <span class="hint" id="unitsum">${tsum}, ${psum}${nx ? ", " + nx + " extra" : ""}</span><span class="chg" aria-hidden="true">Change</span></summary>
+    <div class="unitgrid">
+      <div class="field"><div class="lbl">Temperature</div>${segHTML("tunit", units.T, [["K", "K"], ["C", "&deg;C"], ["both", "Both"]], "Temperature unit")}</div>
+      <div class="field"><div class="lbl">Pressure</div>${segHTML("punit", units.P, [["MPa", "MPa"], ["bar", "bar"], ["both", "Both"]], "Pressure unit")}</div>
+      <div class="field"><div class="lbl">Extra columns</div>
+        ${hasM(key) ? checkHTML("xgas", units.xgas, "Gas mole fraction (salt-free)") + checkHTML("xsalt", units.xsalt, "Gas mole fraction (with ions: water plus dissolved ions)") : ""}
+        ${checkHTML("brine", units.brine, "Brine: ion molalities, ionic strength, total ions, charge balance")}</div>
+    </div>
+    <details class="howconv" id="howconv"${state.howOpen ? " open" : ""}><summary>How values are converted</summary><div class="howtext">${HOW_TEXT}</div></details>
+  </details>`;
+}
+
+// ---------- downloads: a ZIP of the CSV and its notes (citation, DOI, licence, units, filters), or the CSV alone ----------
+function today() { const d = new Date(), p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; }
+const fileBase = what => `AquaSolDB-${VERSION}${META.draft ? "-draft" : ""}_${what}_${today()}`;
+function filterWords(key) {
+  if (key === "sources") return [state.src.text ? `Search: "${state.src.text}"` : "", state.src.methods.length ? "Method: " + state.src.methods.join(", ") : ""].filter(Boolean);
+  const f = filtersFor(key), out = [];
+  for (const c of CHIP_COLS) if (f[c].length) out.push(`${CHIP_TITLE[c]}: ${f[c].map(v => v || "(blank)").join(", ")}`);
+  for (const [c, , title] of RANGES) {
+    const g = f[c];
+    if (!g || (!narrowed(g) && g.keepBlank)) continue;
+    const a = g.lo > g.min ? "from " + rv(g.lo) : "", b = g.hi < g.max ? "to " + rv(g.hi) : "";
+    out.push(`${title}: ${[a, b].filter(Boolean).join(" ") || "any value"}${g.blank ? (g.keepBlank ? " (rows with no value kept)" : " (rows with no value left out)") : ""}`);
+  }
+  if (f.source_id.size) out.push("Source: " + [...f.source_id].join(", "));
+  return out;
+}
+function notesText(key, csvName, cols, n) {
+  const L = [];
+  L.push(`AquaSolDB viewer download: ${csvName}`, "");
+  L.push(`Data: ${META.name}`);
+  if (META.draft) L.push("This version is a draft and is not published; check the published version before you rely on a number.");
+  L.push(META.citation_note.replace(/`/g, ""));
+  L.push(`Cite: ${META.citation}`);
+  L.push(`DOI: ${META.doi_url}` + (META.doi_is_concept ? " (the concept DOI: it always opens the newest published version)" : ""));
+  L.push(`Licence: ${META.licence}, ${META.licence_url}`, "");
+  L.push(`File: ${csvName}, ${fmt(n)} rows of the table "${TITLE[key]}", written ${today()} by the AquaSolDB viewer.`);
+  L.push("Layout: the first line is the column names; UTF-8 with a byte-order mark; an empty cell means not given.");
+  L.push(`Open the same selection in the viewer: ${location.href}`, "");
+  const fw = filterWords(key);
+  L.push("Filters: " + (fw.length ? "" : "none (every row of the table)"));
+  for (const w of fw) L.push("  " + w);
+  const u = cols.filter(c => UNIT_OF[c] || CONV[c]).map(c => `  ${c}: ${UNIT_OF[c] || CONV[c].unit}`);
+  if (u.length) L.push("", "Units:", ...u);
+  L.push("", "Stored columns carry the stored values in the release's own text form (e.g. 0.000000 stays 0.000000).");
+  if (cols.some(c => CONV[c])) L.push("Converted columns (" + cols.filter(c => CONV[c]).join(", ") + ") are worked out by the viewer, 8 significant figures; they are not stored in the database. Formulas: the viewer's \"How values are converted\".");
+  if (cols.includes("source_reference")) L.push("source_reference, source_doi: the full reference and DOI of the row's source, from sources.csv.");
+  if (joinCols(key).some(c => cols.includes(c))) L.push("value_as_printed, unit_as_printed: the value and unit as printed in the source.");
+  return L.join("\r\n") + "\r\n";
+}
+function deliver(key, rows, cols, zip) {
+  const base = fileBase(key), csv = toCSV(rows, cols);
+  if (!zip) return download(base + ".csv", csvBlob(csv));
+  download(base + ".zip", zipBlob([{name: base + ".csv", text: csv}, {name: base + "_notes.txt", text: notesText(key, base + ".csv", cols, rows.length)}]));
+}
+function downloadRows(key, zip) {
+  const go = () => {
+    const joined = !!state.joined[key] && !!PRINTED, rows = filtered(key);
+    let out = joined ? withPrinted(rows) : rows, cols = downloadCols(key).concat(joined ? joinCols(key) : []);
+    if (units.refdl) {
+      const S = new Map(DATA.sources.rows.map(s => [s.source_id, s]));
+      out = out.map(r => { const s = S.get(r.source_id); return Object.assign({}, r, {source_reference: s ? s.reference : "", source_doi: s ? s.doi : ""}); });
+      cols = cols.concat(["source_reference", "source_doi"]);
+    }
+    deliver(key, out, cols, zip);
+  };
+  const need = [];  // wait for what the download needs (a slow link must not drop columns, F30)
+  if (units.refdl && !DATA.sources) need.push(load("sources"));
+  if (state.joined[key] && !PRINTED) need.push(loadPrinted());
+  if (!need.length) return go();
+  Promise.all(need).then(go, () => { const c = $("dlstatus"); if (c) c.textContent = "Could not load the files this download needs; check the connection and try again."; });
+}
+
+// ---------- plot (inline SVG), above the table, with its own source picker ----------
+function niceTicks(lo, hi, n) {
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const span = hi - lo, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => span / s <= n) || 10 * mag;
+  const t = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-12; v += step) t.push(+v.toPrecision(10));
+  return {ticks: t, step};
+}
+function logTicks(a, b) {  // a, b = log10 of the axis ends: whole decades, with 2 and 5 between when there are few
+  const out = [], d0 = Math.ceil(a - 1e-9), d1 = Math.floor(b + 1e-9);
+  for (let d = d0; d <= d1; d++) out.push(d);
+  if (out.length < 3) for (let d = Math.floor(a); d <= Math.ceil(b); d++) for (const m of [2, 5]) { const v = d + Math.log10(m); if (v >= a && v <= b) out.push(v); }
+  return out.sort((x, y) => x - y);
+}
+const tickText = (v, log) => { if (!log) return String(v); const x = +Math.pow(10, v).toPrecision(3); return x >= 1e-3 && x < 1e5 ? String(x) : x.toExponential(0).replace("+", ""); };
+const SHAPES = ["circle", "square", "triangle", "diamond"];
+let STYLE_OF = new Map();  // source -> [colour, shape, palette index] for the ticked sources, in picker order
+function shapeD(shape, x, y, r) {  // one marker as path commands
+  const f = v => Math.round(v * 10) / 10;
+  if (shape === "square") { const h = r * 0.85; return `M${f(x - h)} ${f(y - h)}h${f(2 * h)}v${f(2 * h)}h${f(-2 * h)}z`; }
+  if (shape === "triangle") return `M${f(x)} ${f(y - r)}L${f(x + r)} ${f(y + r * 0.8)}L${f(x - r)} ${f(y + r * 0.8)}z`;
+  if (shape === "diamond") return `M${f(x)} ${f(y - r)}L${f(x + r)} ${f(y)}L${f(x)} ${f(y + r)}L${f(x - r)} ${f(y)}z`;
+  return `M${f(x - r)} ${f(y)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0z`;
+}
+function swatch(src) {
+  const [c, shape] = STYLE_OF.get(src) || [THEME.palette[0], "circle"];
+  return `<svg class="sw" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path fill="${c}" d="${shapeD(shape, 6, 6, 5)}"/></svg>`;
+}
+const PCACHE = {};
+// P1: any plottable column of the table on either axis. Plottable = a stored number column, a value converted by this
+// page (degrees C, bar, the two gas mole fractions, ionic strength, total ions, charge balance) or, in a table where one
+// column holds different quantities (QCOL), that value for one quantity at a time. The menus put first what has data
+// for the plotted gas under the filters (availability below); ids and text columns are never offered.
+const CONV_AXES = ["temperature_C", "pressure_bar", "x_gas_salt_ignored", "x_gas_with_salt", "ionic_strength_mol_per_kgw",
+  "total_ions_mol_per_kgw", "charge_balance_mol_per_kgw"];
+const AXIS_ORDER = ["temperature_K", "temperature_C", "pressure_MPa", "pressure_bar", "salt_molality", "m_Na", "m_Cl", "m_K", "m_Ca",
+  "m_Mg", "m_SO4", "ionic_strength_mol_per_kgw", "total_ions_mol_per_kgw", "charge_balance_mol_per_kgw", "gas2_mole_fraction_feed",
+  "solubility_mol_per_kgw", "x_gas_salt_ignored", "x_gas_with_salt", "solubility_mole_fraction", "water_mole_fraction",
+  "value_as_printed", "extra_value"];
+const numText = v => { if (v === "" || v === undefined || v === null) return NaN; const s = String(v); return s.trim() === "" || !isFinite(+s) ? NaN : +s; };
+const AXCACHE = {};
+function axisValue(key, c) {  // row -> number (NaN = no value) for a plottable column
+  if (c === "temperature_K") return r => r._T;
+  if (c === "pressure_MPa") return r => r._P;
+  if (c === "salt_molality") return r => r._Mo;
+  if (c === "solubility_mol_per_kgw") return r => r._M;
+  if (CONV[c]) return CONV[c].f;
+  const p = "_v_" + c, A = AXCACHE[key] || (AXCACHE[key] = {});
+  if (!A[c]) { for (const r of DATA[key].rows) r[p] = numText(r[c]); A[c] = true; }
+  return r => r[p];
+}
+// Every property the axis menus name for a table, in a fixed reading order: its number columns and the page's converted
+// values (a column with no number at all included), plus the ion columns a table with ions does not carry, so the reader sees they exist (listed as having no data).
+const ION_NAMES = IONS.map(i => i[0]);
+function axisAll(key) {
+  const A = AXCACHE[key] || (AXCACHE[key] = {});
+  if (!A.all) {
+    const cols = DATA[key].cols, hasIons = ION_NAMES.some(c => cols.includes(c));
+    A.all = AXIS_ORDER.filter(c => CONV[c] ? CONV_AXES.includes(c) && convOffered(key, c) : (cols.includes(c) && (NUMERIC.has(c) || QCOL[c])) || (hasIons && ION_COLS.has(c)));
+  }
+  return A.all;
+}
+// A property has data for a gas when at least one row the filters keep gives it a real value: not blank, and for the
+// amounts (salt molality, ions, ionic strength, total ions) not only zeros. Those zeros are the release's own zeros for
+// pure water (salt molality and ions are stored as 0) and the page's zero sums for pure water (P-DCR-97); a blank is
+// never read as 0. Charge balance has data when some row is not pure water.
+const AMOUNT = new Set(["salt_molality", ...ION_NAMES, "ionic_strength_mol_per_kgw", "total_ions_mol_per_kgw"]);
+function availability(key, gas) {
+  const tag = (state.fver[key] || 0) + "|" + gas, A = AXCACHE[key] || (AXCACHE[key] = {});
+  if (A.availTag === tag) return A.avail;
+  const cols = DATA[key].cols, rows = filtered(key).filter(r => !cols.includes("gas") || r.gas === gas), out = new Map();
+  for (const c of axisAll(key)) {
+    const f = axisValue(key, c);
+    let n = 0, nz = 0, notPure = 0;
+    for (const r of rows) { const v = f(r); if (isNaN(v)) continue; n++; if (v !== 0) nz++; if (r.salt !== "none") notPure++; }
+    let ok = n > 0, why = "";
+    if (!n) why = !cols.includes(c) && !CONV[c] ? "This table has no such column." : "No row gives this value.";
+    else if (AMOUNT.has(c) && !nz) { ok = false; why = !notPure ? (c === "salt_molality" ? "Every row shown is pure water, so its salt amount is zero." : "Every row shown is pure water, so this amount is zero.") : "Every row shown has none of this, so the value is zero for all of them."; }
+    else if (c === "charge_balance_mol_per_kgw" && !notPure) { ok = false; why = "Every row shown is pure water, so the charge balance is zero."; }
+    out.set(c, {ok, why});
+  }
+  A.availTag = tag; A.avail = out;
+  return out;
+}
+function axisSelectHTML(attr, val, key, S, aria) {  // properties with data first; the rest greyed, in a group that cannot be picked
+  const av = S.avail, all = axisAll(key), on = all.filter(c => av.get(c).ok), off = all.filter(c => !av.get(c).ok);
+  const opt = (c, dis) => `<option value="${esc(c)}"${c === val ? " selected" : ""}${dis ? " disabled" : ""}>${esc(axisLabel(key, c))}</option>`;
+  return `<select class="pselect" ${attr} aria-label="${esc(aria)}">${on.map(c => opt(c, false)).join("")}` +
+    (off.length ? `<optgroup label="No data for ${esc(chem(S.gas) || "this gas")} here">${off.map(c => opt(c, true)).join("")}</optgroup>` : "") + `</select>`;
+}
+function convOffered(key, c) {
+  const cols = DATA[key].cols;
+  if (c === "temperature_C") return cols.includes("temperature_K");
+  if (c === "pressure_bar") return cols.includes("pressure_MPa");
+  if (c.startsWith("x_gas")) return hasM(key);
+  return true;
+}
+function axisUnit(key, c) {  // the unit from the column guide; the page's own unit for a converted column
+  if (CONV[c]) return CONV[c].unit;
+  if (QCOL[c]) return "";
+  const d = DICTIONARY && DICTIONARY.find(x => x.column === c && (!("table" in x) || x.table === key));
+  const u = d && d.unit && d.unit !== "-" ? d.unit : UNIT_OF[c] || "";
+  return u;
+}
+const AXIS_UNIT_TEXT = {"mole fraction": "mol/mol", "degrees C": "°C"};
+function axisLabel(key, c) { let u = axisUnit(key, c); u = AXIS_UNIT_TEXT[u] || u; return (AXIS_NAME[c] || label(c)) + (u ? ` (${u})` : ""); }
+function plotAxes(key) {
+  // a choice is kept even when it has no data under the filters (the chart then says so; it never jumps silently)
+  const offered = axisAll(key), [dx, dy] = PLOT_DEFAULT[key] || ["pressure_MPa", "solubility_mol_per_kgw"];
+  const pickOr = (v, d) => offered.includes(v) ? v : offered.includes(d) ? d : offered[0];
+  const x = pickOr(state.axis[key], dx), y = pickOr(state.yq[key], dy);
+  return {x, y, X: axisValue(key, x), Y: axisValue(key, y), qcol: [x, y].map(c => QCOL[c]).find(q => q && DATA[key].cols.includes(q)) || null,
+          xlog: !!state.xlog[key], ylog: !!state.ylog[key]};
+}
+const counted = (rows, col) => { const m = new Map(); for (const r of rows) m.set(r[col], (m.get(r[col]) || 0) + 1); return [...m.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)); };
+const NOT_A_BASIS = new Set(["unclear", "unresolved", ""]);
+const NOPICK = "-";  // the basis select's "pick a basis" entry: no stated basis here, so nothing is drawn until the reader picks one
+// Pressure bands (MPa) for a plot whose axes carry no pressure: the reader can keep one band (D09).
+const BAND_EDGES = [0, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, Infinity];
+const bandOf = p => { for (let i = 1; i < BAND_EDGES.length; i++) if (p < BAND_EDGES[i]) return BAND_EDGES[i - 1] + "~" + (BAND_EDGES[i] === Infinity ? "" : BAND_EDGES[i]); return ""; };
+const bandText = b => { const [a, c] = b.split("~"); return c === "" ? `${a} MPa and above` : `${a} to ${c} MPa`; };
+// One gas per plot and one pressure basis per plot, whatever the axes (F11, F12, D09): total and partial pressures, or
+// two gases, never share a plot. Defaults: the one gas filtered for, else the gas with most points; total pressure if
+// present, else another stated basis; a basis that is "unclear" or "unresolved" is drawn only when the reader picks it.
+function plotState(key) {
+  const A = plotAxes(key), {x, y, X, Y, qcol} = A, cols = DATA[key].cols;
+  const base = (state.fver[key] || 0) + "|" + x + "|" + y;
+  if (!PCACHE[key] || PCACHE[key].base !== base) {
+    const F = filtered(key), ok = F.filter(r => !isNaN(X(r)) && !isNaN(Y(r)));
+    PCACHE[key] = {base, ok, miss: F.length - ok.length, gases: counted(ok.length ? ok : F, "gas")};  // the gas list survives an axis with no data
+  }
+  const P = PCACHE[key], fg = filtersFor(key).gas;
+  let gas = state.plotGas[key];
+  if (!P.gases.some(g => g[0] === gas)) gas = fg.length === 1 && P.gases.some(g => g[0] === fg[0]) ? fg[0] : (P.gases[0] || [""])[0];
+  const byBasis = cols.includes("pressure_basis");
+  const banded = cols.includes("pressure_MPa") && !/^pressure_/.test(x) && !/^pressure_/.test(y);
+  const tagG = base + "|" + gas;
+  if (P.tagG !== tagG) { P.tagG = tagG; P.ofGas = P.ok.filter(r => r.gas === gas); P.bases = byBasis ? counted(P.ofGas, "pressure_basis") : []; P.tagB = null; }
+  let basis = null;
+  if (byBasis) {
+    basis = state.plotBasis[key];
+    if (!P.bases.some(b => b[0] === basis)) basis = (P.bases.find(b => b[0] === "total") || P.bases.find(b => !NOT_A_BASIS.has(b[0])) || [NOPICK])[0];
+  }
+  const tagB = tagG + "|" + basis + "|" + qcol;
+  if (P.tagB !== tagB) {
+    P.tagB = tagB; P.tagQ = null;
+    P.ofBasis = byBasis ? P.ofGas.filter(r => r.pressure_basis === basis) : P.ofGas;
+    P.qtys = qcol ? counted(P.ofBasis, qcol) : [];
+  }
+  let qty = null;
+  if (qcol) { qty = state.plotQty[key]; if (!P.qtys.some(q => q[0] === qty)) qty = (P.qtys[0] || [""])[0]; }
+  const tagQ = tagB + "|" + qty + "|" + banded;
+  if (P.tagQ !== tagQ) {
+    P.tagQ = tagQ; P.tag = null;
+    P.ofQty = qcol ? P.ofBasis.filter(r => r[qcol] === qty) : P.ofBasis;
+    P.bands = banded ? counted(P.ofQty.filter(r => !isNaN(r._P)).map(r => ({b: bandOf(r._P)})), "b").sort((a, b) => +a[0].split("~")[0] - +b[0].split("~")[0]) : [];
+  }
+  let band = "";
+  if (banded) { band = state.plotBand[key] || ""; if (band && !P.bands.some(b => b[0] === band)) band = ""; }
+  const tag = tagQ + "|" + band;
+  if (P.tag !== tag) {
+    P.tag = tag;
+    if (band) { const [a, c] = band.split("~").map(v => v === "" ? Infinity : +v); P.plottable = P.ofQty.filter(r => r._P >= a && r._P < c); }
+    else P.plottable = P.ofQty;
+    P.present = counted(P.plottable, "source_id");
+    P.presentSet = new Set(P.present.map(p => p[0]));
+    P.preset = new Set(P.present.slice(0, PRESET).map(p => p[0]));  // the largest sources, while the reader has picked none
+  }
+  legacyPicks(key, gas);
+  const user = picksOf(key, gas), on = user === ALL ? P.presentSet : user || P.preset;
+  const hidden = user instanceof Set ? [...user].filter(s => !P.presentSet.has(s)).sort() : [];  // picked, but no plottable row now
+  return {...A, avail: availability(key, gas), plottable: P.plottable, present: P.present, on, preset: !user, hidden, gas, gases: P.gases, basis, bases: P.bases,
+          qty, qtys: P.qtys, banded, band, bands: P.bands, miss: P.miss, other: P.ok.length - P.plottable.length};
+}
+// The reader's plot picks, ONE SET PER GAS of each table (sources belong to one gas): state.plotSel[key][gas] is a Set,
+// ALL, or absent (the preset shows). Switching gas shows that gas's own picks; switching back restores the first gas's.
+const picksOf = (key, gas) => (state.plotSel[key] || {})[gas];
+function setPicks(key, gas, v) { (state.plotSel[key] || (state.plotSel[key] = {}))[gas] = v; }
+const hasPicks = key => Object.keys(state.plotSel[key] || {}).length > 0;
+function legacyPicks(key, gas) {  // an older link's psrc= (one set for the table) goes to the gas the plot opens on
+  const L = state.plotSelLegacy[key];
+  if (L === undefined || !gas) return;
+  delete state.plotSelLegacy[key];
+  if (picksOf(key, gas) === undefined) setPicks(key, gas, L);
+}
+function userPicks(key) {  // the reader's pick set for the gas on show; the first tick or untick starts it from what is ticked now
+  const s = plotState(key);
+  let cur = picksOf(key, s.gas);
+  if (!(cur instanceof Set)) { cur = new Set(s.on); setPicks(key, s.gas, cur); }
+  return cur;
+}
+function selectHTML(attr, val, opts, aria, text = v => word(v) || "(blank)") {
+  return `<select class="pselect" ${attr} aria-label="${esc(aria)}">` + opts.map(([v, n]) => `<option value="${esc(v)}"${v === val ? " selected" : ""}>${esc(text(v))}${n === undefined ? "" : ` (${fmt(n)})`}</option>`).join("") + `</select>`;
+}
+// The chart card (D01-D04, D18-D21, D25): a title and subtitle built from what is shown, the axis and gas pickers in one
+// row, the chart beside the source picker (below it on narrower screens), then the legend, a one-line caption and the
+// chart tools (reset zoom, zoom on a touch screen, download as PNG or SVG, copy link, cite).
+function renderPlot() {
+  const key = state.tab, box = $("plotcard");
+  if (!box) return;
+  const S = plotState(key), {x, y, present, gas, gases, basis, bases, qcol, qty, qtys, banded, band, bands} = S, q = state.plotQ[key] || "", items = plotListHTML(key);
+  const basisOpts = basis === NOPICK ? [[NOPICK, undefined]].concat(bases) : bases;
+  box.innerHTML = `<div class="charthead"><h2 class="ctitle" id="ctitle"></h2><p class="csub" id="csub"></p></div>
+    <div class="plotctl">
+      <div class="field"><div class="lbl">Gas to plot</div>${gases.length ? selectHTML("data-plotgas", gas, gases, "Gas to plot", v => chem(v) || "(blank)") : "-"}</div>
+      <div class="field"><div class="lbl">Up the side (y)</div>${axisSelectHTML("data-ploty", y, key, S, "Quantity up the side (y axis)")}
+        <label class="check small"><input type="checkbox" id="ylog" ${S.ylog ? "checked" : ""}> Log scale</label></div>
+      <div class="field"><div class="lbl">Along the bottom (x)</div>${axisSelectHTML("data-plotx", x, key, S, "Quantity along the bottom (x axis)")}
+        <label class="check small"><input type="checkbox" id="xlog" ${S.xlog ? "checked" : ""}> Log scale</label></div>
+      ${qcol ? `<div class="field wide"><div class="lbl">Quantity as printed</div>${selectHTML("data-plotqty", qty, qtys, "Quantity to plot (one at a time)", v => v.length > 90 ? v.slice(0, 88) + "..." : v || "(blank)")}</div>` : ""}
+      ${basis !== null ? `<div class="field"><div class="lbl">Pressure basis</div>${selectHTML("data-plotbasis", basis, basisOpts, "Pressure basis to plot", v => v === NOPICK ? "pick a basis" : word(v) || "(blank)")}</div>` : ""}
+      ${banded ? `<div class="field"><div class="lbl">Pressure band</div>${selectHTML("data-plotband", band, [["", undefined]].concat(bands), "Pressure band to plot", v => v ? bandText(v) : "all pressures")}</div>` : ""}
+    </div>
+    <div class="plotmain"><div class="plotcol"><div class="ztools"><button class="btn small" id="zoomReset" hidden>Reset zoom</button>
+      <button class="btn small" id="zoomMode" aria-pressed="false" title="Then drag a box on the chart">Zoom</button></div><div id="plotarea"></div></div>
+      <div class="field pickfield" id="pickfield"><div class="lbl">Sources to plot <span class="hint" id="plothint">plot only; ${present.length} in these rows</span></div>
+        ${present.length > 8 ? `<input type="text" inputmode="search" class="listsearch" data-listsearch="plotpicker" data-qkey="plotQ" placeholder="Search sources" aria-label="Search sources to plot" value="${esc(q)}">` : ""}
+        <div class="checklist" id="plotpicker">${items}</div>
+        <div class="listbtns"><button class="btn small" data-plotall="1">All</button><button class="btn small" data-plotnone="1">None</button></div>
+        <label class="check small"><input type="checkbox" id="pgrey" ${state.grey[key] !== false ? "checked" : ""}> Show the other sources in grey</label></div>
+    </div>
+    <div class="ptools" role="group" aria-label="Chart tools">
+      <span class="ptlbl">Download chart</span><button class="btn small" id="dlpng">PNG</button><button class="btn small" id="dlsvg">SVG</button>
+      <button class="btn small" id="copyLink">Copy link</button><button class="btn small" data-cite="1">Cite</button>
+      <span class="caption" id="ptstat" role="status"></span></div>`;
+  drawPlot();
+}
+let plotRows = [], plotY = "", plotX = "", plotXY = [[], []], plotN = 0, kbIdx = -1, PLOTBOX = null, greyRows = [], greyXY = [[], []];
+// Axis ends: the zoom box when zoomed, else the data with a little room, both ends on a tick, so the top tick covers the
+// data (D20). lo, hi in plot space (log10 on a log axis).
+function axisRange(lo, hi, log, n, zoomed) {
+  if (zoomed) return {a: lo, b: hi, ticks: (log ? logTicks(lo, hi) : niceTicks(lo, hi, n).ticks).filter(v => v >= lo - 1e-12 && v <= hi + 1e-12)};
+  if (!(hi > lo)) { const d = Math.abs(lo) * 0.1 || 1; lo -= d; hi += d; }
+  if (log) { const d = (hi - lo) * 0.05; return {a: lo - d, b: hi + d, ticks: logTicks(lo - d, hi + d)}; }
+  const d = (hi - lo) * 0.03;
+  let a = lo - d, b = hi + d;
+  if (lo >= 0 && a < 0) a = 0;
+  const step = niceTicks(a, b, n).step;
+  a = Math.floor(a / step + 1e-9) * step; b = Math.ceil(b / step - 1e-9) * step;
+  const ticks = []; for (let v = a; v <= b + step * 1e-6; v += step) ticks.push(+v.toPrecision(10));
+  return {a, b, ticks};
+}
+const shortTxt = (t, n) => t.length > n ? t.slice(0, n - 1) + "…" : t;
+function statusWords(key) {  // "measured values" etc., from the status filter (D03)
+  if (!DATA[key].cols.includes("status")) return "";
+  const s = filtersFor(key).status;
+  return !s.length ? "all statuses" : s.length === 1 && s[0] === "measured" ? "measured values" : s.map(word).join(" and ") + " values";
+}
+function chartTitle(key, S) {  // D03: "H2 solubility in water and brine vs total pressure"
+  const g = chem(S.gas) || "", nm = c => S.qty && QCOL[c] ? shortTxt(S.qty, 70) : (AXIS_NAME[c] || label(c));
+  const lc = t => /^[A-Z][a-z]/.test(t) ? t[0].toLowerCase() + t.slice(1) : t;
+  let xn = lc(nm(S.x));
+  if (/^pressure_/.test(S.x) && S.basis && S.basis !== NOPICK) xn = word(S.basis) + " pressure";
+  const yn = S.y === "solubility_mol_per_kgw" ? `${g} solubility in water and brine` : `${g}: ${lc(nm(S.y))}`;
+  return `${yn} vs ${xn}`;
+}
+// the chart fills its column; height about 0.58 x width (at least 360 px, at most 3/4 of the window); text, markers and
+// margins grow with the width (fs = the tick-label size)
+function chartSize(area) {
+  const narrow = window.innerWidth < 600, cw = area.clientWidth || 640;
+  const W = narrow ? 380 : Math.round(Math.max(420, Math.min(1700, cw)));
+  const H = narrow ? 285 : Math.round(Math.max(360, Math.min(W * 0.58, window.innerHeight * 0.75)));
+  const fs = narrow ? 12 : Math.round(Math.min(16, Math.max(12, W / 80))), k = fs / 12;
+  return {narrow, W, H, fs, k, T: 12, B: narrow ? 46 : Math.round(46 * k), L: narrow ? 52 : Math.round(62 * k)};
+}
+// A chosen property with no data (author 2026-10-07): the axes stay, no point is drawn, and a centred message says so
+function noDataChart(area, key, S, c) {
+  const {W, H, fs, T, B, L} = chartSize(area), R = 16, lfs = fs * 1.08, why = S.avail.get(c).why, name = AXIS_NAME[c] || label(c);
+  const xl = shortTxt(axisLabel(key, S.x), 90), yl = shortTxt(axisLabel(key, S.y), 60), cx = (L + W - R) / 2, cy = (T + H - B) / 2;
+  area.innerHTML = `<div class="plot" id="plot"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="No data available for ${esc(name)} with the current filters" style="font-size:${fs}px" class="nodata">` +
+    `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/><line class="axis ay" x1="${L}" x2="${L}" y1="${T}" y2="${H - B}"/>` +
+    `<text class="axlbl" x="${cx}" y="${H - 8}" text-anchor="middle">${esc(xl)}</text>` +
+    `<text class="axlbl" transform="translate(${Math.round(lfs + 2)} ${cy}) rotate(-90)" text-anchor="middle">${esc(yl)}</text>` +
+    `<text class="nodatamsg" x="${cx}" y="${cy - 4}" text-anchor="middle">No data available for ${esc(name)} with the current filters</text>` +
+    (why ? `<text class="nodatawhy" x="${cx}" y="${cy + lfs + 8}" text-anchor="middle">${esc(why)}</text>` : "") +
+    `</svg><div class="tip" id="tip" role="status"></div></div><div class="caption" id="plotcount">0 points plotted: pick another property, or change the filters.</div>`;
+}
+function drawPlot() {
+  const key = state.tab, area = $("plotarea");
+  if (!area) return;
+  const S = plotState(key), {x, y, X, Y, plottable, present, on, preset, hidden, gas, basis, qty, band, other, xlog, ylog} = S;
+  const ticked = present.filter(p => on.has(p[0])).map(p => p[0]);
+  const np = THEME.palette.length;
+  STYLE_OF = new Map(ticked.map((s, i) => [s, [THEME.palette[i % np], THEME.shapes ? SHAPES[Math.floor(i / np) % 4] : "circle", i % np]]));
+  const hint = $("plothint");
+  if (hint) hint.textContent = `plot only; ${ticked.length} of ${present.length} ticked` + (hidden.length ? `, ${hidden.length} more picked with no rows here` : "");
+  const miss = $("plotmiss");
+  if (miss) miss.textContent = S.miss ? `${fmt(S.miss)} ${S.miss === 1 ? "row has" : "rows have"} no value for ${AXIS_NAME[x] || label(x)} or ${AXIS_NAME[y] || label(y)}${S.miss === 1 ? " and is" : " and are"} left out of the plot` : "";
+  plotRows = []; plotN = 0; kbIdx = -1; PLOTBOX = null; tipIdx = -1; greyRows = []; greyXY = [[], []]; greyTip = -1;
+  const zoom = state.zoom[key] || null, zr = $("zoomReset");
+  if (zr) zr.hidden = !zoom;
+  const ct = $("ctitle"), cs = $("csub");
+  if (ct) ct.textContent = chartTitle(key, S);
+  const sub = n => [`${fmt(n)} point${n === 1 ? "" : "s"} from ${ticked.length} of ${present.length} sources`, statusWords(key),
+    basis && basis !== NOPICK && !/^pressure_/.test(x) ? word(basis) + " pressure" : "", band ? bandText(band) : "", zoom ? "zoomed in" : ""].filter(Boolean).join(" · ");
+  if (cs) cs.textContent = sub(0);
+  const unavail = [x, y].find(c => !S.avail.get(c).ok);
+  if (unavail) { noDataChart(area, key, S, unavail); return; }
+  if (!plottable.length) {
+    area.innerHTML = `<div class="info">${basis === NOPICK && S.bases.length ? "These rows give only an unclear or unresolved pressure basis; pick one under Pressure basis to plot it." : "No plottable rows for these filters and axes."}</div>`;
+    return;
+  }
+  let all = plottable.filter(r => on.has(r.source_id));
+  const n0 = all.length;
+  const pos = r => (!xlog || X(r) > 0) && (!ylog || Y(r) > 0);
+  if (xlog || ylog) all = all.filter(pos);
+  const nonpos = n0 - all.length;
+  const inside = zoom ? r => { const a = X(r), b = Y(r); return a >= zoom[0] && a <= zoom[1] && b >= zoom[2] && b <= zoom[3]; } : null;
+  const shown = zoom ? all.filter(inside) : all;
+  plotN = shown.length;
+  if (cs) cs.textContent = sub(plotN);
+  if (!all.length) { area.innerHTML = `<div class="info">${n0 ? "Every ticked point is zero or below, which a log scale cannot show." : hidden.length ? "None of the picked sources has rows under the current filters. Change the filters or tick a source." : "No source ticked. Tick a source to plot it."}</div><div class="caption" id="plotcount">0 points plotted.</div>`; return; }
+  const thin = (a, n) => { if (a.length <= n) return a; const o = new Array(n); for (let k = 0; k < n; k++) o[k] = a[Math.floor(k * a.length / n)]; return o; };
+  const pts = thin(shown, MAXPTS);
+  // the other sources of this gas and basis, in grey behind the ticked ones (D18); ticking one brings it forward in colour
+  let grey = !lightDraw && state.grey[key] !== false && ticked.length < present.length ? plottable.filter(r => !on.has(r.source_id) && pos(r)) : [];
+  if (zoom) grey = grey.filter(inside);
+  const {narrow, W, H, fs, k, T, B, L} = chartSize(area);
+  // direct labels at the right edge when they fit: the margin takes the longest name (at most 22 % of the width, names cut
+  // to fit) and the labels' stacked height must fit the plot height; otherwise the legend alone names the sources
+  const lfs = fs * 1.08, charW = lfs * 0.56, lgap = Math.round(lfs * 1.3);
+  let direct = THEME.direct && ticked.length <= 6 && !narrow && ticked.length * lgap <= H - T - B;
+  const Rmax = Math.round(W * 0.22), longest = Math.max(0, ...ticked.map(t => srcName(t).length));
+  const R = direct ? Math.min(Rmax, Math.round(12 + longest * charW)) : 16, maxChars = Math.max(6, Math.floor((R - 12) / charW));
+  const tx = xlog ? Math.log10 : v => v, ty = ylog ? Math.log10 : v => v;
+  let xa = Infinity, xb = -Infinity, ya = Infinity, yb = -Infinity;
+  if (zoom) { xa = tx(zoom[0]); xb = tx(zoom[1]); ya = ty(zoom[2]); yb = ty(zoom[3]); }
+  else for (const r of all) { const a = tx(X(r)), b = ty(Y(r)); if (a < xa) xa = a; if (a > xb) xb = a; if (b < ya) ya = b; if (b > yb) yb = b; }
+  const XR = axisRange(xa, xb, xlog, narrow ? 4 : Math.max(4, Math.round((W - L - R) / 75)), !!zoom), YR = axisRange(ya, yb, ylog, narrow ? 5 : 6, !!zoom);
+  const x0 = XR.a, x1 = XR.b, y0 = YR.a, y1 = YR.b;
+  const sx = v => L + (v - x0) / (x1 - x0) * (W - L - R), sy = v => H - B - (v - y0) / (y1 - y0) * (H - T - B);
+  // grey points only inside the axes: the axes follow the ticked sources
+  grey = thin(grey.filter(g => { const a = tx(X(g)), b = ty(Y(g)); return a >= x0 && a <= x1 && b >= y0 && b <= y1; }), MAXPTS);
+  const r = narrow ? 3.5 : +((pts.length > 3000 ? 3 : 4) * Math.min(k, 1.35)).toFixed(2), rg = narrow ? 2 : +(2.3 * Math.min(k, 1.35)).toFixed(2);
+  const xl = (qty && QCOL[x] ? qty : axisLabel(key, x)) + (xlog ? ", log scale" : ""), yl = (qty && QCOL[y] ? qty : axisLabel(key, y)) + (ylog ? ", log scale" : "");
+  const what = `${esc(chem(gas))}${basis ? ", " + esc(word(basis)) + " pressure" : ""}${band ? ", " + esc(bandText(band)) : ""}`;
+  const yshort = shortTxt(yl, narrow ? 44 : 60), xshort = shortTxt(xl, narrow ? 56 : 90);
+  const raw = (v, log) => log ? Math.pow(10, v) : v;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" tabindex="0" aria-label="${what}: ${esc(yl)} against ${esc(xl)}. Arrow keys step through the points, Enter opens the row in the table; drag a box to zoom in." style="font-size:${fs}px"` +
+    ` data-x0="${raw(x0, xlog)}" data-x1="${raw(x1, xlog)}" data-y0="${raw(y0, ylog)}" data-y1="${raw(y1, ylog)}" data-l="${L}" data-r="${W - R}" data-t="${T}" data-b="${H - B}">`;
+  s += `<defs><clipPath id="pclip"><rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}"/></clipPath></defs>`;
+  s += YR.ticks.map(v => `<line class="grid" x1="${L}" x2="${W - R}" y1="${sy(v)}" y2="${sy(v)}"/><text class="tick" x="${L - 8}" y="${sy(v) + fs / 3}" text-anchor="end">${tickText(v, ylog)}</text>`).join("");
+  s += XR.ticks.map(v => `<line class="grid gx" y1="${T}" y2="${H - B}" x1="${sx(v)}" x2="${sx(v)}"/><text class="tick" y="${H - B + fs + 6}" x="${sx(v)}" text-anchor="middle">${tickText(v, xlog)}</text>`).join("");
+  s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/><line class="axis ay" x1="${L}" x2="${L}" y1="${T}" y2="${H - B}"/>`;
+  s += `<text class="axlbl" x="${(L + W - R) / 2}" y="${H - 8}" text-anchor="middle">${esc(xshort)}</text>`;
+  s += `<text class="axlbl" transform="translate(${Math.round(lfs + 2)} ${(T + H - B) / 2}) rotate(-90)" text-anchor="middle">${esc(yshort)}</text>`;
+  const px = new Float64Array(pts.length), py = new Float64Array(pts.length), bySrc = new Map(ticked.map(t => [t, [[], []]]));
+  let ncalc = 0;
+  for (let i = 0; i < pts.length; i++) {
+    px[i] = sx(tx(X(pts[i]))); py[i] = sy(ty(Y(pts[i])));
+    const calc = pts[i].status === "calculated"; if (calc) ncalc++;
+    bySrc.get(pts[i].source_id)[calc ? 1 : 0].push(shapeD(STYLE_OF.get(pts[i].source_id)[1], px[i], py[i], r));
+  }
+  const hl = state.hl[key] && on.has(state.hl[key]) ? state.hl[key] : null;
+  s += `<g class="pts${hl ? " hasHl" : ""}"${zoom ? ' clip-path="url(#pclip)"' : ""}>`;
+  const gx = new Float64Array(grey.length), gy = new Float64Array(grey.length);
+  for (let i = 0; i < grey.length; i++) { gx[i] = sx(tx(X(grey[i]))); gy[i] = sy(ty(Y(grey[i]))); }
+  if (grey.length) s += `<path class="pt bg" d="${grey.map((g, i) => shapeD("circle", gx[i], gy[i], rg)).join("")}"/>`;
+  s += ticked.filter(t => t !== hl).concat(hl ? [hl] : []).map(t => { const [m, c] = bySrc.get(t), st = STYLE_OF.get(t), h = hl === t ? " hl" : "";
+    return (m.length ? `<path class="pt${h}" fill="${st[0]}" d="${m.join("")}"/>` : "") + (c.length ? `<path class="pt calc c${st[2] + 1}${h}" fill="none" d="${c.join("")}"/>` : ""); }).join("");
+  s += `</g>`;
+  if (direct) {
+    // direct labels in the right margin, each at the height of its source's right-most point, nudged apart
+    const ends = ticked.map(src => {
+      let best = -1; for (let i = 0; i < pts.length; i++) if (pts[i].source_id === src && (best < 0 || px[i] > px[best])) best = i;
+      return best < 0 ? null : {src, x: px[best], y: py[best]};
+    }).filter(Boolean).sort((a, b) => a.y - b.y);
+    for (let j = 1; j < ends.length; j++) if (ends[j].y - ends[j - 1].y < lgap) ends[j].y = ends[j - 1].y + lgap;
+    if (ends.length && ends[ends.length - 1].y > H - B) {  // keep the lowest label on the chart
+      const d = ends[ends.length - 1].y - (H - B); for (const e of ends) e.y -= d; }
+    s += ends.map(e => `<text class="dlabel" x="${(W - R + 8).toFixed(1)}" y="${(e.y + lfs / 3).toFixed(1)}" fill="${STYLE_OF.get(e.src)[0]}">${esc(shortTxt(srcName(e.src), maxChars))}<title>${esc(e.src)}</title></text>`).join("");
+  }
+  s += `<circle class="hring" cx="-20" cy="-20" r="${r + 3.5}" data-r="${r + 3.5}" data-rg="${rg + 3}" visibility="hidden"/><rect class="zbox" x="0" y="0" width="0" height="0" visibility="hidden"/></svg>`;
+  const LEG = 30;
+  const legItems = ticked.slice(0, LEG).map(src => `<button type="button" class="lg${hl === src ? " hl" : ""}" data-hl="${esc(src)}" aria-pressed="${hl === src}" title="${esc(src)}: click to bring it to the front">${swatch(src)}${esc(srcName(src))}</button>`).join("") +
+    (ticked.length > LEG ? `<span class="lg more">+ ${ticked.length - LEG} more ticked</span>` : "") +
+    (grey.length ? `<span class="lg greykey"><svg class="sw" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><circle class="bgsw" cx="6" cy="6" r="3.5"/></svg>Grey: other sources, not ticked (click one to add it)</span>` : "");
+  const legend = narrow ? `<details class="legfold"><summary>Sources (${ticked.length})</summary><div class="legend" aria-label="Plotted sources">${legItems}</div></details>`
+                        : `<div class="legend" aria-label="Plotted sources">${legItems}</div>`;
+  const kinds = ["gases"].concat(S.bases.length ? ["pressure bases"] : [], S.qtys.length ? ["quantities"] : [], band ? ["pressure bands"] : []);
+  const more = (other ? ` ${fmt(other)} plottable points of other ${kinds.length > 1 ? kinds.slice(0, -1).join(", ") + " or " + kinds[kinds.length - 1] : kinds[0]} are not drawn; pick them above.` : "") +
+    (preset && present.length > ticked.length ? ` The ${Math.min(PRESET, present.length)} sources with most points are ticked first; tick more beside the chart.` : "") +
+    (grey.length ? " Grey points: the other sources of this gas, not ticked; point at one to see its source, click it to tick it." : "") +
+    (hidden.length ? ` ${hidden.length} picked source${hidden.length > 1 ? "s have" : " has"} no rows under the current filters.` : "") +
+    (nonpos ? ` ${fmt(nonpos)} points at zero or below are not drawn on the log scale.` : "") +
+    (zoom ? ` Zoomed in: ${fmt(all.length - shown.length)} ticked points lie outside the box; double-click the chart or press Reset zoom.` : "");
+  const touchUI = !!(window.matchMedia && matchMedia("(hover: none)").matches);
+  const line = (pts.length < shown.length ? `Showing ${fmt(MAXPTS)} of ${fmt(shown.length)} points; narrow the filters or zoom in to see all. ` : "") +
+    (ncalc ? "Hollow markers: calculated values. " : "") +
+    (touchUI ? "Tap a point for its values; tap Zoom, then drag a box to zoom in." : "Point at a point for its values, click it to open its row; drag a box to zoom in.");
+  const capOpen = !!state.capOpen;
+  const note = `<div class="caption${pts.length < shown.length ? " sampled" : ""}" id="plotcount">${line}${more ? ` <button type="button" class="infobtn" id="capmore" aria-expanded="${capOpen}" aria-controls="capmoretext" aria-label="More about this chart">&#9432;</button><span class="capmore" id="capmoretext"${capOpen ? "" : " hidden"}>${more}</span>` : ""}</div>`;
+  area.innerHTML = `<div class="plot" id="plot">${s}<div class="tip" id="tip" role="status"></div></div>${legend}${note}`;
+  if (zoomMode) area.querySelector("svg").classList.add("zoommode");
+  plotRows = pts; plotY = y; plotX = x; plotXY = [px, py]; greyRows = grey; greyXY = [gx, gy];
+  PLOTBOX = {L, R, T, B, W, H, xa: x0, xb: x1, ya: y0, yb: y1, xlog, ylog};
+}
+function nearestIn(e, xy, n, px0) {  // the point of xy nearest the pointer, within about px0 screen pixels
+  const svg = document.querySelector("#plot svg");
+  if (!svg || !n) return -1;
+  const m = svg.getScreenCTM();
+  if (!m) return -1;
+  const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+  const lim = px0 / m.a, [px, py] = xy;
+  let best = -1, bd = lim * lim;
+  for (let i = 0; i < n; i++) { const dx = px[i] - p.x, dy = py[i] - p.y, d = dx * dx + dy * dy; if (d <= bd) { bd = d; best = i; } }
+  return best;
+}
+const nearestPoint = e => nearestIn(e, plotXY, plotRows.length, 14);  // a coloured (ticked) point
+const nearestGrey = e => nearestIn(e, greyXY, greyRows.length, 8);   // a grey point, only where no coloured one is near
+// A grey point: its source and values, and that a click ticks the source (coordinator 2026-10-07)
+let greyTip = -1;
+function showGreyTip(i) {
+  const tip = $("tip"), box = $("plot"), r = greyRows[i];
+  if (!tip || !box || !r) return;
+  tipIdx = -1; greyTip = i; tipTouch = false;
+  const key = state.tab, val = c => CONV[c] ? cellText(r, c) : r[c] === "" || r[c] === undefined ? "not given" : shownWord(c, r[c]);
+  const rows = [plotX, plotY].filter((c, j, a) => a.indexOf(c) === j).map(c => [QCOL[c] ? "Value as printed" : axisLabel(key, c), val(c)]);
+  tip.innerHTML = `<div class="tiphead"><b>${esc(srcName(r.source_id))}</b></div><table>${rows.map(([a, b]) => `<tr><td class="k">${esc(a)}</td><td>${esc(String(b))}</td></tr>`).join("")}</table>` +
+    `<div class="tgrey">Not ticked: click to add it to the plot</div>`;
+  tip.classList.remove("touch", "pinned"); tip.style.display = "block";
+  const svg = document.querySelector("#plot svg"), ring = svg.querySelector(".hring");
+  ring.setAttribute("cx", greyXY[0][i]); ring.setAttribute("cy", greyXY[1][i]); ring.setAttribute("r", ring.dataset.rg); ring.setAttribute("visibility", "visible");
+  const b = box.getBoundingClientRect(), m = svg.getScreenCTM(), cx = m.a * greyXY[0][i] + m.e - b.left, cy = m.d * greyXY[1][i] + m.f - b.top;
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let left = cx + 14, top = cy - th / 2;
+  if (left + tw > b.width) left = cx - tw - 14;
+  if (left < 0) left = Math.max(0, Math.min(b.width - tw, cx - tw / 2));
+  tip.style.left = left + "px"; tip.style.top = Math.max(0, Math.min(b.height - th, top)) + "px";
+}
+function tickGrey(i) {  // a click on a grey point ticks its source: it is drawn in colour, the picks and the link follow
+  const r = greyRows[i]; if (!r) return;
+  const key = state.tab, on = userPicks(key);
+  on.add(r.source_id);
+  const box = $("plotpicker"); if (box) box.innerHTML = plotListHTML(key);
+  hideTip(); drawPlot(); syncHash(false); renderClearAll(key);
+}
+// The tooltip (D08, F16): the source's short reference and DOI first, then temperature, pressure, salt and the plotted
+// values, the value as printed and where it is printed; the row id last, small. A ring marks the point. On a phone (or
+// a tap) the box is pinned under the chart instead of over it. The printed values load on the first use.
+let tipIdx = -1, tipTouch = false;
+function showTip(i, touch) {
+  const tip = $("tip"), box = $("plot"), r = plotRows[i];
+  if (!tip || !box || !r) return;
+  tipIdx = i; tipTouch = !!touch;
+  const key = state.tab, s = SRC && SRC.get(r.source_id), p = PRINTED && PRINTED.get(r.point_id);
+  const val = c => CONV[c] ? cellText(r, c) : r[c] === "" || r[c] === undefined ? "not given" : shownWord(c, r[c]);
+  const rows = [];
+  const tp = viewCols(key).filter(c => /^(temperature_(K|C)|pressure_(MPa|bar))$/.test(c));
+  for (const c of tp) rows.push([label(c), val(c), c === plotX || c === plotY]);
+  if ("salt" in r) rows.push(["Salt", val("salt") + (r.salt !== "none" && r.salt_molality ? `, ${r.salt_molality} mol/kg water` : ""), false]);
+  for (const c of [plotY, plotX]) if (!tp.includes(c) && (c in r || CONV[c])) rows.push([QCOL[c] ? "Value as printed" : axisLabel(key, c), val(c), true]);
+  if (r.pressure_basis !== undefined && r.pressure_basis !== "total") rows.push(["Pressure basis", val("pressure_basis"), false]);
+  if (r.status !== undefined && r.status !== "measured") rows.push(["Status", val("status"), false]);
+  rows.push(["As printed", !PRINTED ? "loading..." : p ? `${p.value_as_printed || "not given"} ${p.unit_as_printed || ""}`.trim() : "not recorded", false]);
+  if (p && p.page_ref) rows.push(["Printed at", "page " + p.page_ref, false]);
+  tip.innerHTML = `<div class="tiphead" data-pid="${esc(r.point_id)}"><b>${esc(srcName(r.source_id))}</b>${s && s.doi ? ` <span class="tdoi">doi:${esc(s.doi)}</span>` : ""}</div>` +
+    `<table>${rows.map(([k, v, b]) => `<tr><td class="k">${esc(k)}</td><td>${b ? `<b>${esc(String(v))}</b>` : esc(String(v))}</td></tr>`).join("")}</table>` +
+    `<div class="tid">Row ${esc(r.point_id)}</div>` + (touch ? `<button class="btn small" data-gorow="${esc(r.point_id)}">Show this row in the table</button>` : "");
+  const pin = !!touch || window.innerWidth < 600;
+  tip.classList.toggle("touch", !!touch); tip.classList.toggle("pinned", pin);
+  tip.style.display = "block";
+  const svg = document.querySelector("#plot svg"), ring = svg && svg.querySelector(".hring");
+  if (ring) { ring.setAttribute("cx", plotXY[0][i]); ring.setAttribute("cy", plotXY[1][i]); ring.setAttribute("r", ring.dataset.r); ring.setAttribute("visibility", "visible"); }
+  greyTip = -1;
+  if (pin) { tip.style.left = ""; tip.style.top = ""; }
+  else {
+    const b = box.getBoundingClientRect(), m = svg.getScreenCTM();
+    const cx = m.a * plotXY[0][i] + m.e - b.left, cy = m.d * plotXY[1][i] + m.f - b.top;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let left = cx + 14, top = cy - th / 2;
+    if (left + tw > b.width) left = cx - tw - 14;
+    if (left < 0) left = Math.max(0, Math.min(b.width - tw, cx - tw / 2));
+    if (top + th > b.height) top = b.height - th;
+    if (top < 0) top = 0;
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+  }
+  if (!PRINTED) loadPrinted().then(() => { if (tipIdx === i && plotRows[i] === r && $("tip") && $("tip").style.display === "block") showTip(i, tipTouch); }, () => {});
+}
+function hideTip() {
+  const tip = $("tip"); if (tip) { tip.style.display = "none"; tip.classList.remove("pinned"); }
+  const ring = document.querySelector("#plot .hring"); if (ring) ring.setAttribute("visibility", "hidden");
+  tipIdx = -1; greyTip = -1;
+}
+// Box zoom (author 2026-10-07): press and drag on the chart draws a box; on release the axes zoom to it. A plain click
+// (under 5 px of movement) still picks a point; a double-click or "Reset zoom" goes back to the full view. On a touch
+// screen one finger scrolls the page until "Zoom" is pressed; then one drag draws the box. The zoom is in the link; it
+// resets when the gas, an axis or the table changes, not when the source picks or the filters change.
+let drag = null, suppressClick = 0, zoomMode = false;
+function svgPt(e) { const svg = document.querySelector("#plot svg"), m = svg && svg.getScreenCTM(); return m ? new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse()) : null; }
+function setZoomMode(on) {
+  zoomMode = on;
+  const b = $("zoomMode"); if (b) { b.setAttribute("aria-pressed", on); b.classList.toggle("on", on); }
+  const svg = document.querySelector("#plot svg"); if (svg) svg.classList.toggle("zoommode", on);
+}
+function resetZoom(key) { if (state.zoom[key]) { delete state.zoom[key]; return true; } return false; }
+document.addEventListener("pointerdown", e => {
+  const svg = e.target.closest && e.target.closest("#plot svg");
+  if (!svg || !PLOTBOX || e.button !== 0 || (e.pointerType === "touch" && !zoomMode)) return;
+  const p = svgPt(e), B = PLOTBOX;
+  if (!p || p.x < B.L || p.x > B.W - B.R || p.y < B.T || p.y > B.H - B.B) return;
+  drag = {x: p.x, y: p.y, ex: p.x, ey: p.y, sx: e.clientX, sy: e.clientY, moved: false, id: e.pointerId};
+  if (e.pointerType === "touch") e.preventDefault();
+});
+document.addEventListener("pointermove", e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  if (!drag.moved && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 5) return;
+  if (!drag.moved) { drag.moved = true; hideTip(); }
+  const p = svgPt(e), B = PLOTBOX, zb = document.querySelector("#plot .zbox");
+  if (!p || !B || !zb) return;
+  drag.ex = Math.max(B.L, Math.min(B.W - B.R, p.x)); drag.ey = Math.max(B.T, Math.min(B.H - B.B, p.y));
+  zb.setAttribute("x", Math.min(drag.x, drag.ex)); zb.setAttribute("y", Math.min(drag.y, drag.ey));
+  zb.setAttribute("width", Math.abs(drag.ex - drag.x)); zb.setAttribute("height", Math.abs(drag.ey - drag.y)); zb.setAttribute("visibility", "visible");
+});
+function endDrag(e, cancel) {
+  if (!drag || e.pointerId !== drag.id) return;
+  const d = drag; drag = null;
+  if (!d.moved) return;
+  suppressClick = Date.now() + 600;
+  const zb = document.querySelector("#plot .zbox"); if (zb) zb.setAttribute("visibility", "hidden");
+  const B = PLOTBOX;
+  if (cancel || !B || Math.abs(d.ex - d.x) < 3 || Math.abs(d.ey - d.y) < 3) return;
+  const fx = v => B.xa + (v - B.L) / (B.W - B.R - B.L) * (B.xb - B.xa), fy = v => B.ya + (B.H - B.B - v) / (B.H - B.B - B.T) * (B.yb - B.ya);
+  const ux = v => B.xlog ? Math.pow(10, v) : v, uy = v => B.ylog ? Math.pow(10, v) : v;
+  state.zoom[state.tab] = [ux(fx(Math.min(d.x, d.ex))), ux(fx(Math.max(d.x, d.ex))), uy(fy(Math.max(d.y, d.ey))), uy(fy(Math.min(d.y, d.ey)))].map(v => +v.toPrecision(10));
+  if (e.pointerType === "touch") setZoomMode(false);
+  hideTip(); drawPlot(); syncHash(false);
+}
+document.addEventListener("pointerup", e => endDrag(e, false));
+document.addEventListener("pointercancel", e => endDrag(e, true));
+let clickTimer = 0;
+document.addEventListener("dblclick", e => {
+  if (!e.target.closest || !e.target.closest("#plot svg")) return;
+  clearTimeout(clickTimer);
+  if (resetZoom(state.tab)) { hideTip(); drawPlot(); syncHash(false); }
+});
+// Chart export (D04): the chart as drawn, with its title, subtitle, legend and source line, as SVG or as a PNG at twice
+// the size. Colours and fonts are written into the file, so it looks the same outside the page.
+const STYLE_PROPS = ["fill", "fill-opacity", "stroke", "stroke-width", "stroke-opacity", "stroke-dasharray", "font-size", "font-family", "font-weight", "opacity"];
+function chartFile() {
+  const svg = document.querySelector("#plot svg"), B = PLOTBOX;
+  if (!svg || !B) return null;
+  const NS = "http://www.w3.org/2000/svg", root = getComputedStyle(document.documentElement), cv = n => root.getPropertyValue(n).trim();
+  const clone = svg.cloneNode(true), src = [svg, ...svg.querySelectorAll("*")], dst = [clone, ...clone.querySelectorAll("*")];
+  for (let i = src.length - 1; i >= 1; i--) {
+    const st = getComputedStyle(src[i]);
+    if (st.display === "none" || src[i].getAttribute("visibility") === "hidden") { dst[i].remove(); continue; }
+    for (const p of STYLE_PROPS) { const v = st.getPropertyValue(p); if (v) dst[i].style.setProperty(p, v); }
+    dst[i].removeAttribute("class");
+  }
+  for (const a of ["class", "tabindex", "role", "aria-label", "data-x0", "data-x1", "data-y0", "data-y1", "data-l", "data-r", "data-t", "data-b"]) clone.removeAttribute(a);
+  const font = getComputedStyle(document.body).fontFamily, head = 62;
+  const leg = document.querySelector("#plot .dlabel") ? [] : [...document.querySelectorAll("#plotarea .legend .lg[data-hl]")].map(b => [STYLE_OF.get(b.dataset.hl), b.textContent]);
+  let lx = 16, ly = 0;
+  const items = leg.map(([st, t]) => { const w = 22 + t.length * 6.6; if (lx + w > B.W - 16) { lx = 16; ly += 18; } const o = {x: lx, y: ly, st, t}; lx += w + 10; return o; });
+  const legH = items.length ? ly + 24 : 0, Ht = head + B.H + legH + 30;
+  clone.setAttribute("x", 0); clone.setAttribute("y", head); clone.setAttribute("width", B.W); clone.setAttribute("height", B.H);
+  clone.setAttribute("font-family", font);
+  const t = (x, y, size, fill, text, extra = "") => `<text x="${x}" y="${y}" font-size="${size}" fill="${fill}" font-family="${esc(font)}"${extra}>${esc(text)}</text>`;
+  const title = ($("ctitle") || {}).textContent || "", sub = ($("csub") || {}).textContent || "";
+  const legSVG = items.map(o => `<path d="${shapeD(o.st[1], o.x + 6, head + B.H + 14 + o.y, 5)}" fill="${o.st[0]}"/>` + t(o.x + 16, head + B.H + 18 + o.y, 12, cv("--text"), o.t)).join("");
+  const srcLine = `Source: ${META.name}, ${META.licence}, doi:${META.doi}. Cite the original source of every value you use.`;
+  const out = `<svg xmlns="${NS}" width="${B.W}" height="${Ht}" viewBox="0 0 ${B.W} ${Ht}"><rect width="100%" height="100%" fill="${cv("--bg")}"/>` +
+    `<text x="16" y="28" font-size="20" font-weight="600" fill="${cv("--ink")}" font-family="'Playfair Display', Georgia, serif">${esc(title)}</text>` +
+    t(16, 50, 13, cv("--muted"), sub) + new XMLSerializer().serializeToString(clone) + legSVG + t(16, Ht - 12, 11, cv("--muted"), srcLine) + `</svg>`;
+  return {text: out, w: B.W, h: Ht};
+}
+function exportChart(kind) {
+  const f = chartFile(), st = $("ptstat");
+  if (!f) { if (st) st.textContent = "No chart to download."; return; }
+  const name = fileBase(state.tab + "_chart") + "." + kind;
+  if (kind === "svg") { download(name, new Blob([f.text], {type: "image/svg+xml"})); if (st) st.textContent = "Chart saved as " + name; return; }
+  const img = new Image(), url = URL.createObjectURL(new Blob([f.text], {type: "image/svg+xml;charset=utf-8"}));
+  img.onload = () => {
+    const c = document.createElement("canvas"), k = 2; c.width = f.w * k; c.height = f.h * k;
+    const g = c.getContext("2d"); g.scale(k, k); g.drawImage(img, 0, 0); URL.revokeObjectURL(url);
+    c.toBlob(b => { if (b) { download(name, b); if (st) st.textContent = "Chart saved as " + name; } else if (st) st.textContent = "Could not make the PNG here; try SVG."; }, "image/png");
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); if (st) st.textContent = "Could not make the PNG here; try SVG."; };
+  img.src = url;
+}
+// Copy a link or a citation: the clipboard where the browser allows it, else the older copy command (D04, D05)
+function copyText(text, stat, ok) {
+  const say = m => { if (stat) stat.textContent = m; };
+  const fallback = () => {
+    const ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select(); let done = false; try { done = document.execCommand("copy"); } catch (e) {} ta.remove();
+    say(done ? ok : "Copy did not work here; select the text and copy it.");
+  };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(() => say(ok), fallback); else fallback();
+}
+function plotKey(e) {  // keyboard on the plot: arrows step through the points (left to right), Enter opens the row
+  if (!plotRows.length) return;
+  const order = plotOrder();
+  if (e.key === "ArrowRight" || e.key === "ArrowUp") kbIdx = Math.min(order.length - 1, kbIdx + 1);
+  else if (e.key === "ArrowLeft" || e.key === "ArrowDown") kbIdx = Math.max(0, kbIdx < 0 ? 0 : kbIdx - 1);
+  else if (e.key === "Home") kbIdx = 0; else if (e.key === "End") kbIdx = order.length - 1;
+  else if (e.key === "Enter" && kbIdx >= 0) { goToRow(plotRows[order[kbIdx]].point_id); e.preventDefault(); return; }
+  else if (e.key === "Escape") { hideTip(); return; }
+  else return;
+  e.preventDefault();
+  showTip(order[kbIdx]);
+}
+let ORDER_CACHE = null;
+function plotOrder() { if (!ORDER_CACHE || ORDER_CACHE.rows !== plotRows) ORDER_CACHE = {rows: plotRows, o: [...plotRows.keys()].sort((a, b) => plotXY[0][a] - plotXY[0][b] || plotXY[1][b] - plotXY[1][a])}; return ORDER_CACHE.o; }
+// A point (or a row id) opens its row in the table: the page that holds it, picked, scrolled into view (F16)
+function goToRow(id) {
+  const key = state.tab, rows = viewRows(key), i = rows.findIndex(r => r.point_id === id);
+  if (i < 0) return;
+  state.picked[key] = id; state.page[key] = Math.floor(i / PAGE);
+  renderTable({all: true});
+  const tr = document.querySelector(`#datatable tr[data-pick="${CSS.escape(id)}"]`);
+  if (tr) tr.scrollIntoView({block: "center"});
+  syncHash(false);
+}
+
+// Column help: a box at the column title (F18) with the column guide's meaning and links to the README and the guide.
+function readmeURL() { return META.repository ? META.repository.replace(/\/$/, "") + "#readme" : META.doi_url; }
+function showColHelp(table, col) {
+  const box = $("colhelp");
+  if (!box) return;
+  const btn = document.querySelector(`[data-colhelp="${CSS.escape(table + "|" + col)}"]`);
+  box.hidden = false;
+  const links = `<div class="cplinks"><a href="${esc(readmeURL())}" target="_blank" rel="noopener" data-readme="1">README</a> · <a href="#tab=dictionary&table=${enc(table)}">All columns of this table</a> · <button class="btn small" data-colclose="1">Close</button></div>`;
+  if (DICTIONARY || CONVERTED_COLS.has(col)) box.innerHTML = `<b>${esc(label(col))}</b>: ${esc(helpFor(table, col) || `No meaning recorded in the ${VERSION} column dictionary.`)}${links}`;
+  else {
+    box.innerHTML = `<b>${esc(label(col))}</b>: Loading the column meanings...${links}`;
+    load("dictionary").then(() => { if (DICTIONARY && state.colhelp[state.tab]) showColHelp(table, col); }, () => { const b = $("colhelp"); if (b) b.textContent = "Could not load data/dictionary.json."; });
+  }
+  const card = box.offsetParent;
+  if (btn && card) {
+    const b = btn.getBoundingClientRect(), c = card.getBoundingClientRect();
+    box.style.top = (b.bottom - c.top + 4) + "px";
+    box.style.left = Math.max(0, Math.min(b.left - c.left - 12, c.width - box.offsetWidth)) + "px";
+  }
+}
+function hideColHelp() { const b = $("colhelp"); if (b) b.hidden = true; delete state.colhelp[state.tab]; }
+const reshowColHelp = key => { const c = state.colhelp[key]; if (c) showColHelp(c[0], c[1]); };  // after a table redraw
+
+// ---------- sources and dictionary ----------
+const SRC_FIRST = ["source_id", "short_reference", "reference", "source_type", "doi", "method"];
+const srcCols = () => { const c = DATA.sources.cols; return SRC_FIRST.filter(x => c.includes(x)).concat(c.filter(x => !SRC_FIRST.includes(x))); };
+function sourcesFiltered() {
+  const q = state.src.text.toLowerCase(), m = state.src.methods;
+  return DATA.sources.rows.filter(r => (!q || (r.source_id + " " + (r.short_reference || "") + " " + r.reference).toLowerCase().includes(q)) &&
+                                       (!m.length || m.includes(r.method)));
+}
+const SRC_BTN = "Download these sources (CSV + citation, ZIP)";
+function renderSourcesTable() {
+  const all = sourcesFiltered(), rows = viewRows("sources"), box = $("tablecard"), cols = srcCols();
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE));
+  const page = state.page.sources = Math.max(0, Math.min(state.page.sources || 0, pages - 1));
+  $("count").innerHTML = `<b>${fmt(all.length)}</b> of ${fmt(DATA.sources.rows.length)} sources`;
+  setDownloads(all.length, "dlsrc", SRC_BTN);
+  const slice = rows.slice(page * PAGE, page * PAGE + PAGE), topts = {id: "datatable", first: FIRST, sortable: true, sort: state.sort.sources, full: true};
+  box.innerHTML = (rows.length ? tableHTML(slice, cols, "sources", topts) + pagerHTML(rows.length, page) : `<div class="info">No sources match.</div>`) +
+    `<div class="colpop" id="colhelp" role="dialog" aria-label="Column meaning" hidden></div>`;
+  reshowColHelp("sources");
+  appendRest(slice, cols, "sources", topts);
+}
+function renderSources() {
+  setBody(countBar(DATA.sources.rows.length, DATA.sources.rows.length, "sources", "dlsrc", SRC_BTN), `<section class="card tablecard" id="tablecard"></section>`);
+  renderSourcesTable();
+}
+function renderDictionary() {
+  const t = DATA.dictionary, byT = t.cols.includes("table");
+  const rows = byT && state.dictTable.length ? t.rows.filter(r => state.dictTable.includes(r.table)) : t.rows;
+  const note = byT ? `the column meanings of ${META.name}: ${fmt(rows.length)} of ${fmt(t.rows.length)} columns`
+                   : `from the ${VERSION} column dictionary; "Files it applies to" names the ${VERSION} files`;
+  setBody("", `<section class="card tablecard" id="tablecard"><div class="sechead"><h2>Column meanings</h2><span class="secnote" id="dictnote">${esc(note)}</span></div>${tableHTML(rows, t.cols, "column_dictionary", {heads: c => DICT_HEADS[c] || c, full: true})}<div class="colpop" id="colhelp" role="dialog" aria-label="Column meaning" hidden></div></section>`);
+  reshowColHelp("dictionary");
+}
+
+// ---------- the link keeps the view: tab, filters, units and plot choices live in the address (#...), F09 ----------
+// Only what differs from the defaults is written. Values are joined by commas, each one URI-encoded.
+const enc = v => encodeURIComponent(v);
+function hashString() {
+  const key = state.tab, P = [["tab", [key]]];
+  if (units.T !== "K") P.push(["tu", [units.T]]);
+  if (units.P !== "MPa") P.push(["pu", [units.P]]);
+  const ex = EXTRA_KEYS.filter(k => units[k]); if (ex.length) P.push(["extra", ex]);
+  if (ROW_TABLES.includes(key)) {
+    if (!DATA[key]) return PENDING_RAW[key] || joinHash(P);
+    const f = filtersFor(key);
+    for (const c of CHIP_COLS) if (DATA[key].cols.includes(c) && f[c].join("\n") !== defaultChips(key, c).join("\n")) P.push([c, f[c]]);
+    if (f.source_id.size) P.push(["src", [...f.source_id]]);
+    for (const [c, , , h] of RANGES) {
+      const g = f[c]; if (!g) continue;
+      if (narrowed(g)) P.push([h, [(g.lo > g.min ? rv(g.lo) : "") + "~" + (g.hi < g.max ? rv(g.hi) : "")]]);
+      if (g.blankSet) P.push([h + "blank", [g.keepBlank ? "1" : "0"]]);
+    }
+    if (state.axis[key]) P.push(["x", [state.axis[key]]]);
+    if (state.yq[key]) P.push(["y", [state.yq[key]]]);
+    if (state.xlog[key]) P.push(["xlog", ["1"]]);
+    if (state.ylog[key]) P.push(["ylog", ["1"]]);
+    if (state.plotGas[key]) P.push(["pgas", [state.plotGas[key]]]);
+    if (state.plotBasis[key]) P.push(["pbasis", [state.plotBasis[key]]]);
+    if (state.plotQty[key] !== undefined) P.push(["pq", [state.plotQty[key]]]);
+    if (state.plotBand[key]) P.push(["pband", [state.plotBand[key]]]);
+    if (state.zoom[key]) P.push(["zoom", state.zoom[key].map(String)]);
+    if (state.grey[key] === false) P.push(["grey", ["0"]]);
+    const ps = state.plotSel[key] || {};  // per gas: "psrc.H2=" alone: the reader ticked none for H2; "psrc.H2=*": All
+    for (const g of Object.keys(ps).sort()) P.push(["psrc." + g, ps[g] === ALL ? [ALL] : [...ps[g]].sort()]);
+    if (state.plotSelLegacy[key] !== undefined) { const L = state.plotSelLegacy[key]; P.push(["psrc", L === ALL ? [ALL] : [...L].sort()]); }
+    if (state.sort[key]) P.push(["sort", [state.sort[key][0] + (state.sort[key][1] === "desc" ? "~desc" : "")]]);
+  } else if (key === "sources") {
+    if (state.sort.sources) P.push(["sort", [state.sort.sources[0] + (state.sort.sources[1] === "desc" ? "~desc" : "")]]);
+    if (state.src.text) P.push(["q", [state.src.text]]);
+    if (state.src.methods.length) P.push(["method", state.src.methods]);
+  } else if (key === "dictionary" && state.dictTable.length) P.push(["table", state.dictTable]);
+  return joinHash(P);
+}
+const BLANK = "(blank)";  // a chip value that is an empty cell
+const joinHash = P => "#" + P.map(([k, vs]) => enc(k) + "=" + vs.map(v => enc(v === "" ? BLANK : v)).join(",")).join("&");
+function parseHash(h) {
+  const out = new Map();
+  for (const part of h.replace(/^#/, "").split("&")) {
+    if (!part) continue;
+    const i = part.indexOf("="), k = i < 0 ? part : part.slice(0, i), v = i < 0 ? "" : part.slice(i + 1);
+    try { out.set(decodeURIComponent(k), v === "" ? [] : v.split(",").map(decodeURIComponent)); } catch (e) {}
+  }
+  return out;
+}
+const PENDING_RAW = {};
+function applyParams(key, P) {  // filters from a link; values the table does not have are dropped
+  const f = state.f[key];
+  for (const c of CHIP_COLS) if (P.has(c) && DATA[key].cols.includes(c)) { const have = new Set(options(key, c).map(o => o[0])); f[c] = P.get(c).map(v => v === BLANK ? "" : v).filter(v => have.has(v)); }
+  const have = new Set(options(key, "source_id").map(o => o[0]));
+  if (P.has("src")) f.source_id = new Set(P.get("src").filter(v => have.has(v)));
+  const picks = vs => vs.join() === ALL ? ALL : new Set(vs.filter(v => have.has(v)));
+  state.plotSel[key] = {};
+  for (const [k, vs] of P) if (k.startsWith("psrc.") && k.length > 5) setPicks(key, k.slice(5), picks(vs));
+  if (P.has("psrc")) state.plotSelLegacy[key] = picks(P.get("psrc"));  // an older link: one set, for the gas the plot opens on
+  const so = (P.get("sort") || [])[0];
+  if (so) { const [c, d] = so.split("~"); if (DATA[key].cols.includes(c) || CONV[c]) state.sort[key] = [c, d === "desc" ? "desc" : "asc"]; }
+  for (const [c, , , h] of RANGES) {
+    const g = f[c]; if (!g) continue;
+    const r = (P.get(h) || [""])[0].split("~");
+    if (P.has(h)) {
+      const a = r[0] === "" ? NaN : +r[0], b = r.length > 1 && r[1] !== "" ? +r[1] : NaN;
+      g.lo = isNaN(a) || a <= g.min ? g.min : Math.min(a, g.max);
+      g.hi = isNaN(b) || b >= g.max ? g.max : Math.max(b, g.lo);
+    }
+    if (P.has(h + "blank")) { g.blankSet = true; g.keepBlank = (P.get(h + "blank")[0] || "") === "1"; }
+    autoBlank(g);
+  }
+}
+function readHash() {
+  const P = parseHash(location.hash);
+  if (!P.size) return false;
+  const tab = (P.get("tab") || [])[0];
+  if (TITLE[tab]) state.tab = tab;
+  const key = state.tab, one = k => (P.get(k) || [])[0];
+  units.T = ["K", "C", "both"].includes(one("tu")) ? one("tu") : "K";
+  units.P = ["MPa", "bar", "both"].includes(one("pu")) ? one("pu") : "MPa";
+  for (const k of EXTRA_KEYS) units[k] = (P.get("extra") || []).includes(k);
+  if (ROW_TABLES.includes(key)) {
+    // x and y name a column; the older words (x=T|P, y=m|x|xs) still open the same plot
+    const LEGACY = {T: "temperature_K", P: "pressure_MPa", m: undefined, x: "x_gas_salt_ignored", xs: "x_gas_with_salt"};
+    state.axis[key] = one("x") in LEGACY ? LEGACY[one("x")] : one("x");
+    state.yq[key] = one("y") in LEGACY ? LEGACY[one("y")] : one("y");
+    state.xlog[key] = one("xlog") === "1"; state.ylog[key] = one("ylog") === "1";
+    state.plotQty[key] = P.has("pq") ? ((P.get("pq")[0] ?? "") === BLANK ? "" : P.get("pq")[0] ?? "") : undefined; state.plotBand[key] = one("pband");
+    state.plotGas[key] = one("pgas"); state.plotBasis[key] = one("pbasis"); state.plotSel[key] = {}; delete state.plotSelLegacy[key];
+    const z = (P.get("zoom") || []).map(Number);
+    state.zoom = {}; if (z.length === 4 && z.every(isFinite) && z[0] < z[1] && z[2] < z[3]) state.zoom[key] = z;
+    state.grey[key] = one("grey") === "0" ? false : undefined;
+    delete state.sort[key];  // psrc and sort: applyParams
+    delete state.f[key]; PENDING[key] = P; PENDING_RAW[key] = location.hash; changed(key);
+    if (DATA[key]) filtersFor(key);
+  } else if (key === "sources") {
+    state.src.text = one("q") || ""; state.src.methods = P.get("method") || [];
+    const so = one("sort"); if (so) { const [c, d] = so.split("~"); state.sort.sources = [c, d === "desc" ? "desc" : "asc"]; } else delete state.sort.sources;
+  }
+  else if (key === "dictionary") state.dictTable = P.get("table") || [];
+  return true;
+}
+let lastHash = location.hash;
+function syncHash(push) {  // tab changes add a history entry (Back returns to the previous tab); filter changes replace it
+  const h = hashString();
+  delete PENDING_RAW[state.tab];
+  if (h === lastHash) return;
+  lastHash = h;
+  try { history[push ? "pushState" : "replaceState"](null, "", h); } catch (e) {}
+}
+function onNavigate() {
+  if (location.hash === lastHash) return;
+  lastHash = location.hash;
+  if (!readHash()) { state.tab = "solubility"; for (const k of EXTRA_KEYS) units[k] = false; units.T = "K"; units.P = "MPa"; }
+  render();
+}
+
+// ---------- page ----------
+// The page body: the top part (count, chart, units) beside the filters, the table below both columns (full width)
+function setBody(top, below) { $("body").innerHTML = top; const b = $("below"); if (b) b.innerHTML = below; else $("body").insertAdjacentHTML("beforeend", below); }
+// grey blocks where the count, the chart and the table will be, while a table loads (D26)
+const SKELETON = `<div class="skel" aria-hidden="true"><div class="sk sk-count"></div><div class="sk sk-title"></div><div class="sk sk-chart"></div>${'<div class="sk sk-row"></div>'.repeat(6)}</div>`;
+function renderBody() {
+  const key = state.tab, body = $("body");
+  // a row table shows its sources by author and year and its plot axes with the column guide's units: those two small
+  // files come with it (a failure there only falls back to the ids and the page's own units)
+  const need = ROW_TABLES.includes(key) ? [key, "sources", "dictionary"] : [key];
+  if (!DATA[key] || need.some(k => !DATA[k] && !LOADERR[k])) {
+    if (LOADERR[key]) { setBody(`<div class="info err" role="alert">${esc(LOADERR[key])} <button class="btn small" data-retry="${key}">Try again</button></div>`, ""); return; }
+    setBody(SKELETON, "");
+    const again = () => { if (state.tab === key) { renderBody(); renderSide(); } };
+    Promise.all(need.map(k => load(k).catch(e => { if (k === key) throw e; }))).then(again, again);
+    return;
+  }
+  key === "sources" ? renderSources() : key === "dictionary" ? renderDictionary() : renderMeasurement(key);
+}
+function render() {
+  const tn = $("tabnote"); if (tn) tn.textContent = tabNote(state.tab);
+  const gd = $("getData"); if (gd) gd.hidden = state.tab === "dictionary";
+  $("tabs").innerHTML = TAB_LIST.map(([k, t]) =>
+    `<button data-tab="${k}" class="${k === state.tab ? "active" : ""}" aria-current="${k === state.tab}"><span class="full">${esc(t)}</span><span class="short">${esc(SHORT[k])}</span></button>`).join("");
+  renderBody();
+  renderSide();
+  tabCue();
+}
+const SHORT = {solubility:"Solubility", water_content:"Water", mixtures:"Mixtures", phase_boundaries:"Boundaries",
+               other_quantities:"Other", sources:"Sources", dictionary:"Columns"};
+let rafPending = false, settleTimer = 0;
+function soon() {  // slider moves: one light redraw per frame; the side panel and the link once the slider rests (60 ms)
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() => {
+    rafPending = false; quickBody();
+    clearTimeout(settleTimer); settleTimer = setTimeout(settle, 60);
+  });
+}
+let lightDraw = false;  // while a slider moves: the plot without its grey points; the table waits for the slider to rest
+function quickBody() {  // the count and the plotted points; a full redraw only when rows appear or vanish
+  const key = state.tab, cnt = $("count");
+  if (!ROW_TABLES.includes(key) || !DATA[key] || !cnt) { renderBody(); return; }
+  const n = filtered(key).length, wantPlot = n > 0 && !!PLOT_DEFAULT[key];
+  if (wantPlot !== !!$("plotcard") || !n !== !$("datatable")) { renderBody(); return; }
+  cnt.innerHTML = countHTML(n, DATA[key].rows.length, "rows"); setDownloads(n, "dl", DL_TEXT);
+  if (wantPlot) { lightDraw = true; drawPlot(); lightDraw = false; }
+}
+function settle() {  // after a slider rests: plot pickers (gas, basis, source counts) and the grey points, the table, chip counts and slider ends, the link
+  settleTimer = 0;
+  if ($("plotcard")) keepFocus(renderPlot);
+  if ($("tablecard") && DATA[state.tab] && ROW_TABLES.includes(state.tab)) renderTable();
+  refreshSide(); syncHash(false);
+}
+function setHint(col, n, allText) { const h = $("hint_" + col); if (h) h.textContent = n ? n + " chosen" : allText || "all"; }
+function filterMoved(key) { changed(key); renderBody(); refreshSide(); syncHash(false); }
+function setRange(key, col, end, v, fromSlider) {
+  const g = filtersFor(key)[col];
+  if (isNaN(v)) { g[end] = end === "lo" ? g.min : g.max; }
+  else if (end === "lo") {
+    const w = rangeView(key, col), hi = g.hi < g.max ? g.hi : Infinity;
+    g.lo = (fromSlider ? v <= w.dmin : v <= g.min) ? g.min : Math.min(v, hi, g.max);
+  } else {
+    const w = rangeView(key, col), lo = g.lo > g.min ? g.lo : -Infinity;
+    g.hi = (fromSlider ? v >= w.dmax : v >= g.max) ? g.max : Math.max(v, lo, g.min);
+  }
+  autoBlank(g);
+}
+// The tab row scrolls sideways on a phone: a fade at the edge that has more tabs behind it (F37)
+function tabCue() {
+  const t = $("tabs"); if (!t) return;
+  const over = t.scrollWidth > t.clientWidth + 1;
+  t.classList.toggle("ovr-r", over && t.scrollLeft + t.clientWidth < t.scrollWidth - 1);
+  t.classList.toggle("ovr-l", over && t.scrollLeft > 1);
+}
+// First visit: a short "start here" note; closing it is remembered in this browser (F31). Storage may be blocked.
+const GUIDE_KEY = "aquasoldb-guide-done";
+function initGuide() {
+  const g = $("guide"); if (!g) return;
+  let done = false;
+  try { done = localStorage.getItem(GUIDE_KEY) === "1"; } catch (e) {}
+  g.hidden = done;
+}
+function closeGuide() { const g = $("guide"); if (g) g.hidden = true; try { localStorage.setItem(GUIDE_KEY, "1"); } catch (e) {} }
+// Keyboard focus stays on the control the reader used when a redraw replaces it (D24): found again by id, or by its
+// name/value and data- attributes.
+function focusKey(el) {
+  if (!el || el === document.body || el.dataset.rnum !== undefined) return null;
+  if (el.id) return "#" + CSS.escape(el.id);
+  const a = [...el.attributes].filter(x => x.name.startsWith("data-") || (el.tagName === "INPUT" && (x.name === "name" || x.name === "aria-label" || (x.name === "value" && el.type === "radio"))));
+  return a.length ? el.tagName.toLowerCase() + a.map(x => `[${x.name}="${CSS.escape(x.value)}"]`).join("") : null;
+}
+function keepFocus(fn) {
+  const k = focusKey(document.activeElement);
+  fn();
+  if (!k) return;
+  const el = document.querySelector(k);
+  if (el && document.activeElement !== el) el.focus({preventScroll: true});
+}
+function clearAll(key) {  // every filter back to its default (measured rows only where there is a status), D12
+  delete state.zoom[key]; delete state.hl[key];
+  state.f[key] = freshFilters(key); state.srcQ[key] = ""; state.plotGas[key] = undefined; state.plotBasis[key] = undefined;
+  state.plotQty[key] = undefined; state.plotBand[key] = undefined; state.plotSel[key] = {}; delete state.plotSelLegacy[key];
+  changed(key); renderBody(); renderSide(); syncHash(false);
+}
+function onClick(e) {
+  const t = e.target;
+  const tabBtn = t.closest("[data-tab]");
+  if (tabBtn) { state.tab = tabBtn.dataset.tab; state.zoom = {}; render(); syncHash(true); document.querySelector(`[data-tab="${state.tab}"]`)?.scrollIntoView?.({inline: "nearest", block: "nearest"}); tabCue(); return; }
+  if (t.closest("#guideClose")) { closeGuide(); return; }
+  if (t.closest("#citeBtn") || t.closest("[data-cite]")) { const d = $("citeDlg"); if (d && d.showModal) { $("citeStat").textContent = ""; d.showModal(); } return; }
+  const cp = t.closest("[data-copy]");
+  if (cp) { copyText($(cp.dataset.copy).textContent, $("citeStat"), "Copied."); return; }
+  if (t.closest("#getData")) { const b = $("dl") || $("dlsrc"); if (b) { b.scrollIntoView({block: "center"}); b.focus({preventScroll: true}); } return; }
+  const rt = t.closest("[data-retry]");
+  if (rt) { delete LOADERR[rt.dataset.retry]; renderBody(); renderSide(); return; }
+  if (t.closest("#zoomReset")) { if (resetZoom(state.tab)) { hideTip(); drawPlot(); syncHash(false); } return; }
+  if (t.closest("#zoomMode")) { setZoomMode(!zoomMode); return; }
+  if (t.closest("#dlpng") || t.closest("#dlsvg")) { exportChart(t.closest("#dlpng") ? "png" : "svg"); return; }
+  if (t.closest("#copyLink")) { copyText(location.href, $("ptstat"), "Link copied: it opens this same view."); return; }
+  const lg = t.closest("[data-hl]");
+  if (lg) { const k = state.tab; state.hl[k] = state.hl[k] === lg.dataset.hl ? undefined : lg.dataset.hl; hideTip(); drawPlot(); return; }
+  if (t.closest("#capmore")) { state.capOpen = !state.capOpen; const m = $("capmoretext"); if (m) m.hidden = !state.capOpen; t.closest("#capmore").setAttribute("aria-expanded", state.capOpen); return; }
+  const chip = t.closest(".chip[data-col]");
+  if (chip) {
+    const col = chip.dataset.col, f = filtersFor(state.tab)[col], v = chip.dataset.val, i = f.indexOf(v);
+    i >= 0 ? f.splice(i, 1) : f.push(v);
+    filterMoved(state.tab); return;
+  }
+  if (t.closest("#clearAll") || t.closest("[data-clearall]")) {
+    const key = state.tab;
+    if (!ROW_TABLES.includes(key) || !DATA[key]) return;
+    clearAll(key); return;
+  }
+  const drop = t.closest("[data-dropfilter]");
+  if (drop) { dropFilter(state.tab, drop.dataset.dropfilter); changed(state.tab); renderBody(); renderSide(); syncHash(false); return; }
+  const setm = t.closest("[data-setmolality]");
+  if (setm) { const g = filtersFor(state.tab).salt_molality, v = +setm.dataset.setmolality; g.lo = Math.max(g.min, v); g.hi = Math.min(g.max, v); autoBlank(g);
+    changed(state.tab); renderBody(); renderSide(); syncHash(false); return; }
+  if (t.closest("[data-fsrcclear]")) {
+    filtersFor(state.tab).source_id.clear();
+    document.querySelectorAll("[data-fsrc]").forEach(c => { c.checked = false; });
+    setHint("source_id", 0, "all " + options(state.tab, "source_id").length); filterMoved(state.tab); return;
+  }
+  if (t.closest("[data-plotall]") || t.closest("[data-plotnone]")) {
+    const key = state.tab;
+    setPicks(key, plotState(key).gas, t.closest("[data-plotall]") ? ALL : new Set());
+    const box = $("plotpicker"); if (box) box.innerHTML = plotListHTML(key);
+    drawPlot(); syncHash(false); renderClearAll(key); return;
+  }
+  const pg = t.closest("[data-page]");
+  if (pg && !pg.disabled) {
+    state.page[state.tab] = (state.page[state.tab] || 0) + +pg.dataset.page;
+    state.tab === "sources" ? renderSourcesTable() : renderTable();
+    $("tablecard")?.querySelector(".tablewrap")?.scrollTo?.(0, 0);
+    return;
+  }
+  const sb = t.closest("[data-sort]");
+  if (sb) { cycleSort(state.tab, sb.dataset.sort); state.tab === "sources" ? renderSourcesTable() : renderTable(); syncHash(false); return; }
+  const mchip = t.closest(".chip[data-method]");
+  if (mchip) {
+    const m = state.src.methods, v = mchip.dataset.method, i = m.indexOf(v); i >= 0 ? m.splice(i, 1) : m.push(v);
+    mchip.classList.toggle("on", i < 0); mchip.setAttribute("aria-pressed", i < 0);
+    setHint("method", m.length); state.page.sources = 0; renderSourcesTable(); syncHash(false); return;
+  }
+  const dchip = t.closest(".chip[data-dtable]");
+  if (dchip) {
+    const m = state.dictTable, v = dchip.dataset.dtable, i = m.indexOf(v); i >= 0 ? m.splice(i, 1) : m.push(v);
+    dchip.classList.toggle("on", i < 0); dchip.setAttribute("aria-pressed", i < 0);
+    setHint("dtable", m.length); renderDictionary(); syncHash(false); return;
+  }
+  const help = t.closest("[data-help]");
+  if (help) { const k = state.tab + "|" + help.dataset.help, open = $(help.dataset.help).classList.toggle("open");
+    open ? state.helpOpen.add(k) : state.helpOpen.delete(k); help.setAttribute("aria-expanded", open); return; }
+  if (t.closest("#moreBtn")) { $("side").classList.toggle("open"); renderMoreBtn(); return; }
+  if (t.closest("#dl") || t.closest("#dlcsv")) { downloadRows(state.tab, !!t.closest("#dl")); return; }
+  if (t.closest("#dlsrc") || t.closest("#dlsrccsv")) { deliver("sources", sourcesFiltered(), DATA.sources.cols, !!t.closest("#dlsrc")); return; }
+  if (t.closest("[data-colclose]")) { hideColHelp(); return; }
+  const ch = t.closest("[data-colhelp]");
+  if (ch) {
+    const [table, col] = ch.dataset.colhelp.split("|"), cur = state.colhelp[state.tab];
+    if (cur && cur[0] === table && cur[1] === col && !$("colhelp").hidden) { hideColHelp(); return; }
+    state.colhelp[state.tab] = [table, col]; showColHelp(table, col);
+    return;
+  }
+  const go = t.closest("[data-gorow]");
+  if (go) { goToRow(go.dataset.gorow); hideTip(); return; }
+  const tr = t.closest("tr[data-pick]");
+  if (tr && !t.closest("a")) { const k = state.tab; state.picked[k] = state.picked[k] === tr.dataset.pick && t.type !== "radio" ? null : tr.dataset.pick; renderTable(); return; }
+  if (t.closest("#plot svg")) {  // a mouse click opens the point's row in the table; a tap shows its values first
+    if (Date.now() < suppressClick) return;  // the end of a zoom drag, not a click
+    const i = nearestPoint(e);
+    if (i < 0) { const g = nearestGrey(e); if (g >= 0) tickGrey(g); else hideTip(); return; }
+    if (e.pointerType === "touch") { showTip(i, true); return; }
+    showTip(i);
+    const id = plotRows[i].point_id; clearTimeout(clickTimer);
+    if (e.detail > 1) return;  // the second click of a double-click
+    clickTimer = setTimeout(() => goToRow(id), 220); return;
+  }
+  if (!t.closest(".tip")) hideTip();
+}
+function renderClearAll(key) { const ca = $("clearAll"); if (ca && DATA[key] && ROW_TABLES.includes(key)) ca.hidden = !(anyFilter(key) || hasPicks(key)); }
+document.addEventListener("click", e => keepFocus(() => onClick(e)));
+let hoverPending = null;
+document.addEventListener("mousemove", e => {  // desktop hover; one nearest-point search per frame
+  if (!e.target.closest?.("#plot svg")) return;
+  if (!hoverPending) requestAnimationFrame(() => { const ev = hoverPending; hoverPending = null; if (tipTouch || drag) return;
+    const i = nearestPoint(ev); if (i >= 0) { if (i !== tipIdx) showTip(i); return; }
+    const g = nearestGrey(ev); g >= 0 ? (g !== greyTip && showGreyTip(g)) : hideTip(); });
+  hoverPending = e;
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.range) {
+    setRange(state.tab, t.dataset.range, t.dataset.end, +t.value, true);
+    const n = document.querySelector(`input[data-rnum="${t.dataset.range}"][data-end="${t.dataset.end}"]`);
+    if (n) n.value = rv(rangeView(state.tab, t.dataset.range)[t.dataset.end]);
+    changed(state.tab); soon();
+    return;
+  }
+  if (t.dataset.listsearch) {  // search inside a tick-box list: redraw that list only
+    state[t.dataset.qkey][state.tab] = t.value;
+    const id = t.dataset.listsearch;
+    $(id).innerHTML = id === "fsrclist" ? sourceListHTML(state.tab) : plotListHTML(state.tab);
+    return;
+  }
+  if (t.id === "srcText") { state.src.text = t.value; state.page.sources = 0; renderSourcesTable(); syncHash(false); }
+});
+function onChange(e) {
+  const t = e.target, key = state.tab;
+  if (t.dataset.rnum) {  // a typed number: applied when the box is left or Enter is pressed
+    setRange(key, t.dataset.rnum, t.dataset.end, t.value.trim() === "" ? NaN : +t.value, false);
+    t.blur(); filterMoved(key); return;
+  }
+  if (t.id === "pagejump") {
+    const n = Math.round(+t.value);
+    if (n >= 1) { state.page[key] = n - 1; key === "sources" ? renderSourcesTable() : renderTable(); $("tablecard")?.querySelector(".tablewrap")?.scrollTo?.(0, 0); }
+    return;
+  }
+  if (t.dataset.fsrc !== undefined) {
+    const s = filtersFor(key).source_id;
+    t.checked ? s.add(t.dataset.fsrc) : s.delete(t.dataset.fsrc);
+    setHint("source_id", s.size, "all " + options(key, "source_id").length); filterMoved(key); return;
+  }
+  if (t.dataset.plotsrc !== undefined) {
+    const on = userPicks(key);
+    t.checked ? on.add(t.dataset.plotsrc) : on.delete(t.dataset.plotsrc);
+    if (t.closest(".gone")) $("plotpicker").innerHTML = plotListHTML(key);  // an unticked greyed row leaves the list
+    drawPlot(); syncHash(false); renderClearAll(key); return;
+  }
+  // gas, basis, quantity and band choices are kept: one the new view lacks falls back for the view and returns with it (F33)
+  const plotSet = {plotgas: "plotGas", plotbasis: "plotBasis", plotqty: "plotQty", plotband: "plotBand", plotx: "axis", ploty: "yq"};
+  for (const [a, k] of Object.entries(plotSet)) if (t.dataset[a] !== undefined) {
+    if (["plotgas", "plotx", "ploty", "plotqty"].includes(a)) resetZoom(key);
+    state[k][key] = t.value; hideTip(); renderPlot(); syncHash(false); return; }
+  if (t.id === "xlog" || t.id === "ylog") { state[t.id][key] = t.checked; resetZoom(key); hideTip(); drawPlot(); syncHash(false); return; }
+  if (t.id === "pgrey") { state.grey[key] = t.checked ? undefined : false; hideTip(); drawPlot(); syncHash(false); return; }
+  if (t.dataset.blank) { const g = filtersFor(key)[t.dataset.blank]; g.keepBlank = t.checked; g.blankSet = true; filterMoved(key); return; }
+  if (t.id === "join") { state.joined[key] = t.checked; renderTable(); return; }
+  // units: the table columns change; the plot keeps its axes and its ticked sources
+  if (t.name === "tunit" || t.name === "punit") { units[t.name === "tunit" ? "T" : "P"] = t.value; renderBody(); syncHash(false); return; }
+  if (EXTRA_KEYS.includes(t.id)) {
+    units[t.id] = t.checked;
+    if (t.id === "refdl" && t.checked && !DATA.sources) load("sources").catch(() => {});  // ready before the download is asked for
+    renderBody(); syncHash(false); return;
+  }
+}
+document.addEventListener("change", e => keepFocus(() => onChange(e)));
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter" && e.target.dataset && e.target.dataset.rnum) e.target.blur();
+  if (e.target.closest && e.target.closest("#plot svg")) plotKey(e);
+  if (e.key === "Escape" && $("colhelp") && !$("colhelp").hidden) hideColHelp();
+});
+document.addEventListener("toggle", e => {  // remember which panels are open across redraws (toggle does not bubble)
+  if (e.target.id === "unitsbox") state.unitsOpen = e.target.open;
+  if (e.target.id === "howconv") state.howOpen = e.target.open;
+}, true);
+document.addEventListener("scroll", e => { if (e.target && e.target.id === "tabs") tabCue(); }, true);
+let resizeTimer = 0, lastW = window.innerWidth;
+window.addEventListener("resize", () => {  // the plot is redrawn for the new width; an open tooltip closes (F22)
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    tabCue();
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth; hideTip();
+    if ($("plotarea")) drawPlot();
+    reshowColHelp(state.tab);
+  }, 120);
+});
+window.addEventListener("popstate", onNavigate);
+window.addEventListener("hashchange", onNavigate);
+readHash();
+initGuide();
+render();
+
+</script>
+<script>
+(function () {
+  var KEY = "aquasoldb-theme", root = document.documentElement, btn = document.getElementById("themeBtn"),
+      meta = document.querySelector('meta[name="theme-color"]');
+  function apply(t) {
+    root.setAttribute("data-theme", t);
+    meta.setAttribute("content", t === "dark" ? "#15181d" : "#ffffff");
+    btn.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+  apply(root.getAttribute("data-theme") === "light" ? "light" : "dark");
+  btn.addEventListener("click", function () {
+    var t = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    try { localStorage.setItem(KEY, t); } catch (e) {}
+    apply(t);
+  });
+})();
+</script>
+</body>
+</html>

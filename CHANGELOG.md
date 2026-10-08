@@ -1,11 +1,10 @@
-<!-- DRAFT for the author's approval. Not approved, not deposited, not published. -->
 # AquaSolDB -- CHANGELOG
 
 ## v2.0 -- corrected data in a simpler layout
 
 Version 2.0 is the corrected database in a simpler layout. Every measurement row now says whether its number was measured or calculated, or that the source prints none (`status`), and why (`status_reason`). Dissolved gas is given in one unit, mol per kg of water. Rows that are not a solubility, a water content, a gas-mixture solubility or a phase-boundary point, or that have no number in those units, are in the new file `csv/other_quantities.csv` (1,922 rows). Compared with the previous release, 431 rows gained a value converted from the printed page; 252 row ids were renamed so that the gas part names the row's gas; 20 ids were retired; and 295 rows were removed when the records behind them were corrected, 283 of them as duplicates. Each of these ids is listed with its reason in `detail/id_changes.csv`.
 
-Cite as: Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.0 [Data set]. Zenodo. Concept DOI 10.5281/zenodo.22870466; this version's own DOI is minted by Zenodo at this release; added here after.
+Cite as: Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.0 [Data set]. Zenodo. Concept DOI 10.5281/zenodo.22870466; this version's own DOI is added after the Zenodo deposit.
 
 ### The layout
 
@@ -50,7 +49,7 @@ A renamed id keeps its source part and running number; only the gas part changed
 ### The release documents
 
 - `README.md`, `CITATION.cff` and `.zenodo.json` say v2.0 and name both authors (`Abd, A., & Abushaikha, A.`), each with their own affiliation and ORCID in `CITATION.cff` and `.zenodo.json`.
-- They cite the concept DOI 10.5281/zenodo.22870466, which always resolves to the newest version, and this version's own DOI, which is minted by Zenodo at this release; added here after.
+- They cite the concept DOI 10.5281/zenodo.22870466, which always resolves to the newest version, and this version's own DOI, which is added after the Zenodo deposit.
 - The version DOIs of the earlier releases: v1.0 10.5281/zenodo.22870467; v1.1 10.5281/zenodo.22872900; v1.2 10.5281/zenodo.22905509.
 - `CHANGELOG.md` keeps one section per release, newest first. The sections below are quoted from the releases that wrote them, unchanged.
 
