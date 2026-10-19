@@ -4,7 +4,7 @@
 
 Version 2.1 corrects 41 values and 7 references, adds 140 rows and moves 15 rows from `csv/other_quantities.csv` to `csv/water_content.csv`; no column changed, and no row id was removed or renamed. The 41 changed values are the nitrogen dissolved in seawater measured by Murray, Riley & Wilson (1969), in `csv/solubility.csv`: the conversion of the printed values to mol per kg of water uses the density of the seawater, and the previous release computed that density with a salt content about 1.8 times too high. Each is now lower, by 0.1 % to 1.2 %. The 140 added rows are water contents of hydrogen sulfide gas over water, in `csv/water_content.csv`: 74 from Selleck, Carmichael & Sage (1952), 49 from Suleimenov & Krupp (1994) and 17 from Gillespie & Wilson (1980, GPA Research Report RR-41). The 15 moved rows are the water contents of Lee & Mather (1977), which the previous release gave as printed only; in `csv/water_content.csv` they now carry their water mole fraction. In `csv/other_quantities.csv`, 12 rows change `status_reason` only: the row now names the added row with the gas composition at its state. The 7 corrected references are in `csv/sources.csv`; each is listed below with what was corrected.
 
-Cite as: Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.1 [Data set]. Zenodo. Concept DOI 10.5281/zenodo.22870466; this version's own DOI is added after the Zenodo deposit.
+Cite as: Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.1 [Data set]. Zenodo. Concept DOI 10.5281/zenodo.22870466; this version's own DOI is 10.5281/zenodo.23470595.
 
 ### The data files
 
@@ -116,7 +116,7 @@ No row id was removed or renamed; 140 rows were added and 15 rows moved from `cs
 ### The release documents
 
 - `README.md`, `CITATION.cff` and `.zenodo.json` say v2.1 and name both authors (`Abd, A., & Abushaikha, A.`), each with their own affiliation and ORCID in `CITATION.cff` and `.zenodo.json`.
-- They cite the concept DOI 10.5281/zenodo.22870466, which always resolves to the newest version, and this version's own DOI, which is added after the Zenodo deposit.
+- They cite the concept DOI 10.5281/zenodo.22870466, which always resolves to the newest version, and this version's own DOI, which is 10.5281/zenodo.23470595.
 - The version DOIs of the earlier releases: v1.0 10.5281/zenodo.22870467; v1.1 10.5281/zenodo.22872900; v1.2 10.5281/zenodo.22905509; v2.0 10.5281/zenodo.23237311.
 - The reader package `aquasoldb` is numbered 2.1.0, to match.
 - `CHANGELOG.md` keeps one section per release, newest first. The sections below are quoted from the releases that wrote them, unchanged.

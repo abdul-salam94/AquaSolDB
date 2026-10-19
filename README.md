@@ -15,8 +15,8 @@ into one set of tables with one set of units. 23,403 measurement rows from 499
 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6,
 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous
 solubilities of organic compounds; this one holds gas solubilities in water
-and brine. **Status: AquaSolDB v2.1, released 2026-10-19** (version DOI: added
-after the Zenodo deposit) -- concept DOI 10.5281/zenodo.22870466, which always
+and brine. **Status: AquaSolDB v2.1, released 2026-10-19** (version DOI:
+10.5281/zenodo.23470595) -- concept DOI 10.5281/zenodo.22870466, which always
 resolves to the newest version on Zenodo.
 
 **Browse the data online:** [https://abdul-salam94.github.io/AquaSolDB/](https://abdul-salam94.github.io/AquaSolDB/) --
@@ -35,7 +35,7 @@ instruction in machine-readable form.
 
 The concept DOI 10.5281/zenodo.22870466 in that line always resolves to the newest
 version, so it is the one to cite for the database as a whole. To cite exactly
-this version, use its own DOI (added after the Zenodo deposit). A version DOI never
+this version, use its own DOI (10.5281/zenodo.23470595). A version DOI never
 resolves to a different set of rows. The files and the release notes are in
 the GitHub repository https://github.com/abdul-salam94/AquaSolDB.
 
@@ -223,7 +223,9 @@ Version 2.1 corrects 41 values and 7 references, adds 140 rows and moves 15 rows
   https://github.com/abdul-salam94/AquaSolDB
 - Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
-- This version's own DOI: added after the Zenodo deposit.
+- This version's own DOI: 10.5281/zenodo.23470595.
+- This version's archived copy on Zenodo (the record its version DOI resolves to):
+  https://zenodo.org/records/23470595
 - The repository's `docs/` folder holds the web viewer, served at
   https://abdul-salam94.github.io/AquaSolDB/; it is not documentation.
 
