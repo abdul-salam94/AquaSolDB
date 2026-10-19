@@ -625,4 +625,4 @@ def test_the_module_entry_point_prints_a_count_per_table(root, capsys):
         assert re.search(r"^\s+%s\s+\d+ rows$" % name, printed, re.MULTILINE), printed
     assert printed.startswith("aquasoldb %s reading " % aquasoldb.__version__)
     assert print_counts([str(root), "extra"]) == 2
-    assert sys.modules["aquasoldb"].__version__ == "2.0.0"
+    assert sys.modules["aquasoldb"].__version__ == "2.1.0"

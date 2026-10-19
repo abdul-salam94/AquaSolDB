@@ -1,5 +1,126 @@
 # AquaSolDB -- CHANGELOG
 
+## v2.1 -- hydrogen sulfide water contents added; nitrogen values in seawater and reference texts corrected
+
+Version 2.1 corrects 41 values and 7 references, adds 140 rows and moves 15 rows from `csv/other_quantities.csv` to `csv/water_content.csv`; no column changed, and no row id was removed or renamed. The 41 changed values are the nitrogen dissolved in seawater measured by Murray, Riley & Wilson (1969), in `csv/solubility.csv`: the conversion of the printed values to mol per kg of water uses the density of the seawater, and the previous release computed that density with a salt content about 1.8 times too high. Each is now lower, by 0.1 % to 1.2 %. The 140 added rows are water contents of hydrogen sulfide gas over water, in `csv/water_content.csv`: 74 from Selleck, Carmichael & Sage (1952), 49 from Suleimenov & Krupp (1994) and 17 from Gillespie & Wilson (1980, GPA Research Report RR-41). The 15 moved rows are the water contents of Lee & Mather (1977), which the previous release gave as printed only; in `csv/water_content.csv` they now carry their water mole fraction. In `csv/other_quantities.csv`, 12 rows change `status_reason` only: the row now names the added row with the gas composition at its state. The 7 corrected references are in `csv/sources.csv`; each is listed below with what was corrected.
+
+Cite as: Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.1 [Data set]. Zenodo. Concept DOI 10.5281/zenodo.22870466; this version's own DOI is added after the Zenodo deposit.
+
+### The data files
+
+Unchanged, row for row and cell for cell: `csv/mixtures.csv`, `csv/phase_boundaries.csv`, `csv/column_dictionary.csv`, `detail/excluded_sources.csv`, `detail/id_changes.csv`.
+
+`csv/solubility.csv`: 17,423 rows (the previous release held 17,423); 0 rows added, 0 removed, 41 cells changed, all in `solubility_mol_per_kgw`.
+
+The 41 changed values are all from `murrayrileywilson1969_n2`. The source's other 20 rows in this file, all in pure water, are unchanged.
+
+Every changed cell, by point_id:
+
+- `N2_murrayrileywilson1969_n2_012` `solubility_mol_per_kgw`: `0.00101845` -> `0.0010175`
+- `N2_murrayrileywilson1969_n2_013` `solubility_mol_per_kgw`: `0.000998856` -> `0.000997284`
+- `N2_murrayrileywilson1969_n2_014` `solubility_mol_per_kgw`: `0.000939096` -> `0.000934847`
+- `N2_murrayrileywilson1969_n2_015` `solubility_mol_per_kgw`: `0.000807479` -> `0.000798523`
+- `N2_murrayrileywilson1969_n2_017` `solubility_mol_per_kgw`: `0.000863856` -> `0.000862428`
+- `N2_murrayrileywilson1969_n2_018` `solubility_mol_per_kgw`: `0.000812068` -> `0.000808585`
+- `N2_murrayrileywilson1969_n2_019` `solubility_mol_per_kgw`: `0.000770688` -> `0.000765459`
+- `N2_murrayrileywilson1969_n2_020` `solubility_mol_per_kgw`: `0.000724298` -> `0.000717108`
+- `N2_murrayrileywilson1969_n2_022` `solubility_mol_per_kgw`: `0.000932585` -> `0.000930382`
+- `N2_murrayrileywilson1969_n2_023` `solubility_mol_per_kgw`: `0.000875308` -> `0.000870699`
+- `N2_murrayrileywilson1969_n2_024` `solubility_mol_per_kgw`: `0.000833792` -> `0.000827499`
+- `N2_murrayrileywilson1969_n2_025` `solubility_mol_per_kgw`: `0.000789227` -> `0.000781605`
+- `N2_murrayrileywilson1969_n2_027` `solubility_mol_per_kgw`: `0.000801912` -> `0.000799717`
+- `N2_murrayrileywilson1969_n2_028` `solubility_mol_per_kgw`: `0.000783408` -> `0.000780478`
+- `N2_murrayrileywilson1969_n2_029` `solubility_mol_per_kgw`: `0.000752592` -> `0.000748201`
+- `N2_murrayrileywilson1969_n2_030` `solubility_mol_per_kgw`: `0.000704444` -> `0.000698086`
+- `N2_murrayrileywilson1969_n2_032` `solubility_mol_per_kgw`: `0.000869612` -> `0.000866898`
+- `N2_murrayrileywilson1969_n2_033` `solubility_mol_per_kgw`: `0.000844771` -> `0.000840952`
+- `N2_murrayrileywilson1969_n2_034` `solubility_mol_per_kgw`: `0.000790028` -> `0.000784024`
+- `N2_murrayrileywilson1969_n2_035` `solubility_mol_per_kgw`: `0.000757613` -> `0.000750446`
+- `N2_murrayrileywilson1969_n2_037` `solubility_mol_per_kgw`: `0.000783909` -> `0.000782281`
+- `N2_murrayrileywilson1969_n2_038` `solubility_mol_per_kgw`: `0.000774061` -> `0.000772033`
+- `N2_murrayrileywilson1969_n2_039` `solubility_mol_per_kgw`: `0.000723734` -> `0.000719346`
+- `N2_murrayrileywilson1969_n2_040` `solubility_mol_per_kgw`: `0.000699787` -> `0.000694462`
+- `N2_murrayrileywilson1969_n2_041` `solubility_mol_per_kgw`: `0.000665008` -> `0.000658347`
+- `N2_murrayrileywilson1969_n2_043` `solubility_mol_per_kgw`: `0.000720907` -> `0.000719273`
+- `N2_murrayrileywilson1969_n2_044` `solubility_mol_per_kgw`: `0.000660396` -> `0.000655917`
+- `N2_murrayrileywilson1969_n2_045` `solubility_mol_per_kgw`: `0.000647533` -> `0.000642577`
+- `N2_murrayrileywilson1969_n2_046` `solubility_mol_per_kgw`: `0.000623742` -> `0.000617532`
+- `N2_murrayrileywilson1969_n2_048` `solubility_mol_per_kgw`: `0.00060061` -> `0.000598279`
+- `N2_murrayrileywilson1969_n2_049` `solubility_mol_per_kgw`: `0.00057481` -> `0.000571341`
+- `N2_murrayrileywilson1969_n2_050` `solubility_mol_per_kgw`: `0.000543541` -> `0.000538517`
+- `N2_murrayrileywilson1969_n2_051` `solubility_mol_per_kgw`: `0.000530795` -> `0.000525209`
+- `N2_murrayrileywilson1969_n2_053` `solubility_mol_per_kgw`: `0.000653438` -> `0.000651673`
+- `N2_murrayrileywilson1969_n2_054` `solubility_mol_per_kgw`: `0.000613002` -> `0.000609223`
+- `N2_murrayrileywilson1969_n2_055` `solubility_mol_per_kgw`: `0.000606382` -> `0.000602345`
+- `N2_murrayrileywilson1969_n2_056` `solubility_mol_per_kgw`: `0.000564387` -> `0.000558358`
+- `N2_murrayrileywilson1969_n2_058` `solubility_mol_per_kgw`: `0.000561318` -> `0.000559548`
+- `N2_murrayrileywilson1969_n2_059` `solubility_mol_per_kgw`: `0.000522425` -> `0.000518897`
+- `N2_murrayrileywilson1969_n2_060` `solubility_mol_per_kgw`: `0.000492855` -> `0.000487774`
+- `N2_murrayrileywilson1969_n2_061` `solubility_mol_per_kgw`: `0.000483459` -> `0.000477694`
+
+`csv/water_content.csv`: 2,109 rows (the previous release held 1,954); 140 rows added, 15 moved in from `csv/other_quantities.csv`, 0 removed, 0 cells changed.
+
+The 140 added rows, by source; each new id continues its source's numbering, and the rows sit in the file's usual order, not at the end:
+
+- `gparr41h2stable5_h2s`: 17 rows, `H2S_gparr41h2stable5_h2s_018` to `H2S_gparr41h2stable5_h2s_034`
+- `selleck1952_h2s`: 74 rows, `H2S_selleck1952_h2s_075` to `H2S_selleck1952_h2s_148`
+- `suleimenovkrupp1994_h2s`: 49 rows, `H2S_suleimenovkrupp1994_h2s_073` to `H2S_suleimenovkrupp1994_h2s_121`
+
+The added rows give the temperature and pressure as converted in the record they come from (for example 377.594444444 K and 24.131650515 MPa for `H2S_selleck1952_h2s_111`), while the rows of `csv/other_quantities.csv` that name them keep their own (377.5944 K and 24.1316495 MPa for `H2S_selleck1952_h2s_063`); neither is rounded.
+
+The 15 moved rows keep their ids and every cell they had, and now carry their water mole fraction:
+
+- `leemather1977_h2s`: 15 rows, `H2S_leemather1977_h2s_325` to `H2S_leemather1977_h2s_339`
+
+`csv/other_quantities.csv`: 1,907 rows (the previous release held 1,922); 0 rows added, 15 moved out to `csv/water_content.csv`, 0 removed, 12 cells changed, all in `status_reason`.
+
+The 15 moved rows are listed under `csv/water_content.csv`.
+
+Every changed cell, by point_id, with what changed:
+
+- `H2S_selleck1952_h2s_063` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_111 in the water-content table.`
+- `H2S_selleck1952_h2s_064` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_112 in the water-content table.`
+- `H2S_selleck1952_h2s_065` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_113 in the water-content table.`
+- `H2S_selleck1952_h2s_066` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_114 in the water-content table.`
+- `H2S_selleck1952_h2s_067` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_128 in the water-content table.`
+- `H2S_selleck1952_h2s_068` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_129 in the water-content table.`
+- `H2S_selleck1952_h2s_069` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_130 in the water-content table.`
+- `H2S_selleck1952_h2s_070` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_131 in the water-content table.`
+- `H2S_selleck1952_h2s_071` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_145 in the water-content table.`
+- `H2S_selleck1952_h2s_072` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_146 in the water-content table.`
+- `H2S_selleck1952_h2s_073` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_147 in the water-content table.`
+- `H2S_selleck1952_h2s_074` `status_reason`, the row now names the added row with the gas composition at its state: `The source prints no number for this quantity at this state.` -> `The source prints no number for this quantity at this state. Its printed gas composition at this state ships as H2S_selleck1952_h2s_148 in the water-content table.`
+
+`csv/sources.csv`: 499 rows (the previous release held 499); 0 rows added, 0 removed, 7 cells changed, all in `reference`.
+
+Every changed cell, by source_id, with what was corrected:
+
+- `blountprice1982_ch4` `reference`, the contract number as printed on the title page: `Blount, C.W., Price, L.C., 1982. Solubility of methane in water under natural conditions: a laboratory study. Final report, April 1, 1978-June 30, 1982. DOE Contract No. DE-A508-78ET12145. DOI: 10.2172/5281520.` -> `Blount, C.W., Price, L.C., 1982. Solubility of methane in water under natural conditions: a laboratory study. Final report, April 1, 1978-June 30, 1982. DOE Contract No. DE-AS08-78ET12145. DOI: 10.2172/5281520.`
+- `dossantos2021_co2` `reference`, the first author's initials corrected: `dos Santos, A.C.D., et al. (2021). J. Chem. Eng. Data 66, 4166. DOI: 10.1021/acs.jced.1c00347 (the MgCl2 rows). The NaCl rows are from dos Santos, P.F.; André, L.; Ducousso, M.; Lassin, A.; Contamine, F.; Lach, A.; Parmentier, M.; Cézac, P. (2021). Chem. Geol. 582, 120443. DOI: 10.1016/j.chemgeo.2021.120443.` -> `dos Santos, P.F., et al. (2021). J. Chem. Eng. Data 66, 4166. DOI: 10.1021/acs.jced.1c00347 (the MgCl2 rows). The NaCl rows are from dos Santos, P.F.; André, L.; Ducousso, M.; Lassin, A.; Contamine, F.; Lach, A.; Parmentier, M.; Cézac, P. (2021). Chem. Geol. 582, 120443. DOI: 10.1016/j.chemgeo.2021.120443.`
+- `gereckebittrich1971_h2` `reference`, the two original papers behind the salt-water rows named: `Gerecke, J., Bittrich, H.-J. (1971). Data reproduced from Chabab, S.; Theveneau, P.; Coquelet, C.; Corvisier, J.; Paricaud, P. (2020). Measurements and predictive models of high-pressure H2 solubility in brine (H2O+NaCl) for underground hydrogen storage application. International Journal of Hydrogen Energy 45, 32206-32220. DOI: 10.1016/j.ijhydene.2020.08.192, Table 2. Original publication details were not independently verified.` -> `Gerecke, J., Bittrich, H.-J. (1971). Data reproduced from Chabab, S.; Theveneau, P.; Coquelet, C.; Corvisier, J.; Paricaud, P. (2020). Measurements and predictive models of high-pressure H2 solubility in brine (H2O+NaCl) for underground hydrogen storage application. International Journal of Hydrogen Energy 45, 32206-32220. DOI: 10.1016/j.ijhydene.2020.08.192, Table 2. Original publication details were not independently verified. The salt-water rows are from Wiss. Z. Tech. Hochsch. Chemie Leuna-Merseburg 13, 115-122 and 313-321, as compiled by IUPAC.`
+- `nahoczky1933_co2` `reference`, the year added and the journal title as printed: `Nahoczky, A. Bányászati és Kohászati Lapok 66, 332-335.` -> `Nahoczky, A. (1933). Bányászati Kohászati Lapok 66, 332-335.`
+- `passauer1931_co2` `reference`, the year added and the journal title as printed: `Passauer, H. Feuerungstechnik 19, 142-145.` -> `Passauer, H. (1931). Feuerungstech. 19, 142-145.`
+- `tabasinejad2011_c2c4` `reference`, the two missing authors added: `Tabasinejad, F.; Moore, R.G.; Mehta, S.A.; Van Fraassen, K.C.; Barzin, Y. (2011). "Phase Behavior of High Pressure and Temperature Gas Reservoirs: Water Solubility and Density Measurement and Modeling from (3.7 to 132) MPa and Temperatures from (422 to 478) K." J. Chem. Eng. Data 56(10), 3839-3847. DOI 10.1021/je200491c.` -> `Tabasinejad, F.; Moore, R.G.; Mehta, S.A.; Van Fraassen, K.C.; Barzin, Y.; Newsham, K.E.; Rushing, J.A. (2011). "Phase Behavior of High Pressure and Temperature Gas Reservoirs: Water Solubility and Density Measurement and Modeling from (3.7 to 132) MPa and Temperatures from (422 to 478) K." J. Chem. Eng. Data 56(10), 3839-3847. DOI 10.1021/je200491c.`
+- `zelvinskii1937_co2` `reference`, the author's name spelled as printed: `Zel'vinskii, Y. (1937). Measurements of carbon dioxide solubility in water. Zhurnal Khimicheskoi Promyshlennosti (J. Chem. Industry, USSR) 14, 1250-1257.` -> `Zel'venskii, Y. (1937). Measurements of carbon dioxide solubility in water. Zhurnal Khimicheskoi Promyshlennosti (J. Chem. Industry, USSR) 14, 1250-1257.`
+
+`detail/printed_values.csv`: 23,403 rows (the previous release held 23,263); 140 rows added, 0 removed, 0 cells changed.
+
+The 140 added rows are those added to the files above, under the same ids.
+
+The printed values of the 15 moved rows keep every cell; they now sit with their rows' file, as every row's printed value does.
+
+### Row ids
+
+No row id was removed or renamed; 140 rows were added and 15 rows moved from `csv/other_quantities.csv` to `csv/water_content.csv`, each listed above. `detail/id_changes.csv` is unchanged: it still lists the ids the previous release changed.
+
+### The release documents
+
+- `README.md`, `CITATION.cff` and `.zenodo.json` say v2.1 and name both authors (`Abd, A., & Abushaikha, A.`), each with their own affiliation and ORCID in `CITATION.cff` and `.zenodo.json`.
+- They cite the concept DOI 10.5281/zenodo.22870466, which always resolves to the newest version, and this version's own DOI, which is added after the Zenodo deposit.
+- The version DOIs of the earlier releases: v1.0 10.5281/zenodo.22870467; v1.1 10.5281/zenodo.22872900; v1.2 10.5281/zenodo.22905509; v2.0 10.5281/zenodo.23237311.
+- The reader package `aquasoldb` is numbered 2.1.0, to match.
+- `CHANGELOG.md` keeps one section per release, newest first. The sections below are quoted from the releases that wrote them, unchanged.
+
 ## v2.0 -- corrected data in a simpler layout
 
 Version 2.0 is the corrected database in a simpler layout. Every measurement row now says whether its number was measured or calculated, or that the source prints none (`status`), and why (`status_reason`). Dissolved gas is given in one unit, mol per kg of water. Rows that are not a solubility, a water content, a gas-mixture solubility or a phase-boundary point, or that have no number in those units, are in the new file `csv/other_quantities.csv` (1,922 rows). Compared with the previous release, 431 rows gained a value converted from the printed page; 252 row ids were renamed so that the gas part names the row's gas; 20 ids were retired; and 295 rows were removed when the records behind them were corrected, 283 of them as duplicates. Each of these ids is listed with its reason in `detail/id_changes.csv`.

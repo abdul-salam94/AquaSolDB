@@ -36,9 +36,9 @@ from .brine import (ION_CHARGE_NUMBER, ION_COLUMNS, WATER_MOL_PER_KG, charge_res
 from .remote import AQUASOLDB_CACHE_ENV, CONCEPT_DOI, download
 from .save import save_csv, save_parquet
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 #: The dataset release this reader is the reference reader for.
-DATASET_VERSION = "2.0"
+DATASET_VERSION = "2.1"
 
 __all__ = [
     "__version__", "DATASET_VERSION", "CONCEPT_DOI",

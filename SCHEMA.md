@@ -1,4 +1,4 @@
-# AquaSolDB v2.0 -- schema
+# AquaSolDB v2.1 -- schema
 
 Every column of every published file, with its unit, what it means, how its value is set, and what an empty cell means.
 
@@ -31,7 +31,7 @@ Conventions: UTF-8, comma separated, LF line endings, one header row. A missing 
 | `method` | - | How the source measured, one word per source: analytical_sampling, manometric_volumetric, chromatography, synthetic_visual, electrochemical, gravimetric, pressure_decrease_mass_balance, calculated_compilation, other or unstated (definitions in SCHEMA.md). How it is set: One word per source, read from the source itself and carried onto each of its rows; where a source measured its tables differently, the main one. | Never blank. |
 | `source_id` | - | Key of the source: first author(s) and year, then the gas group the source was read for (for example culbersonmcketta1950_ch4). Join to sources.csv on this column. How it is set: Made from the source's first author(s) and year and the gas group the source was read for. | Never blank. |
 
-## `csv/water_content.csv`  (1954 rows)
+## `csv/water_content.csv`  (2109 rows)
 
 | column | unit | meaning | blank means |
 |---|---|---|---|
@@ -95,7 +95,7 @@ Conventions: UTF-8, comma separated, LF line endings, one header row. A missing 
 | `method` | - | How the source measured, one word per source: analytical_sampling, manometric_volumetric, chromatography, synthetic_visual, electrochemical, gravimetric, pressure_decrease_mass_balance, calculated_compilation, other or unstated (definitions in SCHEMA.md). How it is set: One word per source, read from the source itself and carried onto each of its rows; where a source measured its tables differently, the main one. | Never blank. |
 | `source_id` | - | Key of the source: first author(s) and year, then the gas group the source was read for (for example culbersonmcketta1950_ch4). Join to sources.csv on this column. How it is set: Made from the source's first author(s) and year and the gas group the source was read for. | Never blank. |
 
-## `csv/other_quantities.csv`  (1922 rows)
+## `csv/other_quantities.csv`  (1907 rows)
 
 | column | unit | meaning | blank means |
 |---|---|---|---|
@@ -143,7 +143,7 @@ Conventions: UTF-8, comma separated, LF line endings, one header row. A missing 
 | `meaning` | - | What the column holds, and how its value is set. How it is set: Written for each column; the sentences that differ by file say so. | Never blank. |
 | `blank_means` | - | What an empty cell means in this column, or Never blank. How it is set: Written for each column and checked against the file when it is written. | Never blank. |
 
-## `detail/printed_values.csv`  (23263 rows)
+## `detail/printed_values.csv`  (23403 rows)
 
 | column | unit | meaning | blank means |
 |---|---|---|---|
@@ -198,9 +198,9 @@ ion_columns: m_Na, m_Cl, m_K, m_Ca, m_Mg, m_SO4
 ion_charge_balance_tolerance: 5e-06
 value_labels: ILLEGIBLE, NOT PRINTED
 forbidden_cell_values: -999, -999.0, -9999, 999999, NA, N/A, #N/A, NULL, NONE, NAN, NaN, TBD, TO-RESOLVE, TODO, XXX, FIXME, ?, ??, ???, UNKNOWN, PLACEHOLDER, placeholder
-published_rows: 23263
+published_rows: 23403
 screened_rows: 1810
-audited_rows: 25073
+audited_rows: 25213
 range temperature_K: 150, 900
 range pressure_MPa: 0, 2000
 range solubility_mole_fraction: 0, 1

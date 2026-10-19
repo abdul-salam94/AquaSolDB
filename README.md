@@ -1,22 +1,22 @@
-# AquaSolDB v2.0
+# AquaSolDB v2.1
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22870466.svg)](https://doi.org/10.5281/zenodo.22870466)
 [![web viewer](https://img.shields.io/badge/web%20viewer-open-teal)](https://abdul-salam94.github.io/AquaSolDB/)
 [![checks](https://github.com/abdul-salam94/AquaSolDB/actions/workflows/checks.yml/badge.svg)](https://github.com/abdul-salam94/AquaSolDB/actions)
 ![data CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-blue)
 ![code MIT](https://img.shields.io/badge/code-MIT-blue)
-![rows 23,263](https://img.shields.io/badge/rows-23%2C263-teal)
+![rows 23,403](https://img.shields.io/badge/rows-23%2C403-teal)
 ![sources 499](https://img.shields.io/badge/sources-499-teal)
-![version v2.0](https://img.shields.io/badge/version-v2.0-blue)
+![version v2.1](https://img.shields.io/badge/version-v2.1-blue)
 
 Published experimental measurements of how much gas dissolves in water and in
 brine, read from the printed pages of the papers that reported them and put
-into one set of tables with one set of units. 23,263 measurement rows from 499
+into one set of tables with one set of units. 23,403 measurement rows from 499
 sources. AquaSolDB is not AqSolDB (Sorkun, Khetan & Er, Scientific Data 6,
 143, 2019, doi:10.1038/s41597-019-0151-1): that dataset lists aqueous
 solubilities of organic compounds; this one holds gas solubilities in water
-and brine. **Status: AquaSolDB v2.0, released 2026-10-08** (version DOI:
-10.5281/zenodo.23237311) -- concept DOI 10.5281/zenodo.22870466, which always
+and brine. **Status: AquaSolDB v2.1, released 2026-10-19** (version DOI: added
+after the Zenodo deposit) -- concept DOI 10.5281/zenodo.22870466, which always
 resolves to the newest version on Zenodo.
 
 **Browse the data online:** [https://abdul-salam94.github.io/AquaSolDB/](https://abdul-salam94.github.io/AquaSolDB/) --
@@ -31,11 +31,11 @@ DOI. Row and source ids are fixed labels, not citations; the reference
 column gives the correct year and spelling. `CITATION.cff` carries the same
 instruction in machine-readable form.
 
-> Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.0 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466
+> Abd, A., & Abushaikha, A. (2026). AquaSolDB v2.1 [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22870466
 
 The concept DOI 10.5281/zenodo.22870466 in that line always resolves to the newest
 version, so it is the one to cite for the database as a whole. To cite exactly
-this version, use its own DOI (10.5281/zenodo.23237311). A version DOI never
+this version, use its own DOI (added after the Zenodo deposit). A version DOI never
 resolves to a different set of rows. The files and the release notes are in
 the GitHub repository https://github.com/abdul-salam94/AquaSolDB.
 
@@ -71,13 +71,13 @@ behind them.
 | file | rows | what it holds |
 |---|---|---|
 | `csv/solubility.csv` | 17,423 | gas dissolved in water or brine, in mol per kg of water |
-| `csv/water_content.csv` | 1,954 | water in a gas or vapour phase, or in a liquid non-aqueous phase (hydrocarbon- or CO2-rich), as a mole fraction; column `phase` says which |
+| `csv/water_content.csv` | 2,109 | water in a gas or vapour phase, or in a liquid non-aqueous phase (hydrocarbon- or CO2-rich), as a mole fraction; column `phase` says which |
 | `csv/mixtures.csv` | 1,122 | the solubility of each gas of a gas mixture, in mol per kg of water |
 | `csv/phase_boundaries.csv` | 842 | phase-boundary points: hydrate, dew, bubble, three-phase and critical points, transitions of a sample of fixed composition, and points on a coexistence line |
-| `csv/other_quantities.csv` | 1,922 | rows printed as another quantity, or with no usable number, kept as printed |
+| `csv/other_quantities.csv` | 1,907 | rows printed as another quantity, or with no usable number, kept as printed |
 | `csv/sources.csv` | 499 | one row per source: full reference, kind of publication, DOI, method |
 | `csv/column_dictionary.csv` | 115 | every column of every file: unit, meaning, what an empty cell means |
-| `detail/printed_values.csv` | 23,263 | each measurement row's value, unit wording and page exactly as printed |
+| `detail/printed_values.csv` | 23,403 | each measurement row's value, unit wording and page exactly as printed |
 | `detail/excluded_sources.csv` | 84 | rows left out of the database (1,810), counted by source and reason |
 | `detail/id_changes.csv` | 567 | each row id of the previous release that no longer ships under the same id, with what happened and why |
 | `SCHEMA.md` | - | the column dictionary as a document |
@@ -96,8 +96,8 @@ a digest for every file of the release.
 
 Every row of the five measurement files says what kind of number it holds, in
 `status`, and why, in `status_reason`. `status` is one of three words.
-`measured` (21,938 rows) is an experimental result as the source reports
-it. `calculated` (1,132 rows) is a number the source or a compiler
+`measured` (22,012 rows) is an experimental result as the source reports
+it. `calculated` (1,198 rows) is a number the source or a compiler
 worked out from measured data, such as a smoothed table or a value computed
 from the author's own constant. `no_value` (193 rows) is a point the
 source shows without a number we could read: a point on a plot only, an
@@ -152,7 +152,7 @@ we can resolve, or the medium contains an ion outside these six, such as a
 carbonate or a bicarbonate. A blank is never a zero; pure water carries zeros.
 Where the ion cells are filled they balance charge, m_Na + m_K + 2*m_Ca +
 2*m_Mg equal to m_Cl + 2*m_SO4 within 5e-6 mol per kg. Over the five
-measurement files, the ion composition is known in numbers on 18,196
+measurement files, the ion composition is known in numbers on 18,336
 rows and not known on 5,067.
 
 ## Methods
@@ -166,8 +166,8 @@ not available to us, so nobody could read it -- 1,225 rows over 44 sources in
 this release are the second case, and the per-source evidence is in the
 project trackers. In this release, by rows:
 
-analytical sampling 9,384, manometric volumetric 3,411, chromatography 2,056,
-synthetic visual 2,315, electrochemical 409, gravimetric 1,359, pressure
+analytical sampling 9,401, manometric volumetric 3,411, chromatography 2,056,
+synthetic visual 2,315, electrochemical 409, gravimetric 1,482, pressure
 decrease mass balance 32, calculated compilation 1,127, other 1,516, unstated
 1,654.
 
@@ -211,9 +211,9 @@ newest -- **cite the version DOI**, so that a number computed from this
 database can be traced to the exact release it came from.
 `CHANGELOG.md` has one section per release.
 
-## What changed in v2.0
+## What changed in v2.1
 
-Version 2.0 is the corrected database in a simpler layout. Every measurement row now says whether its number was measured or calculated, or that the source prints none (`status`), and why (`status_reason`). Dissolved gas is given in one unit, mol per kg of water. Rows that are not a solubility, a water content, a gas-mixture solubility or a phase-boundary point, or that have no number in those units, are in the new file `csv/other_quantities.csv` (1,922 rows). Compared with the previous release, 431 rows gained a value converted from the printed page; 252 row ids were renamed so that the gas part names the row's gas; 20 ids were retired; and 295 rows were removed when the records behind them were corrected, 283 of them as duplicates. Each of these ids is listed with its reason in `detail/id_changes.csv`.
+Version 2.1 corrects 41 values and 7 references, adds 140 rows and moves 15 rows from `csv/other_quantities.csv` to `csv/water_content.csv`; no column changed, and no row id was removed or renamed. The 41 changed values are the nitrogen dissolved in seawater measured by Murray, Riley & Wilson (1969), in `csv/solubility.csv`: the conversion of the printed values to mol per kg of water uses the density of the seawater, and the previous release computed that density with a salt content about 1.8 times too high. Each is now lower, by 0.1 % to 1.2 %. The 140 added rows are water contents of hydrogen sulfide gas over water, in `csv/water_content.csv`: 74 from Selleck, Carmichael & Sage (1952), 49 from Suleimenov & Krupp (1994) and 17 from Gillespie & Wilson (1980, GPA Research Report RR-41). The 15 moved rows are the water contents of Lee & Mather (1977), which the previous release gave as printed only; in `csv/water_content.csv` they now carry their water mole fraction. In `csv/other_quantities.csv`, 12 rows change `status_reason` only: the row now names the added row with the gas composition at its state. The 7 corrected references are in `csv/sources.csv`; `CHANGELOG.md` says what was corrected in each.
 
 `CHANGELOG.md` gives the details, file by file and column by column, and keeps the notes of every earlier release.
 
@@ -223,9 +223,7 @@ Version 2.0 is the corrected database in a simpler layout. Every measurement row
   https://github.com/abdul-salam94/AquaSolDB
 - Concept DOI, which always resolves to the newest archived version:
   https://doi.org/10.5281/zenodo.22870466
-- This version's own DOI: 10.5281/zenodo.23237311.
-- This version's archived copy on Zenodo (the record its version DOI resolves to):
-  https://zenodo.org/records/23237311
+- This version's own DOI: added after the Zenodo deposit.
 - The repository's `docs/` folder holds the web viewer, served at
   https://abdul-salam94.github.io/AquaSolDB/; it is not documentation.
 
